@@ -2,12 +2,12 @@
 
 The Java library used to implement the Mock Coach design pattern. Used in tests to reduce complex logic and boilerplate code in overall codebase.
 
-Note: For testing methods, Mock Coach helps enforce Service Chain, over Service Acyclic Graphs (SAG). If the method you are testing happens to be a SAG, you can do the following:
+Note: For testing methods, Mock Coach helps enforce Service Chain, over Service Cyclic Graphs (SCG). If the method you are testing happens to be an SCG, you can do the following:
 
 1. Separate and/or move the service calls into multiple methods within a facade. Call the facade's methods within the current method to achieve same functionality.
-2. Keep the acyclic graph, and perform your mocks/when/verifies without Mock Coach. Encouraged for smaller acyclic graphs and cycles, where splitting the code can cause more confusion. 
+2. Keep the cyclic graph, and perform your mocks/when/verifies without Mock Coach. Encouraged for smaller cyclic graphs and cycles, where splitting the code can cause more confusion. 
 
-Service Chains are recommended in most cases over Service Acyclic Graphs, because it is faster to understand and work with code when services are used in order one-by-one compared to when service usage is intertwined (both in business logic and in tests).
+Service Chains are recommended in most cases over Service Cyclic Graphs, because it is faster to understand and work with code when services are used in order one-by-one compared to when service usage is intertwined (both in business logic and in tests).
 
 ### How to Install
 
