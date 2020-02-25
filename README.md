@@ -7,7 +7,7 @@ Note: For testing methods, Mock Coach helps enforce Service [Dipath](https://en.
 1. Separate and/or move the service calls into multiple methods within a facade. Call the facade's methods within the current method to achieve same functionality.
 2. Keep the cyclic graph, and perform your mocks/when/verifies without Mock Coach. Encouraged for smaller cyclic graphs and cycles, where splitting the code can cause more confusion. 
 
-Service Chains are recommended in most cases over Service Cyclic Graphs, because it is faster to understand and work with code when services are used in order one-by-one compared to when service usage is intertwined (both in business logic and in tests).
+Service Dipath Chains are recommended in most cases over Service Cyclic Graphs, because it is faster to understand and work with code when services are used in order one-by-one compared to when service usage is intertwined (both in business logic and in tests).
 
 ### How to Install
 
