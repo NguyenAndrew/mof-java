@@ -8,8 +8,8 @@ Useful for both new and previously existing codebases, Mock Coach accomplishes t
 
 This library provides two libraries to use:
 
-1. Mock Coach, the default library to quickly write tests, and reduce complexities in business logic. Takes a "test improves business logic, and business logic improves test" approach.
-2. Mock Coach Legacy, the backup library to write tests quickly (slightly slower and less automated than default approach), where code can't be refactored or is too costly to refactor. 
+1. Mock Coach (Default), library used to quickly write tests, and reduce complexities in business logic. Takes a "test improves business logic, and business logic improves test" approach.
+2. Mock Coach Legacy (Backup), library used to write tests quickly (slightly slower and less automated than default approach), where code can't be refactored or is too costly to refactor. 
     
 ## Service Dipath Chain and Service Cyclic Graph
 
