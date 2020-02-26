@@ -44,7 +44,7 @@ If the method you are testing happens to be a Service Cyclic Graph, you can eith
     4. A -> B -> C -> D -> C -> B -> A can be converted in the following ways:
         1. A -> N -> A (where N internally calls B -> C, D -> C, B as separate method calls). Useful if you want to create stricter boundaries between service layers, at the cost of creating more methods.
         2. A -> N -> D -> C -> B -> A (where N internally calls B -> C -> D). Useful if you want to reduce amount of methods, at the cost of using services between multiple service layers.  
-2. Perform your mocks/when/verifies with Mock Coach Legacy. Mock Coach Legacy is 100% compatible with testing on previously existing codebases, and is encouraged for smaller cyclic graphs where splitting the code can cause more confusion than not. Mock Coach Legacy creates an additional cost and overhead of managing the directed graph of mock usage (compared to the default Mock Coach handling that for you)
+2. Perform your mocks/when/verifies with Mock Coach Legacy. Mock Coach Legacy is 100% compatible with testing on previously existing codebases, and is encouraged for smaller cyclic graphs where splitting the code can cause more confusion than not. Mock Coach Legacy creates an additional cost and overhead of managing the directed graph of mock usage (compared to the default Mock Coach handling that for you).
 
 ## How to Install
 
