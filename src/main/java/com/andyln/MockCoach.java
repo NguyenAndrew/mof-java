@@ -14,11 +14,11 @@ public class MockCoach {
 
     public MockCoach(Object[] mocks, MockCoachRunnable[] whens, MockCoachRunnable[] verifies) {
         if (mocks == null) {
-            throw new IllegalArgumentException("mocks must not be null!");
+            throw new IllegalArgumentException("mocks cannot be null!");
         }
 
         if (mocks.length == 0) {
-            throw new IllegalArgumentException("mocks must not be empty!");
+            throw new IllegalArgumentException("mocks cannot be empty!");
         }
 
         if (mocks.length != whens.length) {
