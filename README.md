@@ -6,14 +6,14 @@ Can reduce hours and days of writing unit tests into minutes!
 
 Useful for both new and previously existing codebases, Mock Coach accomplishes this feat by converting both old and new implicit testing strategies into explicit and reusable test strategies automated by a reusable coach!
 
-This library provides two services:
+This library provides two libraries to use:
 
-1. Mock Coach, the default library that one should use to quickly write tests, and reduce complexities in business logic. Takes a "test improves business logic, and business logic improves test" approach.
+1. Mock Coach, the default library to quickly write tests, and reduce complexities in business logic. Takes a "test improves business logic, and business logic improves test" approach.
 2. Mock Coach Legacy, the backup library to write tests quickly (slightly slower and less automated than default approach), where code can't be refactored or is too costly to refactor. 
     
 ## Service Dipath Chain and Service Cyclic Graph
 
-For testing methods and creating new business logic, Mock Coach (Default Service) helps encourage writing business logic as Service Dipath Chains, over Service Cyclic Graphs (SCG). 
+For testing methods and creating new business logic, Mock Coach (Default) helps encourage writing business logic as Service Dipath Chains, over Service Cyclic Graphs (SCG). 
 
 Examples of Service Dipath Chains:
 
@@ -35,7 +35,7 @@ A -> B -> C -> D -> C -> B -> A
 
 Service Dipath Chains are recommended in most cases over Service Cyclic Graphs, because it is faster to understand and work with code when services are used in order one-by-one compared to when service usage is intertwined (both in business logic and in tests).
 
-If the method you are testing happens to be an SCG, you can either **1. Refactor using sample suggestions** or **2. Use Mock Code Legacy (Backup Service)** Here are more detailed explanations of these two options:
+If the method you are testing happens to be an SCG, you can either **1. Refactor using sample suggestions** or **2. Use Mock Code Legacy (Backup)** Here are more detailed explanations of these two options:
 
 1. Separate and/or move the service calls into multiple methods within a facade. Call the facade's methods within the current method to achieve same functionality. Sample suggestions: 
     1. A -> B -> C -> B -> D -> E can be converted to A -> N -> D -> E (where N internally calls B -> C).
