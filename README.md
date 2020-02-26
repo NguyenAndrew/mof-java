@@ -4,7 +4,7 @@ The Java library used to implement the Mock Coach design pattern. Used in tests 
 
 Can reduce hours and days of writing unit tests into minutes! 
 
-Useful For both new and previously existing codebases, Mock Coach accomplishes this feat by converting both old and new implicit testing strategies into explicit and reusable test strategies automated by a reusable coach!
+Useful for both new and previously existing codebases, Mock Coach accomplishes this feat by converting both old and new implicit testing strategies into explicit and reusable test strategies automated by a reusable coach!
 
 This library provides two services:
 
