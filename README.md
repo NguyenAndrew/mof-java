@@ -13,7 +13,7 @@ This library provides two services:
     
 ## Service Dipath Chain and Service Cyclic Graph
 
-For testing methods and creating new business logic, Mock Coach helps encourage writing business logic as Service Dipath Chains, over Service Cyclic Graphs (SCG). 
+For testing methods and creating new business logic, Mock Coach (Default Service) helps encourage writing business logic as Service Dipath Chains, over Service Cyclic Graphs (SCG). 
 
 Examples of Service Dipath Chains:
 
@@ -35,7 +35,7 @@ A -> B -> C -> D -> C -> B -> A
 
 Service Dipath Chains are recommended in most cases over Service Cyclic Graphs, because it is faster to understand and work with code when services are used in order one-by-one compared to when service usage is intertwined (both in business logic and in tests).
 
-If the method you are testing happens to be an SCG, you can either **1. Refactor using sample suggestions** or **2. Use Mock Code Legacy** Here are more detailed explanations of these two options:
+If the method you are testing happens to be an SCG, you can either **1. Refactor using sample suggestions** or **2. Use Mock Code Legacy (Backup Service)** Here are more detailed explanations of these two options:
 
 1. Separate and/or move the service calls into multiple methods within a facade. Call the facade's methods within the current method to achieve same functionality. Sample suggestions: 
     1. A -> B -> C -> B -> D -> E can be converted to A -> N -> D -> E (where N internally calls B -> C).
