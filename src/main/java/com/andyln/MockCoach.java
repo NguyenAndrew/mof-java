@@ -90,6 +90,8 @@ public class MockCoach {
             }
             whens[i].run();
         }
+
+        throw new IllegalArgumentException("Cannot call whenBefore(Object mock) for mock not in mocks!");
     }
 
     public void whenBeforeFirst() throws Exception {
@@ -128,6 +130,8 @@ public class MockCoach {
             }
             verifies[i].run();
         }
+
+        throw new IllegalArgumentException("Cannot call verifyBefore(Object mock) for mock not in mocks!");
     }
 
     public void verify(Object mock) throws Exception {
@@ -142,6 +146,8 @@ public class MockCoach {
                 return;
             }
         }
+
+        throw new IllegalArgumentException("Cannot call verify(Object mock) for mock not in mocks!");
     }
 
     public void verifyBeforeFirst() throws Exception {
