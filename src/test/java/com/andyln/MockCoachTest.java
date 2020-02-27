@@ -7,7 +7,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 class MockCoachTest {
 
@@ -17,6 +17,7 @@ class MockCoachTest {
     private Object[] singleMock = {mock1};
     private Object[] twoMocks = {mock1, mock2};
     private Object[] threeMocks = {mock1, mock2, mock3};
+    private Object[] threeMocksInCircleChain = {mock1, mock2, mock1};
 
     private MockCoachRunnable when1 = mock(MockCoachRunnable.class);
     private MockCoachRunnable when2 = mock(MockCoachRunnable.class);
@@ -36,6 +37,10 @@ class MockCoachTest {
         SECOND
     }
 
+    private MockCoach mockCoachSingleMock = new MockCoach(singleMock, singleWhen, singleVerify);
+    private MockCoach mockCoachTwoMocks = new MockCoach(twoMocks, twoWhens, twoVerifies);
+    private MockCoach mockCoachThreeMocksInCircleChain = new MockCoach(threeMocksInCircleChain, threeWhens, threeVerifies);
+
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.initMocks(this);
@@ -43,20 +48,20 @@ class MockCoachTest {
 
     @Nested
     class Constructor {
+
         @Test
         public void success() {
             new MockCoach(twoMocks, twoWhens, twoVerifies);
         }
 
         @Test
-        public void whenMocksWhensVerifiesAreSingleElementArrays_ThenSuccess() {
+        public void whenSingleMockInMocks_ThenSuccess() {
             new MockCoach(singleMock, singleWhen, singleVerify);
         }
 
         @Test
         public void whenMocksAreInCircleChain_ThenSuccess() {
-            Object[] mocksInCircleChain = {mock1, mock2, mock1};
-            new MockCoach(mocksInCircleChain, threeWhens, threeVerifies);
+            new MockCoach(threeMocksInCircleChain, threeWhens, threeVerifies);
         }
 
         @Test
@@ -187,10 +192,92 @@ class MockCoachTest {
 
             assertEquals(expectedMessage, actualException.getMessage());
         }
+
     }
 
     @Nested
     class WhenBefore {
+
+        @Test
+        public void success() throws Exception {
+            mockCoachTwoMocks.whenBefore(mock2);
+
+            verify(when1, times(1)).run();
+            verify(when2, times(0)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.whenBefore(mock1);
+
+            verify(when1, times(0)).run();
+        }
+
+        @Test
+        public void whenWhenBeforeMiddleMockInCircleChainMocks_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.whenBefore(mock2);
+
+            verify(when1, times(1)).run();
+            verify(when2, times(0)).run();
+            verify(when3, times(0)).run();
+        }
+
+        @Test
+        public void whenWhenBefore_CalledWithFirstMockInCircleChainMocks_ThenThrowIllegalStateException() throws Exception {
+            String expectedMessage = "Cannot call whenBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use whenBeforeFirst() or whenBeforeLast()";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> { mockCoachThreeMocksInCircleChain.whenBefore(mock1); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(when1, times(0)).run();
+            verify(when2, times(0)).run();
+            verify(when3, times(0)).run();
+        }
+
+    }
+
+    @Nested
+    class WhenBeforeFirst {
+
+        @Test
+        public void success() throws Exception {
+            mockCoachThreeMocksInCircleChain.whenBeforeFirst();
+
+            verify(when1, times(0)).run();
+            verify(when2, times(0)).run();
+            verify(when2, times(0)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.whenBeforeFirst();
+
+            verify(when1, times(0)).run();
+        }
+
+        @Test
+        public void whenWhenBeforeFirst_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+            String expectedMessage = "Cannot call whenBeforeFirst() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_FIRST_MOCK_HERE)";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> { mockCoachTwoMocks.whenBeforeFirst(); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(when1, times(0)).run();
+            verify(when2, times(0)).run();
+        }
+
+    }
+
+    @Nested
+    class WhenBeforeLast {
 
     }
 
@@ -206,6 +293,26 @@ class MockCoachTest {
 
     @Nested
     class Verify {
+
+    }
+
+    @Nested
+    class VerifyBeforeFirst {
+
+    }
+
+    @Nested
+    class VerifyBeforeLast {
+
+    }
+
+    @Nested
+    class VerifyFirst {
+
+    }
+
+    @Nested
+    class VerifyLast {
 
     }
 
