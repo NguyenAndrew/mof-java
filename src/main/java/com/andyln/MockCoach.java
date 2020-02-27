@@ -8,17 +8,16 @@ public class MockCoach {
     private MockCoachRunnable[] whens;
     private MockCoachRunnable[] verifies;
 
-    // If true, mocks are in a circle chain
-    // If false, mocks are in a path graph chain
+    private boolean containsMoreThanOneMock;
+    /*
+     * If true, mocks are in a circle chain
+     * If false, mocks are in a path graph chain
+     */
     private boolean isMocksInCircleChain;
 
     public MockCoach(Object[] mocks, MockCoachRunnable[] whens, MockCoachRunnable[] verifies) {
         if (mocks == null) {
-            throw new IllegalArgumentException("mocks cannot be null!");
-        }
-
-        if (mocks.length == 0) {
-            throw new IllegalArgumentException("mocks cannot be empty!");
+            throw new IllegalArgumentException("mocks/whens/verifies cannot be null!");
         }
 
         if (mocks.length != whens.length) {
@@ -26,13 +25,27 @@ public class MockCoach {
         }
 
         if (mocks.length != verifies.length) {
-            throw new IllegalArgumentException("verifies length does not match whens length!");
+            throw new IllegalArgumentException("verifies length does not match mocks length!");
+        }
+
+        if (mocks.length == 0) {
+            throw new IllegalArgumentException("mocks/whens/verifies cannot be empty!");
+        }
+
+        containsMoreThanOneMock = mocks.length > 1;
+
+        if (!containsMoreThanOneMock) {
+            // Only contains single mock in mocks
+            this.mocks = mocks;
+            this.whens = whens;
+            this.verifies = verifies;
+            return;
         }
 
         isMocksInCircleChain = mocks[0] == mocks[mocks.length-1];
 
         Set<Object> mockSet = new HashSet<>();
-        int lengthOfMocksToCheck = isMocksInCircleChain ? mocks.length : mocks.length - 1;
+        int lengthOfMocksToCheck = isMocksInCircleChain ? mocks.length - 1 : mocks.length;
         for (int i = 0; i < lengthOfMocksToCheck; i++) {
             if (mocks[i] == null) {
                 throw new IllegalArgumentException(String.format("mocks[%d] cannot be null!", i));
@@ -66,7 +79,7 @@ public class MockCoach {
     }
 
     public void whenBefore(Object mock) throws Exception {
-        if (isMocksInCircleChain && mock == mocks[0])
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0])
         {
             throw new IllegalStateException("Cannot call whenBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use whenBeforeFirst() or whenBeforeLast()");
         }
@@ -80,7 +93,7 @@ public class MockCoach {
     }
 
     public void whenBeforeFirst() throws Exception {
-        if (!isMocksInCircleChain) {
+        if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call whenBeforeFirst() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_FIRST_MOCK_HERE)");
         }
 
@@ -88,7 +101,7 @@ public class MockCoach {
     }
 
     public void whenBeforeLast() throws Exception {
-        if (!isMocksInCircleChain) {
+        if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call whenBeforeLast() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_LAST_MOCK_HERE)");
         }
 
@@ -104,7 +117,7 @@ public class MockCoach {
     }
 
     public void verifyBefore(Object mock) throws Exception {
-        if (isMocksInCircleChain && mock == mocks[0])
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0])
         {
             throw new IllegalStateException("Cannot call verifyBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyBeforeFirst() or verifyBeforeLast()");
         }
@@ -118,7 +131,7 @@ public class MockCoach {
     }
 
     public void verify(Object mock) throws Exception {
-        if (isMocksInCircleChain && mock == mocks[0])
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0])
         {
             throw new IllegalStateException("Cannot call verify(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyFirst() or verifyLast()");
         }
@@ -132,7 +145,7 @@ public class MockCoach {
     }
 
     public void verifyBeforeFirst() throws Exception {
-        if (!isMocksInCircleChain) {
+        if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyBeforeFirst() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_FIRST_MOCK_HERE)");
         }
 
@@ -140,7 +153,7 @@ public class MockCoach {
     }
 
     public void verifyBeforeLast() throws Exception {
-        if (!isMocksInCircleChain) {
+        if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyBeforeLast() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_LAST_MOCK_HERE)");
         }
 
@@ -150,7 +163,7 @@ public class MockCoach {
     }
 
     public void verifyFirst() throws Exception {
-        if (!isMocksInCircleChain) {
+        if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyFirst() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_FIRST_MOCK_HERE)");
         }
 
@@ -158,7 +171,7 @@ public class MockCoach {
     }
 
     public void verifyLast() throws Exception {
-        if (!isMocksInCircleChain) {
+        if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)");
         }
 
