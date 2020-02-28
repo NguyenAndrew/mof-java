@@ -255,7 +255,6 @@ class MockCoachTest {
             verify(when3, times(0)).run();
         }
 
-
     }
 
     @Nested
@@ -332,7 +331,7 @@ class MockCoachTest {
 
     @Nested
     class WhenEverything {
-        
+
         @Test
         public void success() throws Exception {
             mockCoachTwoMocks.whenEverything();
@@ -361,6 +360,63 @@ class MockCoachTest {
 
     @Nested
     class VerifyBefore {
+
+        @Test
+        public void success() throws Exception {
+            mockCoachTwoMocks.verifyBefore(mock2);
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(0)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.verifyBefore(mock1);
+
+            verify(verify1, times(0)).run();
+        }
+
+        @Test
+        public void whenVerifyeforeMiddleMockInCircleChainMocks_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyBefore(mock2);
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(0)).run();
+            verify(verify3, times(0)).run();
+        }
+
+        @Test
+        public void whenVerifyBefore_CalledWithFirstMockInCircleChainMocks_ThenThrowIllegalStateException() throws Exception {
+            String expectedMessage = "Cannot call verifyBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyBeforeFirst() or verifyBeforeLast()";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> { mockCoachThreeMocksInCircleChain.verifyBefore(mock1); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(verify1, times(0)).run();
+            verify(verify2, times(0)).run();
+            verify(verify3, times(0)).run();
+        }
+
+        @Test
+        public void whenVerifyBefore_CalledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
+            String expectedMessage = "Cannot call verifyBefore(Object mock) for mock not in mocks!";
+            Object mockNotInMocks = mock(Object.class);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> { mockCoachThreeMocksInCircleChain.verifyBefore(mockNotInMocks); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(verify1, times(0)).run();
+            verify(verify2, times(0)).run();
+            verify(verify3, times(0)).run();
+        }
 
     }
 

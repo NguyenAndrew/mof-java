@@ -91,13 +91,13 @@ public class MockCoach {
             throw new IllegalStateException("Cannot call whenBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use whenBeforeFirst() or whenBeforeLast()");
         }
 
-        Integer objectIndexOfLastMock = mockMap.get(mock);
+        Integer objectIndexOfMock = mockMap.get(mock);
 
-        if (objectIndexOfLastMock == null) {
+        if (objectIndexOfMock == null) {
             throw new IllegalArgumentException("Cannot call whenBefore(Object mock) for mock not in mocks!");
         }
 
-        int indexOfMock = objectIndexOfLastMock;
+        int indexOfMock = objectIndexOfMock;
 
         for (int i = 0; i < indexOfMock; i++) {
             whens[i].run();
@@ -135,14 +135,17 @@ public class MockCoach {
             throw new IllegalStateException("Cannot call verifyBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyBeforeFirst() or verifyBeforeLast()");
         }
 
-        for (int i = 0; i < this.mocks.length; i++) {
-            if (this.mocks[i] == mock) {
-                return;
-            }
-            verifies[i].run();
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call verifyBefore(Object mock) for mock not in mocks!");
         }
 
-        throw new IllegalArgumentException("Cannot call verifyBefore(Object mock) for mock not in mocks!");
+        int indexOfMock = objectIndexOfMock;
+
+        for (int i = 0; i < indexOfMock; i++) {
+            verifies[i].run();
+        }
     }
 
     public void verify(Object mock) throws Exception {
@@ -151,14 +154,17 @@ public class MockCoach {
             throw new IllegalStateException("Cannot call verify(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyFirst() or verifyLast()");
         }
 
-        for (int i = 0; i < this.mocks.length; i++) {
-            verifies[i].run();
-            if (this.mocks[i] == mock) {
-                return;
-            }
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call verify(Object mock) for mock not in mocks!");
         }
 
-        throw new IllegalArgumentException("Cannot call verify(Object mock) for mock not in mocks!");
+        int indexOfMock = objectIndexOfMock;
+
+        for (int i = 0; i <= indexOfMock; i++) {
+            verifies[i].run();
+        }
     }
 
     public void verifyBeforeFirst() throws Exception {
