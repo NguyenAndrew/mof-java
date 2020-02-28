@@ -377,7 +377,7 @@ class MockCoachTest {
         }
 
         @Test
-        public void whenVerifyeforeMiddleMockInCircleChainMocks_ThenSuccess() throws Exception {
+        public void whenVerifyBeforeMiddleMockInCircleChainMocks_ThenSuccess() throws Exception {
             mockCoachThreeMocksInCircleChain.verifyBefore(mock2);
 
             verify(verify1, times(1)).run();
@@ -422,6 +422,63 @@ class MockCoachTest {
 
     @Nested
     class Verify {
+
+        @Test
+        public void success() throws Exception {
+            mockCoachTwoMocks.verify(mock2);
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.verify(mock1);
+
+            verify(verify1, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyMiddleMockInCircleChainMocks_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.verify(mock2);
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+            verify(verify3, times(0)).run();
+        }
+
+        @Test
+        public void whenVerify_CalledWithFirstMockInCircleChainMocks_ThenThrowIllegalStateException() throws Exception {
+            String expectedMessage = "Cannot call verify(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyFirst() or verifyLast()";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> { mockCoachThreeMocksInCircleChain.verify(mock1); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(verify1, times(0)).run();
+            verify(verify2, times(0)).run();
+            verify(verify3, times(0)).run();
+        }
+
+        @Test
+        public void whenVerify_CalledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
+            String expectedMessage = "Cannot call verify(Object mock) for mock not in mocks!";
+            Object mockNotInMocks = mock(Object.class);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> { mockCoachThreeMocksInCircleChain.verify(mockNotInMocks); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(verify1, times(0)).run();
+            verify(verify2, times(0)).run();
+            verify(verify3, times(0)).run();
+        }
 
     }
 
