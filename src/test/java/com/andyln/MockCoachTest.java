@@ -489,20 +489,20 @@ class MockCoachTest {
         public void success() throws Exception {
             mockCoachThreeMocksInCircleChain.verifyBeforeFirst();
 
-            verify(when1, times(0)).run();
-            verify(when2, times(0)).run();
-            verify(when3, times(0)).run();
+            verify(verify1, times(0)).run();
+            verify(verify2, times(0)).run();
+            verify(verify3, times(0)).run();
         }
 
         @Test
         public void whenSingleMockInMocks_ThenSuccess() throws Exception {
             mockCoachSingleMock.verifyBeforeFirst();
 
-            verify(when1, times(0)).run();
+            verify(verify1, times(0)).run();
         }
 
         @Test
-        public void whenWhenBeforeFirst_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+        public void whenVerifyBeforeFirst_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
             String expectedMessage = "Cannot call verifyBeforeFirst() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_FIRST_MOCK_HERE)";
 
             IllegalStateException actualException = assertThrows(
@@ -512,14 +512,45 @@ class MockCoachTest {
 
             assertEquals(expectedMessage, actualException.getMessage());
 
-            verify(when1, times(0)).run();
-            verify(when2, times(0)).run();
+            verify(verify1, times(0)).run();
+            verify(verify2, times(0)).run();
         }
 
     }
 
     @Nested
     class VerifyBeforeLast {
+
+        @Test
+        public void success() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyBeforeLast();
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+            verify(verify3, times(0)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.verifyBeforeLast();
+
+            verify(verify1, times(0)).run();
+        }
+
+        @Test
+        public void whenVerifyBeforeLast_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+            String expectedMessage = "Cannot call verifyBeforeLast() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_LAST_MOCK_HERE)";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> { mockCoachTwoMocks.verifyBeforeLast(); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(verify1, times(0)).run();
+            verify(verify2, times(0)).run();
+        }
 
     }
 
