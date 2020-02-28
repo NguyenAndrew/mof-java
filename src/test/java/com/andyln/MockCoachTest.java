@@ -13,10 +13,8 @@ class MockCoachTest {
 
     private Object mock1 = mock(Object.class);
     private Object mock2 = mock(Object.class);
-    private Object mock3 = mock(Object.class);
     private Object[] singleMock = {mock1};
     private Object[] twoMocks = {mock1, mock2};
-    private Object[] threeMocks = {mock1, mock2, mock3};
     private Object[] threeMocksInCircleChain = {mock1, mock2, mock1};
 
     private MockCoachRunnable when1 = mock(MockCoachRunnable.class);
@@ -557,15 +555,101 @@ class MockCoachTest {
     @Nested
     class VerifyFirst {
 
+        @Test
+        public void success() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyFirst();
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(0)).run();
+            verify(verify3, times(0)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.verifyFirst();
+
+            verify(verify1, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyFirst_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+            String expectedMessage = "Cannot call verifyFirst() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_FIRST_MOCK_HERE)";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> { mockCoachTwoMocks.verifyFirst(); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(verify1, times(0)).run();
+            verify(verify2, times(0)).run();
+        }
+
     }
 
     @Nested
     class VerifyLast {
 
+        @Test
+        public void success() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyLast();
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.verifyLast();
+
+            verify(verify1, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyLast_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+            String expectedMessage = "Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> { mockCoachTwoMocks.verifyLast(); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(verify1, times(0)).run();
+            verify(verify2, times(0)).run();
+        }
+
     }
 
     @Nested
     class VerifyEverything {
+
+        @Test
+        public void success() throws Exception {
+            mockCoachTwoMocks.verifyEverything();
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+        }
+
+        @Test
+        public void whenThreeMocksInCircleChain_Thensuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyEverything();
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.verifyEverything();
+
+            verify(verify1, times(1)).run();
+        }
 
     }
 
