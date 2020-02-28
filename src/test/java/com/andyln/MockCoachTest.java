@@ -238,6 +238,24 @@ class MockCoachTest {
             verify(when3, times(0)).run();
         }
 
+        @Test
+        public void whenWhenBefore_CalledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
+            String expectedMessage = "Cannot call whenBefore(Object mock) for mock not in mocks!";
+            Object mockNotInMocks = mock(Object.class);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> { mockCoachThreeMocksInCircleChain.whenBefore(mockNotInMocks); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(when1, times(0)).run();
+            verify(when2, times(0)).run();
+            verify(when3, times(0)).run();
+        }
+
+
     }
 
     @Nested

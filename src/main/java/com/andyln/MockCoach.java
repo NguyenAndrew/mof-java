@@ -1,14 +1,17 @@
 package com.andyln;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MockCoach {
     private Object[] mocks;
     private MockCoachRunnable[] whens;
     private MockCoachRunnable[] verifies;
 
+    private Map<Object, Integer> mockMap;
+
     private boolean containsMoreThanOneMock;
+
     /*
      * If true, mocks are in a circle chain
      * If false, mocks are in a path graph chain
@@ -32,10 +35,13 @@ public class MockCoach {
             throw new IllegalArgumentException("mocks/whens/verifies cannot be empty!");
         }
 
+        mockMap = new HashMap<>();
+
         containsMoreThanOneMock = mocks.length > 1;
 
         if (!containsMoreThanOneMock) {
             // Only contains single mock in mocks
+            mockMap.put(mocks[0], 0);
             this.mocks = mocks;
             this.whens = whens;
             this.verifies = verifies;
@@ -44,7 +50,6 @@ public class MockCoach {
 
         isMocksInCircleChain = mocks[0] == mocks[mocks.length-1];
 
-        Set<Object> mockSet = new HashSet<>();
         int lengthOfMocksToCheck = isMocksInCircleChain ? mocks.length - 1 : mocks.length;
         for (int i = 0; i < lengthOfMocksToCheck; i++) {
             if (mocks[i] == null) {
@@ -67,7 +72,9 @@ public class MockCoach {
                 throw new IllegalArgumentException(String.format("mocks[%d] cannot be instance of Enum! Please use LegacyMockCoachBuilder and LegacyMockCoach for Enum support.", i));
             }
 
-            boolean isDuplicateMock = !mockSet.add(mocks[i]);
+
+            Object potentiallyDuplicateMock = mockMap.put(mocks[i], i);
+            boolean isDuplicateMock = potentiallyDuplicateMock != null;
             if (isDuplicateMock) {
                 throw new IllegalArgumentException(String.format("mocks[%d] cannot be the same as a previous mock in mocks!", i));
             }
@@ -84,14 +91,17 @@ public class MockCoach {
             throw new IllegalStateException("Cannot call whenBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use whenBeforeFirst() or whenBeforeLast()");
         }
 
-        for (int i = 0; i < this.mocks.length; i++) {
-            if (this.mocks[i] == mock) {
-                return;
-            }
-            whens[i].run();
+        Integer objectIndexOfLastMock = mockMap.get(mock);
+
+        if (objectIndexOfLastMock == null) {
+            throw new IllegalArgumentException("Cannot call whenBefore(Object mock) for mock not in mocks!");
         }
 
-        throw new IllegalArgumentException("Cannot call whenBefore(Object mock) for mock not in mocks!");
+        int indexOfMock = objectIndexOfLastMock;
+
+        for (int i = 0; i < indexOfMock; i++) {
+            whens[i].run();
+        }
     }
 
     public void whenBeforeFirst() throws Exception {
