@@ -296,6 +296,7 @@ class MockCoachTest {
 
     @Nested
     class WhenBeforeLast {
+
         @Test
         public void success() throws Exception {
             mockCoachThreeMocksInCircleChain.whenBeforeLast();
@@ -331,6 +332,30 @@ class MockCoachTest {
 
     @Nested
     class WhenEverything {
+        
+        @Test
+        public void success() throws Exception {
+            mockCoachTwoMocks.whenEverything();
+
+            verify(when1, times(1)).run();
+            verify(when2, times(1)).run();
+        }
+
+        @Test
+        public void whenThreeMocksInCircleChain_Thensuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.whenEverything();
+
+            verify(when1, times(1)).run();
+            verify(when2, times(1)).run();
+            verify(when3, times(1)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.whenEverything();
+
+            verify(when1, times(1)).run();
+        }
 
     }
 
