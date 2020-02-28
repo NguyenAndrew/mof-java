@@ -485,6 +485,37 @@ class MockCoachTest {
     @Nested
     class VerifyBeforeFirst {
 
+        @Test
+        public void success() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyBeforeFirst();
+
+            verify(when1, times(0)).run();
+            verify(when2, times(0)).run();
+            verify(when3, times(0)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.verifyBeforeFirst();
+
+            verify(when1, times(0)).run();
+        }
+
+        @Test
+        public void whenWhenBeforeFirst_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+            String expectedMessage = "Cannot call verifyBeforeFirst() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_FIRST_MOCK_HERE)";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> { mockCoachTwoMocks.verifyBeforeFirst(); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(when1, times(0)).run();
+            verify(when2, times(0)).run();
+        }
+
     }
 
     @Nested
