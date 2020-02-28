@@ -267,7 +267,7 @@ class MockCoachTest {
 
             verify(when1, times(0)).run();
             verify(when2, times(0)).run();
-            verify(when2, times(0)).run();
+            verify(when3, times(0)).run();
         }
 
         @Test
@@ -296,6 +296,36 @@ class MockCoachTest {
 
     @Nested
     class WhenBeforeLast {
+        @Test
+        public void success() throws Exception {
+            mockCoachThreeMocksInCircleChain.whenBeforeLast();
+
+            verify(when1, times(1)).run();
+            verify(when2, times(1)).run();
+            verify(when3, times(0)).run();
+        }
+
+        @Test
+        public void whenSingleMockInMocks_ThenSuccess() throws Exception {
+            mockCoachSingleMock.whenBeforeLast();
+
+            verify(when1, times(0)).run();
+        }
+
+        @Test
+        public void whenWhenBeforeLast_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+            String expectedMessage = "Cannot call whenBeforeLast() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_LAST_MOCK_HERE)";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> { mockCoachTwoMocks.whenBeforeLast(); }
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(when1, times(0)).run();
+            verify(when2, times(0)).run();
+        }
 
     }
 

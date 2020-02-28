@@ -117,7 +117,8 @@ public class MockCoach {
             throw new IllegalStateException("Cannot call whenBeforeLast() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_LAST_MOCK_HERE)");
         }
 
-        for (int i = 0; i < this.mocks.length - 1; i++) {
+        int indexOfLastMock = this.mocks.length - 1;
+        for (int i = 0; i < indexOfLastMock; i++) {
             whens[i].run();
         }
     }
