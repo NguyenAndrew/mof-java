@@ -2,15 +2,22 @@
 
 The Java library implementing the Mock Coach design pattern. Used in tests to reduce complex logic and boilerplate code in overall codebase.
 
-Can reduce hours and days of writing unit tests into minutes! 
+**Can reduce hours and days of writing unit tests into minutes!** 
 
-Useful for both new and previously existing codebases, Mock Coach accomplishes this feat by converting both old and new implicit testing strategies into explicit test strategies automated by a reusable coach!
+Mock Coach orchestrates all the mocks used within a method, allowing you to only write setup and verification code relevant for each unit test.
+
+* Q: Why mock orchestration? A: Without it, each unit test needs to maintain the state and verification of its own mocks, and may become brittle when there are multiple units tests for a method. In other words, **mock orchestration helps prevent initial and ongoing tech debt within unit tests**.
 
 This library provides two libraries to use:
 
 1. Mock Coach (Default), library used to quickly write tests, and reduce complexities in business logic. Takes a "test improves business logic, and business logic improves test" approach.
 2. Mock Coach Legacy (Backup), library used to write tests quickly (slightly slower and less automated than default approach), where code can't be refactored or is too costly to refactor. 
-    
+
+Both versions of Mock Coach are compatible with both TDD and non-TDD approaches. This library helps augment the testing process, while letting the user choose "when" and "how often" to test. 
+
+* Mock Coach (Default) provides cleaner unit tests, and takes a hands-on approach to cleaner business logic. 
+* Mock Coach (Legacy) provides cleaner unit tests, and a hands-off approach on the business logic.
+
 ## Service Dipath Chain and Service Cyclic Graph
 
 For testing methods and creating new business logic, Mock Coach (Default) helps encourage writing business logic as Service Dipath Chains, over Service Cyclic Graphs (SCG). 
