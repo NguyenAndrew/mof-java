@@ -10,8 +10,8 @@ Mock Coach orchestrates all the mocks used within a method, allowing you to only
 
 This library provides two libraries to use:
 
-1. **Mock Coach (Default)**, library used to quickly write tests, and reduce complexities in business logic. Takes a "test improves business logic, and business logic improves test" approach.
-2. **Mock Coach Legacy (Backup)**, library used to write tests quickly (slightly slower and less automated than default approach), where code can't be refactored or is too costly to refactor. 
+1. Mock Coach (Default), library used to quickly write tests, and reduce complexities in business logic. Takes a "test improves business logic, and business logic improves test" approach.
+2. Mock Coach Legacy (Backup), library used to write tests quickly (slightly slower and less automated than default approach), where code can't be refactored or is too costly to refactor. 
 
 **Both versions of Mock Coach are compatible with both TDD and non-TDD approaches**. This library helps augment the testing process, while letting the user choose "when" and "how often" to test. 
 
