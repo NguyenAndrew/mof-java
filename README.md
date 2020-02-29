@@ -20,7 +20,9 @@ Both versions of Mock Coach are compatible with both TDD and non-TDD approaches.
 
 ## Service Dipath Chain and Service Cyclic Graph
 
-For testing methods and creating new business logic, Mock Coach (Default) helps encourage writing business logic as Service Dipath Chains, over Service Cyclic Graphs (SCG). 
+For testing methods and creating new business logic, Mock Coach (Default) helps encourage writing business logic as Service Dipath Chains, over Service Cyclic Graphs (SCG).
+
+* For these design patterns, "Service" refers to any object that is @Autorwired, injected, or constructor injected into the object-under-test.
 
 Examples of Service Dipath Chains:
 
