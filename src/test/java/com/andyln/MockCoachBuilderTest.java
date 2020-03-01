@@ -13,7 +13,7 @@ class MockCoachBuilderTest {
      * Needed to create one for the build_ReturnsMockCoach_success() test,
      * so thought it would be a good idea to show an example as well.
      *
-     * Also shows why it is easier to use the builder, instead of MockCoach directly, as there is a lot of boilerplate
+     * Also shows how to create MockCoach, using either MockCoachBuilder or MockCoach
      * (MockCoachBuilder can use either vararg or array syntax. MockCoach constructor can only use arrays).
      *
      * MockCoach methodNameMockCoach = new MockCoachBuilder()
