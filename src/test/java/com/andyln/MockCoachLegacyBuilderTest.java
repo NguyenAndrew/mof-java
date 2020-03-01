@@ -99,7 +99,7 @@ class MockCoachLegacyBuilderTest {
 
     @Test
     void build_ReturnsMockCoachLegacy_success() {
-        MockCoach mockCoach = new MockCoachBuilder()
+        MockCoachLegacy mockCoachLegacy = new MockCoachLegacyBuilder()
                 .mock(
                         exampleMock
                 ).when(
@@ -115,7 +115,7 @@ class MockCoachLegacyBuilderTest {
                         verify(exampleMock, times(1)).verify(any(MockCoachRunnable.class));
                     }
                 ).build();
-        assertNotNull(mockCoach);
+        assertNotNull(mockCoachLegacy);
     }
 }
 
