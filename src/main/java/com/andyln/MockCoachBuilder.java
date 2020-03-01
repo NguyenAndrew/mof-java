@@ -13,8 +13,8 @@ public class MockCoachBuilder {
     }
 
     /**
-     * Add mocks to MockCoachBuiler. Mocks are any object that are injected or autowired into an object under test.
-     * @param mocks
+     * Add mocks to MockCoachBuiler. These mocks are any object that are injected or autowired into an object under test.
+     * @param mocks These mocks are any object that are injected or autowired into an object under test.
      * @return MockCoachBuilder (with mocks)
      */
     public MockCoachBuilder mock(Object... mocks) {
