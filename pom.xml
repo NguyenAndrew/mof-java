@@ -46,6 +46,12 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git://github.com/NguyenAndrew/Mock-Coach.git</connection>
+        <developerConnection>scm:git:ssh://github.com:NguyenAndrew/Mock-Coach.git</developerConnection>
+        <url>http://github.com/NguyenAndrew/Mock-Coach/tree/master</url>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
