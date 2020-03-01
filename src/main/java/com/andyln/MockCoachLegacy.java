@@ -3,7 +3,7 @@ package com.andyln;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockCoach {
+public class MockCoachLegacy {
     private Object[] mocks;
     private MockCoachRunnable[] whens;
     private MockCoachRunnable[] verifies;
@@ -19,10 +19,18 @@ public class MockCoach {
     private boolean isMocksInCircleChain;
 
     /**
-     * Constructs a MockCoach. May have better experience constructing MockCoach using {@link MockCoachBuilder},
+     * Constructs MockCoachLegacy. May have better experience constructing MockCoachLegacy using {@link MockCoachLegacyBuilder},
      * as it reduces boilerplate by using varargs instead of arrays.
-     * @see com.andyln.MockCoachBuilder#MockCoachBuilder()
-     * @param mocks These mocks are any object that are injected or autowired into an object under test.
+     *
+     * Unlike MockCoach, MockCoachLegacy can use any object for its "mocks" (such as an Enum).
+     * These "mocks" are also meant to represent mocks used in Service Cyclic Graphs, but they can be used to represent any place in the codebase.
+     *
+     * It is recommended to use MockCoach, whenever possible, to avoid having to manage a list of "mocks",
+     * and to enforce a Service Dipath Chain within your methods.
+     *
+     * @see MockCoachLegacyBuilder#MockCoachLegacyBuilder()
+     * @param mocks These mocks are supposed to be any object that are injected or autowired into an object under test, but LegacyMockCoach
+     *              can use these to represent any place in the codebase.
      * @param whens Whens is an array of runnables, where each runnable may contain multiple when statements.
      * Example of a single when: {@code
      * () -> &#123;
@@ -39,7 +47,7 @@ public class MockCoach {
      * }
      * @throws IllegalArgumentException Prevents calling constructor with any mocks/whens/verifies that are empty, not the same length, or not permitted type.
      */
-    public MockCoach(Object[] mocks, MockCoachRunnable[] whens, MockCoachRunnable[] verifies) {
+    public MockCoachLegacy(Object[] mocks, MockCoachRunnable[] whens, MockCoachRunnable[] verifies) {
         if (mocks == null) {
             throw new IllegalArgumentException("mocks/whens/verifies cannot be null!");
         }
@@ -75,22 +83,6 @@ public class MockCoach {
         for (int i = 0; i < lengthOfMocksToCheck; i++) {
             if (mocks[i] == null) {
                 throw new IllegalArgumentException(String.format("mocks[%d] cannot be null!", i));
-            }
-
-            if (mocks[i] instanceof Integer) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be instance of Integer! Please use LegacyMockCoachBuilder and LegacyMockCoach for Integer support.", i));
-            }
-
-            if (mocks[i] instanceof Character) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be instance of Character! Please use LegacyMockCoachBuilder and LegacyMockCoach for Character support.", i));
-            }
-
-            if (mocks[i] instanceof String) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be instance of String! Please use LegacyMockCoachBuilder and LegacyMockCoach for String support.", i));
-            }
-
-            if (mocks[i] instanceof Enum<?>) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be instance of Enum! Please use LegacyMockCoachBuilder and LegacyMockCoach for Enum support.", i));
             }
 
             Object potentiallyDuplicateMock = mockMap.put(mocks[i], i);
