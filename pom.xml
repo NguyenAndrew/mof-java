@@ -26,6 +26,10 @@
         </dependency>
     </dependencies>
 
+    <name>Mock Coach</name>
+    <description>The Java library implementing the Mock Coach design pattern.</description>
+    <url>https://github.com/NguyenAndrew/Mock-Coach</url>
+    
     <build>
         <plugins>
             <plugin>
