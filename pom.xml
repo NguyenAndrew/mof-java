@@ -37,6 +37,15 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Andrew Nguyen</name>
+            <email>andylnmore@gmail.com</email>
+            <organization>com.andyln</organization>
+            <organizationUrl>https://github.com/NguyenAndrew</organizationUrl>
+        </developer>
+    </developers>
+
     <build>
         <plugins>
             <plugin>
