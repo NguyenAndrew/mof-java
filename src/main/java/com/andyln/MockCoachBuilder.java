@@ -1,9 +1,9 @@
 package com.andyln;
 
 public class MockCoachBuilder {
-    Object[] mocks;
-    MockCoachRunnable[] whens;
-    MockCoachRunnable[] verifies;
+    private Object[] mocks;
+    private MockCoachRunnable[] whens;
+    private MockCoachRunnable[] verifies;
 
     /**
      * Creates a builder used to construct a MockCoach. May provide a better experience than constructing MockCoach using its constructor.
