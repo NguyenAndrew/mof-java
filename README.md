@@ -1,5 +1,9 @@
 # Mock Coach
 
+![GitHub](https://img.shields.io/github/license/NguyenAndrew/Mock-Coach)
+[![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Fandyln%2Fmock-coach%2Fmaven-metadata.xml)](https://search.maven.org/artifact/com.andyln/mock-coach)
+[![javadoc](https://javadoc.io/badge2/com.andyln/mock-coach/javadoc.svg)](https://javadoc.io/doc/com.andyln/mock-coach)
+
 The Java library implementing the Mock Coach design pattern. Used in tests to reduce complex logic and boilerplate code in overall codebase.
 
 **Can reduce hours and days of writing unit tests into minutes!** 
