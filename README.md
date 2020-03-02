@@ -66,7 +66,6 @@ Add the following line to your pom.xml
   <version>1.0.0</version>
   <scope>test</scope>
 </dependency>
-
 ```
 
 This library is on Maven Central: https://search.maven.org/artifact/com.andyln/mock-coach/
