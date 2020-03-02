@@ -57,11 +57,19 @@ If the method you are testing happens to be a Service Cyclic Graph, you can eith
 
 ## How to Install
 
-This library will eventually be added to Maven Central. In the mean time, follow these steps to use Mock Coach:
+Add the following line to your pom.xml
 
-1. Create MockCoach and MockCoachBuilder classes within your test folder. Create MockCoachRunnable interface within your test folder.
-2. Copy the class and interface code from this Git repository to the corresponding files created in Step 1.
-3. Fix any compile errors
+```
+<dependency>
+  <groupId>com.andyln</groupId>
+  <artifactId>mock-coach</artifactId>
+  <version>1.0.0</version>
+  <scope>test</scope>
+</dependency>
+
+```
+
+This library is on Maven Central: https://search.maven.org/artifact/com.andyln/mock-coach/
 
 ## Example Usages
 
