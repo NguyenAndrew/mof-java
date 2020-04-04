@@ -35,9 +35,9 @@ class MockCoachLegacyTest {
         SECOND
     }
 
-    private MockCoachLegacy mockCoachLegacySingleMock = new MockCoachLegacy(singleMock, singleWhen, singleVerify);
-    private MockCoachLegacy mockCoachLegacyTwoMocks = new MockCoachLegacy(twoMocks, twoWhens, twoVerifies);
-    private MockCoachLegacy mockCoachLegacyThreeMocksInCircleChain = new MockCoachLegacy(threeMocksInCircleChain, threeWhens, threeVerifies);
+    private MockCoach mockCoachLegacySingleMock = new MockCoachLegacy(singleMock, singleWhen, singleVerify);
+    private MockCoach mockCoachLegacyTwoMocks = new MockCoachLegacy(twoMocks, twoWhens, twoVerifies);
+    private MockCoach mockCoachLegacyThreeMocksInCircleChain = new MockCoachLegacy(threeMocksInCircleChain, threeWhens, threeVerifies);
 
     @BeforeEach
     void initMocks() {

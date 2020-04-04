@@ -3,7 +3,7 @@ package com.andyln;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockCoachLegacy {
+public class MockCoachLegacy extends MockCoach {
     private Object[] mocks;
     private MockCoachRunnable[] whens;
     private MockCoachRunnable[] verifies;
@@ -106,6 +106,7 @@ public class MockCoachLegacy {
      *                                  For circle chains, call either whenBeforeFirst() or whenBeforeLast()
      * @throws IllegalArgumentException Calling with object not in mocks.
      */
+    @Override
     public void whenBefore(Object mock) {
         if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
             throw new IllegalStateException("Cannot call whenBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use whenBeforeFirst() or whenBeforeLast()");
@@ -136,6 +137,7 @@ public class MockCoachLegacy {
      *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
      *                               For directed path chains, call whenBefore(INSERT_FIRST_MOCK_HERE)
      */
+    @Override
     public void whenBeforeFirst() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call whenBeforeFirst() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_FIRST_MOCK_HERE)");
@@ -151,6 +153,7 @@ public class MockCoachLegacy {
      *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
      *                               For directed path chains, call whenBefore(INSERT_LAST_MOCK_HERE)
      */
+    @Override
     public void whenBeforeLast() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call whenBeforeLast() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_LAST_MOCK_HERE)");
@@ -169,6 +172,7 @@ public class MockCoachLegacy {
     /**
      * Runs all whens.
      */
+    @Override
     public void whenEverything() {
         for (int i = 0; i < this.mocks.length; i++) {
             try {
@@ -188,6 +192,7 @@ public class MockCoachLegacy {
      *                                  For circle chains, call either verifyBeforeFirst() or verifyBeforeLast()
      * @throws IllegalArgumentException Calling with object not in mocks.
      */
+    @Override
     public void verifyBefore(Object mock) {
         if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
             throw new IllegalStateException("Cannot call verifyBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyBeforeFirst() or verifyBeforeLast()");
@@ -219,6 +224,7 @@ public class MockCoachLegacy {
      *                                  For circle chains, call either verifyFirst() or verifyLast()
      * @throws IllegalArgumentException Calling with object not in mocks.
      */
+    @Override
     public void verify(Object mock) {
         if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
             throw new IllegalStateException("Cannot call verify(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyFirst() or verifyLast()");
@@ -249,6 +255,7 @@ public class MockCoachLegacy {
      *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
      *                               For directed path chains, call verifyBefore(INSERT_FIRST_MOCK_HERE)
      */
+    @Override
     public void verifyBeforeFirst() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyBeforeFirst() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_FIRST_MOCK_HERE)");
@@ -264,6 +271,7 @@ public class MockCoachLegacy {
      *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
      *                               For directed path chains, call verifyBefore(INSERT_LAST_MOCK_HERE)
      */
+    @Override
     public void verifyBeforeLast() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyBeforeLast() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_LAST_MOCK_HERE)");
@@ -286,6 +294,7 @@ public class MockCoachLegacy {
      *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
      *                               For directed path chains, call verify(INSERT_FIRST_MOCK_HERE)
      */
+    @Override
     public void verifyFirst() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyFirst() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_FIRST_MOCK_HERE)");
@@ -306,6 +315,7 @@ public class MockCoachLegacy {
      *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
      *                               For directed path chains, call verify(INSERT_LAST_MOCK_HERE)
      */
+    @Override
     public void verifyLast() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)");
@@ -319,6 +329,7 @@ public class MockCoachLegacy {
      *
      * @throws Exception Resolves any exception that may be thrown within verifies.
      */
+    @Override
     public void verifyEverything() {
         for (int i = 0; i < this.mocks.length; i++) {
             try {

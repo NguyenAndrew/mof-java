@@ -19,6 +19,11 @@ public class MockCoach {
     private boolean isMocksInCircleChain;
 
     /**
+     * super() for MockCoachLegacy
+     */
+    protected MockCoach() {}
+
+    /**
      * Constructs a MockCoach. May have better experience constructing MockCoach using {@link MockCoachBuilder},
      * as it reduces boilerplate by using varargs instead of arrays.
      *
