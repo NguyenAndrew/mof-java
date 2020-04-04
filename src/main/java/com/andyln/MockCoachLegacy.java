@@ -21,31 +21,31 @@ public class MockCoachLegacy {
     /**
      * Constructs MockCoachLegacy. May have better experience constructing MockCoachLegacy using {@link MockCoachLegacyBuilder},
      * as it reduces boilerplate by using varargs instead of arrays.
-     *
+     * <p>
      * Unlike MockCoach, MockCoachLegacy can use any object for its "mocks" (such as an Enum).
      * These "mocks" are also meant to represent mocks used in Service Cyclic Graphs, but they can be used to represent any place in the codebase.
-     *
+     * <p>
      * It is recommended to use MockCoach, whenever possible, to avoid having to manage a list of "mocks",
      * and to enforce a Service Dipath Chain within your methods.
      *
-     * @see MockCoachLegacyBuilder#MockCoachLegacyBuilder()
-     * @param mocks These mocks are supposed to be any object that are injected or autowired into an object under test, but LegacyMockCoach
-     *              can use these to represent any place in the codebase.
-     * @param whens Whens is an array of runnables, where each runnable may contain multiple when statements.
-     * Example of a single when: {@code
-     * () -> &#123;
-     *     when(mock.method()).thenReturn(someValue);
-     *     when(mock.anotherMethod()).thenReturn(anotherValue);
-     * &#125;
-     * }
+     * @param mocks    These mocks are supposed to be any object that are injected or autowired into an object under test, but LegacyMockCoach
+     *                 can use these to represent any place in the codebase.
+     * @param whens    Whens is an array of runnables, where each runnable may contain multiple when statements.
+     *                 Example of a single when: {@code
+     *                 () -> &#123;
+     *                 when(mock.method()).thenReturn(someValue);
+     *                 when(mock.anotherMethod()).thenReturn(anotherValue);
+     *                 &#125;
+     *                 }
      * @param verifies Verifies is an array of runnables, where each runnable may contain multiple verify statements.
-     * Example of a single verify: {@code
-     * () -> &#123;
-     *     verify(mock, times(1)).method();
-     *     verify(mock, times(1)).anotherMethod());
-     * &#125;
-     * }
+     *                 Example of a single verify: {@code
+     *                 () -> &#123;
+     *                 verify(mock, times(1)).method();
+     *                 verify(mock, times(1)).anotherMethod());
+     *                 &#125;
+     *                 }
      * @throws IllegalArgumentException Prevents calling constructor with any mocks/whens/verifies that are empty, not the same length, or not permitted type.
+     * @see MockCoachLegacyBuilder#MockCoachLegacyBuilder()
      */
     public MockCoachLegacy(Object[] mocks, MockCoachRunnable[] whens, MockCoachRunnable[] verifies) {
         if (mocks == null) {
@@ -77,7 +77,7 @@ public class MockCoachLegacy {
             return;
         }
 
-        isMocksInCircleChain = mocks[0] == mocks[mocks.length-1];
+        isMocksInCircleChain = mocks[0] == mocks[mocks.length - 1];
 
         int lengthOfMocksToCheck = isMocksInCircleChain ? mocks.length - 1 : mocks.length;
         for (int i = 0; i < lengthOfMocksToCheck; i++) {
@@ -99,16 +99,15 @@ public class MockCoachLegacy {
 
     /**
      * Runs all whens before, and not including, when corresponding to mock.
+     *
      * @param mock Any mock within mocks.
-     * @throws IllegalStateException Calling this method for first/last mocks in circle chain
-     * (because first and last mock are the same, there would no way to tell which mock to use).
-     * For circle chains, call either whenBeforeFirst() or whenBeforeLast()
+     * @throws IllegalStateException    Calling this method for first/last mocks in circle chain
+     *                                  (because first and last mock are the same, there would no way to tell which mock to use).
+     *                                  For circle chains, call either whenBeforeFirst() or whenBeforeLast()
      * @throws IllegalArgumentException Calling with object not in mocks.
-     * @throws Exception Resolves any exception that may be thrown within whens.
      */
-    public void whenBefore(Object mock) throws Exception {
-        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0])
-        {
+    public void whenBefore(Object mock) {
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
             throw new IllegalStateException("Cannot call whenBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use whenBeforeFirst() or whenBeforeLast()");
         }
 
@@ -121,19 +120,23 @@ public class MockCoachLegacy {
         int indexOfMock = objectIndexOfMock;
 
         for (int i = 0; i < indexOfMock; i++) {
-            whens[i].run();
+            try {
+                whens[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("whens[%d] throws an exception! Please check your whens.", i), e);
+            }
         }
     }
 
     /**
      * Placeholder for testing with mocks in circle chain. This method exists, because it creates a better user experience
      * when refactoring tests.
+     *
      * @throws IllegalStateException Calling this method for mocks in directed path chain
-     * (using this method in directed path chain, may cause confusion on which mock is being referred to).
-     * For directed path chains, call whenBefore(INSERT_FIRST_MOCK_HERE)
-     * @throws Exception Does not actually throw exception, keeps consistency of exceptions thrown for other methods.
+     *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
+     *                               For directed path chains, call whenBefore(INSERT_FIRST_MOCK_HERE)
      */
-    public void whenBeforeFirst() throws Exception {
+    public void whenBeforeFirst() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call whenBeforeFirst() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_FIRST_MOCK_HERE)");
         }
@@ -143,44 +146,50 @@ public class MockCoachLegacy {
 
     /**
      * Runs all whens before, and not including, when corresponding to last mock in mocks.
+     *
      * @throws IllegalStateException Calling this method for mocks in directed path chain
-     * (using this method in directed path chain, may cause confusion on which mock is being referred to).
-     * For directed path chains, call whenBefore(INSERT_LAST_MOCK_HERE)
-     * @throws Exception Resolves any exception that may be thrown within whens.
+     *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
+     *                               For directed path chains, call whenBefore(INSERT_LAST_MOCK_HERE)
      */
-    public void whenBeforeLast() throws Exception {
+    public void whenBeforeLast() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call whenBeforeLast() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_LAST_MOCK_HERE)");
         }
 
         int indexOfLastMock = this.mocks.length - 1;
         for (int i = 0; i < indexOfLastMock; i++) {
-            whens[i].run();
+            try {
+                whens[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("whens[%d] throws an exception! Please check your whens.", i), e);
+            }
         }
     }
 
     /**
      * Runs all whens.
-     * @throws Exception Resolves any exception that may be thrown within whens.
      */
-    public void whenEverything() throws Exception {
+    public void whenEverything() {
         for (int i = 0; i < this.mocks.length; i++) {
-            whens[i].run();
+            try {
+                whens[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("whens[%d] throws an exception! Please check your whens.", i), e);
+            }
         }
     }
 
     /**
      * Runs all verifies before, and not including, verify corresponding to mock.
+     *
      * @param mock Any mock within mocks.
-     * @throws IllegalStateException Calling this method for first/last mocks in circle chain
-     * (because first and last mock are the same, there would no way to tell which mock to use).
-     * For circle chains, call either verifyBeforeFirst() or verifyBeforeLast()
+     * @throws IllegalStateException    Calling this method for first/last mocks in circle chain
+     *                                  (because first and last mock are the same, there would no way to tell which mock to use).
+     *                                  For circle chains, call either verifyBeforeFirst() or verifyBeforeLast()
      * @throws IllegalArgumentException Calling with object not in mocks.
-     * @throws Exception Resolves any exception that may be thrown within verifies.
      */
-    public void verifyBefore(Object mock) throws Exception {
-        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0])
-        {
+    public void verifyBefore(Object mock) {
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
             throw new IllegalStateException("Cannot call verifyBefore(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyBeforeFirst() or verifyBeforeLast()");
         }
 
@@ -193,22 +202,25 @@ public class MockCoachLegacy {
         int indexOfMock = objectIndexOfMock;
 
         for (int i = 0; i < indexOfMock; i++) {
-            verifies[i].run();
+            try {
+                verifies[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
+            }
         }
     }
 
     /**
      * Runs all verifies before, and including, verify corresponding to mock.
+     *
      * @param mock Any mock within mocks.
-     * @throws IllegalStateException Calling this method for first/last mocks in circle chain
-     * (because first and last mock are the same, there would no way to tell which mock to use).
-     * For circle chains, call either verifyFirst() or verifyLast()
+     * @throws IllegalStateException    Calling this method for first/last mocks in circle chain
+     *                                  (because first and last mock are the same, there would no way to tell which mock to use).
+     *                                  For circle chains, call either verifyFirst() or verifyLast()
      * @throws IllegalArgumentException Calling with object not in mocks.
-     * @throws Exception Resolves any exception that may be thrown within verifies.
      */
-    public void verify(Object mock) throws Exception {
-        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0])
-        {
+    public void verify(Object mock) {
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
             throw new IllegalStateException("Cannot call verify(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyFirst() or verifyLast()");
         }
 
@@ -221,19 +233,23 @@ public class MockCoachLegacy {
         int indexOfMock = objectIndexOfMock;
 
         for (int i = 0; i <= indexOfMock; i++) {
-            verifies[i].run();
+            try {
+                verifies[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
+            }
         }
     }
 
     /**
      * Placeholder for testing with mocks in circle chain. This method exists, because it creates a better user experience
      * when refactoring tests.
+     *
      * @throws IllegalStateException Calling this method for mocks in directed path chain
-     * (using this method in directed path chain, may cause confusion on which mock is being referred to).
-     * For directed path chains, call verifyBefore(INSERT_FIRST_MOCK_HERE)
-     * @throws Exception Does not actually throw exception, keeps consistency of exceptions thrown for other methods.
+     *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
+     *                               For directed path chains, call verifyBefore(INSERT_FIRST_MOCK_HERE)
      */
-    public void verifyBeforeFirst() throws Exception {
+    public void verifyBeforeFirst() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyBeforeFirst() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_FIRST_MOCK_HERE)");
         }
@@ -243,46 +259,54 @@ public class MockCoachLegacy {
 
     /**
      * Runs all verifies before, and not including, verify corresponding to last mock in mocks.
+     *
      * @throws IllegalStateException Calling this method for mocks in directed path
-     * (using this method in directed path chain, may cause confusion on which mock is being referred to).
-     * For directed path chains, call verifyBefore(INSERT_LAST_MOCK_HERE)
-     * @throws Exception Resolves any exception that may be thrown within verifies.
+     *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
+     *                               For directed path chains, call verifyBefore(INSERT_LAST_MOCK_HERE)
      */
-    public void verifyBeforeLast() throws Exception {
+    public void verifyBeforeLast() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyBeforeLast() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_LAST_MOCK_HERE)");
         }
 
         for (int i = 0; i < this.mocks.length - 1; i++) {
-            verifies[i].run();
+            try {
+                verifies[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
+            }
         }
     }
 
     /**
      * Placeholder for testing with mocks in circle chain. This method exists, because it creates a better user experience
      * when refactoring tests.
+     *
      * @throws IllegalStateException Calling this method for mocks in directed path chain
-     * (using this method in directed path chain, may cause confusion on which mock is being referred to).
-     * For directed path chains, call verify(INSERT_FIRST_MOCK_HERE)
-     * @throws Exception Does not actually throw exception, keeps consistency of exceptions thrown for other methods.
+     *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
+     *                               For directed path chains, call verify(INSERT_FIRST_MOCK_HERE)
      */
-    public void verifyFirst() throws Exception {
+    public void verifyFirst() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyFirst() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_FIRST_MOCK_HERE)");
         }
 
-        verifies[0].run();
+        try {
+            verifies[0].run();
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", 0), e);
+        }
     }
 
     /**
      * Runs all verifies. This method exists, because it creates a better user experience
      * when refactoring tests.
+     *
      * @throws IllegalStateException Calling this method for mocks in directed path chain
-     * (using this method in directed path chain, may cause confusion on which mock is being referred to).
-     * For directed path chains, call verify(INSERT_LAST_MOCK_HERE)
-     * @throws Exception Resolves any exception that may be thrown within verifies.
+     *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
+     *                               For directed path chains, call verify(INSERT_LAST_MOCK_HERE)
      */
-    public void verifyLast() throws Exception {
+    public void verifyLast() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)");
         }
@@ -292,11 +316,16 @@ public class MockCoachLegacy {
 
     /**
      * Runs all verifies.
+     *
      * @throws Exception Resolves any exception that may be thrown within verifies.
      */
-    public void verifyEverything() throws Exception {
+    public void verifyEverything() {
         for (int i = 0; i < this.mocks.length; i++) {
-            verifies[i].run();
+            try {
+                verifies[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
+            }
         }
     }
 }
