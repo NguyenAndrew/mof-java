@@ -326,8 +326,6 @@ public class MockCoachLegacy extends MockCoach {
 
     /**
      * Runs all verifies.
-     *
-     * @throws Exception Resolves any exception that may be thrown within verifies.
      */
     @Override
     public void verifyEverything() {

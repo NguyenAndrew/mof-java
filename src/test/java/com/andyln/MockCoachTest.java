@@ -9,33 +9,33 @@ import static org.mockito.Mockito.*;
 
 class MockCoachTest {
 
-    private Object mock1 = mock(Object.class);
-    private Object mock2 = mock(Object.class);
-    private Object[] singleMock = {mock1};
-    private Object[] twoMocks = {mock1, mock2};
-    private Object[] threeMocksInCircleChain = {mock1, mock2, mock1};
+    private final Object mock1 = mock(Object.class);
+    private final Object mock2 = mock(Object.class);
+    private final Object[] singleMock = {mock1};
+    private final Object[] twoMocks = {mock1, mock2};
+    private final Object[] threeMocksInCircleChain = {mock1, mock2, mock1};
 
-    private MockCoachRunnable when1 = mock(MockCoachRunnable.class);
-    private MockCoachRunnable when2 = mock(MockCoachRunnable.class);
-    private MockCoachRunnable when3 = mock(MockCoachRunnable.class);
-    private MockCoachRunnable[] singleWhen = {when1};
-    private MockCoachRunnable[] twoWhens = {when1, when2};
-    private MockCoachRunnable[] threeWhens = {when1, when2, when3};
+    private final MockCoachRunnable when1 = mock(MockCoachRunnable.class);
+    private final MockCoachRunnable when2 = mock(MockCoachRunnable.class);
+    private final MockCoachRunnable when3 = mock(MockCoachRunnable.class);
+    private final MockCoachRunnable[] singleWhen = {when1};
+    private final MockCoachRunnable[] twoWhens = {when1, when2};
+    private final MockCoachRunnable[] threeWhens = {when1, when2, when3};
 
-    private MockCoachRunnable verify1 = mock(MockCoachRunnable.class);
-    private MockCoachRunnable verify2 = mock(MockCoachRunnable.class);
-    private MockCoachRunnable verify3 = mock(MockCoachRunnable.class);
-    private MockCoachRunnable[] singleVerify = {verify1};
-    private MockCoachRunnable[] twoVerifies = {verify1, verify2};
-    private MockCoachRunnable[] threeVerifies = {verify1, verify2, verify3};
+    private final MockCoachRunnable verify1 = mock(MockCoachRunnable.class);
+    private final MockCoachRunnable verify2 = mock(MockCoachRunnable.class);
+    private final MockCoachRunnable verify3 = mock(MockCoachRunnable.class);
+    private final MockCoachRunnable[] singleVerify = {verify1};
+    private final MockCoachRunnable[] twoVerifies = {verify1, verify2};
+    private final MockCoachRunnable[] threeVerifies = {verify1, verify2, verify3};
 
     enum MockEnum {
         SECOND
     }
 
-    private MockCoach mockCoachSingleMock = new MockCoach(singleMock, singleWhen, singleVerify);
-    private MockCoach mockCoachTwoMocks = new MockCoach(twoMocks, twoWhens, twoVerifies);
-    private MockCoach mockCoachThreeMocksInCircleChain = new MockCoach(threeMocksInCircleChain, threeWhens, threeVerifies);
+    private final MockCoach mockCoachSingleMock = new MockCoach(singleMock, singleWhen, singleVerify);
+    private final MockCoach mockCoachTwoMocks = new MockCoach(twoMocks, twoWhens, twoVerifies);
+    private final MockCoach mockCoachThreeMocksInCircleChain = new MockCoach(threeMocksInCircleChain, threeWhens, threeVerifies);
 
     @Nested
     class Constructor {
@@ -219,9 +219,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.whenBefore(mock1);
-                    }
+                    () -> mockCoachThreeMocksInCircleChain.whenBefore(mock1)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -238,9 +236,7 @@ class MockCoachTest {
 
             IllegalArgumentException actualException = assertThrows(
                     IllegalArgumentException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.whenBefore(mockNotInMocks);
-                    }
+                    () -> mockCoachThreeMocksInCircleChain.whenBefore(mockNotInMocks)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -258,9 +254,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.whenBefore(mock2);
-                    }
+                    () -> mockCoachThreeMocksInCircleChain.whenBefore(mock2)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -297,9 +291,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> {
-                        mockCoachTwoMocks.whenBeforeFirst();
-                    }
+                    mockCoachTwoMocks::whenBeforeFirst
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -335,9 +327,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> {
-                        mockCoachTwoMocks.whenBeforeLast();
-                    }
+                    mockCoachTwoMocks::whenBeforeLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -354,9 +344,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.whenBeforeLast();
-                    }
+                    mockCoachThreeMocksInCircleChain::whenBeforeLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -403,9 +391,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.whenEverything();
-                    }
+                    mockCoachThreeMocksInCircleChain::whenEverything
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -450,9 +436,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verifyBefore(mock1);
-                    }
+                    () -> mockCoachThreeMocksInCircleChain.verifyBefore(mock1)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -469,9 +453,7 @@ class MockCoachTest {
 
             IllegalArgumentException actualException = assertThrows(
                     IllegalArgumentException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verifyBefore(mockNotInMocks);
-                    }
+                    () -> mockCoachThreeMocksInCircleChain.verifyBefore(mockNotInMocks)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -489,9 +471,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verifyBefore(mock2);
-                    }
+                    () -> mockCoachThreeMocksInCircleChain.verifyBefore(mock2)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -536,9 +516,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verify(mock1);
-                    }
+                    () -> mockCoachThreeMocksInCircleChain.verify(mock1)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -555,9 +533,7 @@ class MockCoachTest {
 
             IllegalArgumentException actualException = assertThrows(
                     IllegalArgumentException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verify(mockNotInMocks);
-                    }
+                    () -> mockCoachThreeMocksInCircleChain.verify(mockNotInMocks)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -575,9 +551,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verify(mock2);
-                    }
+                    () -> mockCoachThreeMocksInCircleChain.verify(mock2)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -614,9 +588,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> {
-                        mockCoachTwoMocks.verifyBeforeFirst();
-                    }
+                    mockCoachTwoMocks::verifyBeforeFirst
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -652,9 +624,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> {
-                        mockCoachTwoMocks.verifyBeforeLast();
-                    }
+                    mockCoachTwoMocks::verifyBeforeLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -671,9 +641,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verifyBeforeLast();
-                    }
+                    mockCoachThreeMocksInCircleChain::verifyBeforeLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -710,9 +678,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> {
-                        mockCoachTwoMocks.verifyFirst();
-                    }
+                    mockCoachTwoMocks::verifyFirst
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -729,9 +695,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verifyFirst();
-                    }
+                    mockCoachThreeMocksInCircleChain::verifyFirst
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -768,9 +732,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> {
-                        mockCoachTwoMocks.verifyLast();
-                    }
+                    mockCoachTwoMocks::verifyLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -787,9 +749,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verifyLast();
-                    }
+                    mockCoachThreeMocksInCircleChain::verifyLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -836,9 +796,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> {
-                        mockCoachThreeMocksInCircleChain.verifyEverything();
-                    }
+                    mockCoachThreeMocksInCircleChain::verifyEverything
             );
 
             assertEquals(expectedMessage, actualException.getMessage());

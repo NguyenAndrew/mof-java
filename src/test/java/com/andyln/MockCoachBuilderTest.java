@@ -1,10 +1,9 @@
 package com.andyln;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class MockCoachBuilderTest {
@@ -56,11 +55,11 @@ class MockCoachBuilderTest {
      * );
      *
      */
-    private MockCoachBuilder exampleMock = mock(MockCoachBuilder.class);
+    private final MockCoachBuilder exampleMock = mock(MockCoachBuilder.class);
 
-    private Object[] mocks = { exampleMock };
+    private final Object[] mocks = { exampleMock };
 
-    private MockCoachRunnable[] whens = {
+    private final MockCoachRunnable[] whens = {
             () -> {
                 when(exampleMock.mock(any(Object.class))).thenReturn(exampleMock);
                 when(exampleMock.when(any(MockCoachRunnable.class))).thenReturn(exampleMock);
@@ -68,7 +67,7 @@ class MockCoachBuilderTest {
             }
     };
 
-    private MockCoachRunnable[] verifies = {
+    private final MockCoachRunnable[] verifies = {
             () -> {
                 verify(exampleMock, times(1)).mock(any(Object.class));
                 verify(exampleMock, times(1)).when(any(MockCoachRunnable.class));
@@ -77,7 +76,7 @@ class MockCoachBuilderTest {
     };
     /* END - of example*/
 
-    private MockCoachBuilder mockCoachBuilder = new MockCoachBuilder();
+    private final MockCoachBuilder mockCoachBuilder = new MockCoachBuilder();
 
     @Test
     void mock_ReturnsSameBuilder_success() {
