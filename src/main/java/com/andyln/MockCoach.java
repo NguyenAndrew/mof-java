@@ -21,7 +21,7 @@ public class MockCoach {
     /**
      * super() for subclass
      */
-    MockCoach() {}
+    protected MockCoach() {}
 
     /**
      * Constructs a MockCoach. May have better experience constructing MockCoach using {@link MockCoachBuilder},
