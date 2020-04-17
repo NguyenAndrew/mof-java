@@ -1,12 +1,13 @@
 package com.andyln;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MockCoachLegacy extends MockCoach {
     private Object[] mocks;
-    private MockCoachRunnable[] whens;
-    private MockCoachRunnable[] verifies;
+    private MockCoachRunnable[] whenRunnables;
+    private MockCoachRunnable[] verifyRunnables;
 
     private Map<Object, Integer> mockMap;
 
@@ -28,16 +29,16 @@ public class MockCoachLegacy extends MockCoach {
      * It is recommended to use MockCoach, whenever possible, to avoid having to manage a list of "mocks",
      * and to enforce a Service Dipath Chain within your methods.
      *
-     * @param mocks    These mocks are supposed to be any object that are injected or autowired into an object under test, but LegacyMockCoach
-     *                 can use these to represent any place in the codebase.
-     * @param whens    Whens is an array of runnables, where each runnable may contain multiple when statements.
+     * @param whenRunnables    Whens is an array of runnables, where each runnable may contain multiple when statements.
      *                 Example of a single when: {@code
      *                 () -> &#123;
      *                 when(mock.method()).thenReturn(someValue);
      *                 when(mock.anotherMethod()).thenReturn(anotherValue);
      *                 &#125;
      *                 }
-     * @param verifies Verifies is an array of runnables, where each runnable may contain multiple verify statements.
+     * @param mocks    These mocks are supposed to be any object that are injected or autowired into an object under test, but LegacyMockCoach
+     *                 can use these to represent any place in the codebase.
+     * @param verifyRunnables Verifies is an array of runnables, where each runnable may contain multiple verify statements.
      *                 Example of a single verify: {@code
      *                 () -> &#123;
      *                 verify(mock, times(1)).method();
@@ -47,16 +48,16 @@ public class MockCoachLegacy extends MockCoach {
      * @throws IllegalArgumentException Prevents calling constructor with any mocks/whens/verifies that are empty, not the same length, or not permitted type.
      * @see MockCoachLegacyBuilder#MockCoachLegacyBuilder()
      */
-    public MockCoachLegacy(Object[] mocks, MockCoachRunnable[] whens, MockCoachRunnable[] verifies) {
+    public MockCoachLegacy(Object[] mocks, MockCoachRunnable[] whenRunnables, MockCoachRunnable[] verifyRunnables) {
         if (mocks == null) {
             throw new IllegalArgumentException("mocks/whens/verifies cannot be null!");
         }
 
-        if (mocks.length != whens.length) {
+        if (mocks.length != whenRunnables.length) {
             throw new IllegalArgumentException("whens length does not match mocks length!");
         }
 
-        if (mocks.length != verifies.length) {
+        if (mocks.length != verifyRunnables.length) {
             throw new IllegalArgumentException("verifies length does not match mocks length!");
         }
 
@@ -72,8 +73,8 @@ public class MockCoachLegacy extends MockCoach {
             // Only contains single mock in mocks
             mockMap.put(mocks[0], 0);
             this.mocks = mocks;
-            this.whens = whens;
-            this.verifies = verifies;
+            this.whenRunnables = whenRunnables;
+            this.verifyRunnables = verifyRunnables;
             return;
         }
 
@@ -93,8 +94,59 @@ public class MockCoachLegacy extends MockCoach {
         }
 
         this.mocks = mocks;
-        this.whens = whens;
-        this.verifies = verifies;
+        this.whenRunnables = whenRunnables;
+        this.verifyRunnables = verifyRunnables;
+    }
+
+    public MockCoachLegacy(Whens whens, Verifies verifies) {
+        if (whens == null) {
+            throw new IllegalArgumentException("Whens cannot be null!");
+        }
+
+        if (verifies == null) {
+            throw new IllegalArgumentException("Verifies cannot be null!");
+        }
+
+        List<Object> mockList = whens.getMocks();
+        if (!mockList.equals(verifies.getMocks())) {
+            throw new IllegalArgumentException("Whens and Verifies must use the same mocks in the same order! Please check the passed in Whens and Verifies objects.");
+        }
+
+        Object[] mocks = mockList.toArray(new Object[0]);
+        MockCoachRunnable[] whenRunnables = whens.getRunnables().toArray(new MockCoachRunnable[0]);
+        MockCoachRunnable[] verifyRunnables = verifies.getRunnables().toArray(new MockCoachRunnable[0]);
+
+        mockMap = new HashMap<>();
+
+        containsMoreThanOneMock = mocks.length > 1;
+
+        if (!containsMoreThanOneMock) {
+            // Only contains single mock in mocks
+            mockMap.put(mocks[0], 0);
+            this.mocks = mocks;
+            this.whenRunnables = whenRunnables;
+            this.verifyRunnables = verifyRunnables;
+            return;
+        }
+
+        isMocksInCircleChain = mocks[0] == mocks[mocks.length - 1];
+
+        int lengthOfMocksToCheck = isMocksInCircleChain ? mocks.length - 1 : mocks.length;
+        for (int i = 0; i < lengthOfMocksToCheck; i++) {
+            if (mocks[i] == null) {
+                throw new IllegalArgumentException(String.format("mocks[%d] cannot be null!", i));
+            }
+
+            Object potentiallyDuplicateMock = mockMap.put(mocks[i], i);
+            boolean isDuplicateMock = potentiallyDuplicateMock != null;
+            if (isDuplicateMock) {
+                throw new IllegalArgumentException(String.format("mocks[%d] cannot be the same as a previous mock in mocks!", i));
+            }
+        }
+
+        this.mocks = mocks;
+        this.whenRunnables = whenRunnables;
+        this.verifyRunnables = verifyRunnables;
     }
 
     /**
@@ -122,7 +174,7 @@ public class MockCoachLegacy extends MockCoach {
 
         for (int i = 0; i < indexOfMock; i++) {
             try {
-                whens[i].run();
+                whenRunnables[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("whens[%d] throws an exception! Please check your whens.", i), e);
             }
@@ -162,7 +214,7 @@ public class MockCoachLegacy extends MockCoach {
         int indexOfLastMock = this.mocks.length - 1;
         for (int i = 0; i < indexOfLastMock; i++) {
             try {
-                whens[i].run();
+                whenRunnables[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("whens[%d] throws an exception! Please check your whens.", i), e);
             }
@@ -176,7 +228,7 @@ public class MockCoachLegacy extends MockCoach {
     public void whenEverything() {
         for (int i = 0; i < this.mocks.length; i++) {
             try {
-                whens[i].run();
+                whenRunnables[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("whens[%d] throws an exception! Please check your whens.", i), e);
             }
@@ -208,7 +260,7 @@ public class MockCoachLegacy extends MockCoach {
 
         for (int i = 0; i < indexOfMock; i++) {
             try {
-                verifies[i].run();
+                verifyRunnables[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
             }
@@ -240,7 +292,7 @@ public class MockCoachLegacy extends MockCoach {
 
         for (int i = 0; i <= indexOfMock; i++) {
             try {
-                verifies[i].run();
+                verifyRunnables[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
             }
@@ -279,7 +331,7 @@ public class MockCoachLegacy extends MockCoach {
 
         for (int i = 0; i < this.mocks.length - 1; i++) {
             try {
-                verifies[i].run();
+                verifyRunnables[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
             }
@@ -301,7 +353,7 @@ public class MockCoachLegacy extends MockCoach {
         }
 
         try {
-            verifies[0].run();
+            verifyRunnables[0].run();
         } catch (Exception e) {
             throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", 0), e);
         }
@@ -331,7 +383,7 @@ public class MockCoachLegacy extends MockCoach {
     public void verifyEverything() {
         for (int i = 0; i < this.mocks.length; i++) {
             try {
-                verifies[i].run();
+                verifyRunnables[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
             }
