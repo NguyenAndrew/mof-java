@@ -899,7 +899,7 @@ public class MockCoachLegacy extends MockCoach {
      * Runs all whens.
      */
     @Override
-    public void whenEverything() {
+    public void whenAll() {
         for (int i = 0; i < this.mocks.length; i++) {
             try {
                 whenRunnables[i].run();
@@ -1047,14 +1047,14 @@ public class MockCoachLegacy extends MockCoach {
             throw new IllegalStateException("Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)");
         }
 
-        this.verifyEverything();
+        this.verifyAll();
     }
 
     /**
      * Runs all verifies.
      */
     @Override
-    public void verifyEverything() {
+    public void verifyAll() {
         for (int i = 0; i < this.mocks.length; i++) {
             try {
                 verifyRunnables[i].run();

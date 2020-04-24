@@ -340,11 +340,11 @@ class MockCoachLegacyTest {
     }
 
     @Nested
-    class WhenEverything {
+    class WhenAll {
 
         @Test
         void success() throws Exception {
-            mockCoachLegacyTwoMocks.whenEverything();
+            mockCoachLegacyTwoMocks.whenAll();
 
             verify(when1, times(1)).run();
             verify(when2, times(1)).run();
@@ -352,7 +352,7 @@ class MockCoachLegacyTest {
 
         @Test
         void whenThreeMocksInCircleChain_Thensuccess() throws Exception {
-            mockCoachLegacyThreeMocksInCircleChain.whenEverything();
+            mockCoachLegacyThreeMocksInCircleChain.whenAll();
 
             verify(when1, times(1)).run();
             verify(when2, times(1)).run();
@@ -361,20 +361,20 @@ class MockCoachLegacyTest {
 
         @Test
         void whenSingleMockInMocks_ThenSuccess() throws Exception {
-            mockCoachLegacySingleMock.whenEverything();
+            mockCoachLegacySingleMock.whenAll();
 
             verify(when1, times(1)).run();
         }
 
         @Test
-        void whenWhenEverything_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+        void whenWhenAll_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
             String expectedMessage = "w1 throws an exception! Please check your whens.";
 
             doThrow(new Exception()).when(when1).run();
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    mockCoachLegacyThreeMocksInCircleChain::whenEverything
+                    mockCoachLegacyThreeMocksInCircleChain::whenAll
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -745,11 +745,11 @@ class MockCoachLegacyTest {
     }
 
     @Nested
-    class VerifyEverything {
+    class VerifyAll {
 
         @Test
         void success() throws Exception {
-            mockCoachLegacyTwoMocks.verifyEverything();
+            mockCoachLegacyTwoMocks.verifyAll();
 
             verify(verify1, times(1)).run();
             verify(verify2, times(1)).run();
@@ -757,7 +757,7 @@ class MockCoachLegacyTest {
 
         @Test
         void whenThreeMocksInCircleChain_Thensuccess() throws Exception {
-            mockCoachLegacyThreeMocksInCircleChain.verifyEverything();
+            mockCoachLegacyThreeMocksInCircleChain.verifyAll();
 
             verify(verify1, times(1)).run();
             verify(verify2, times(1)).run();
@@ -766,20 +766,20 @@ class MockCoachLegacyTest {
 
         @Test
         void whenSingleMockInMocks_ThenSuccess() throws Exception {
-            mockCoachLegacySingleMock.verifyEverything();
+            mockCoachLegacySingleMock.verifyAll();
 
             verify(verify1, times(1)).run();
         }
 
         @Test
-        void whenVerifyEverything_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+        void whenVerifyAll_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
             String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    mockCoachLegacyThreeMocksInCircleChain::verifyEverything
+                    mockCoachLegacyThreeMocksInCircleChain::verifyAll
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
