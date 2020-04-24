@@ -80,8 +80,6 @@ This library is on Maven Central: https://search.maven.org/artifact/com.andyln/m
 
 ### Creating MockCoach
 
-Mock Coach
-
 ```
 private AdditionService additionService = mock(AdditionService.class);
 private MultiplicationService multiplicationService = mock(MultiplicationService.class);
@@ -124,8 +122,6 @@ MockCoach mockCoach = new MockCoach() {
 
 ### Unit Testing - Success Case
 
-Success Case
-
 ```
     @Test
     public void givenAnInput_whenCalculatorCalculates_thenWeExpectAnOutput() throws Exception {
@@ -147,8 +143,6 @@ Success Case
 ```
 
 ### Unit Testing - Exception and Other Cases
-
-Exception Case
 
 ```
     @Test
