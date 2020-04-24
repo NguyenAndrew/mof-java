@@ -60,9 +60,13 @@ class MockCoachTest {
         void whenMocksIsNull_ThenThrowIllegalArgumentException() {
             String expectedMessage = "mocks/whens/verifies cannot be null!";
 
+            Object[] mocks = null;
+            MockCoachRunnable[] whens = null;
+            MockCoachRunnable[] verifies = null;
+
             IllegalArgumentException actualException = assertThrows(
                     IllegalArgumentException.class,
-                    () -> new MockCoach(null, null, null)
+                    () -> new MockCoach(mocks, whens, verifies)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -806,7 +810,813 @@ class MockCoachTest {
             verify(verify2, times(0)).run();
             verify(verify3, times(0)).run();
         }
+    }
+
+    @Nested
+    public class DefaultEmptyConstructor {
+        @Test
+        void success() {
+            new MockCoach();
+        }
+    }
+
+    @Nested
+    public class OverloadedConstructors {
+        // List of Mocks
+        Object m1 = mock(Object.class);
+        Object m2 = mock(Object.class);
+        Object m3 = mock(Object.class);
+        Object m4 = mock(Object.class);
+        Object m5 = mock(Object.class);
+        Object m6 = mock(Object.class);
+        Object m7 = mock(Object.class);
+        Object m8 = mock(Object.class);
+        Object m9 = mock(Object.class);
+        Object m10 = mock(Object.class);
+        Object m11 = mock(Object.class);
+        Object m12 = mock(Object.class);
+        Object m13 = mock(Object.class);
+        Object m14 = mock(Object.class);
+        Object m15 = mock(Object.class);
+        Object m16 = mock(Object.class);
+
+        @Test
+        void OneMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void TwoMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void ThreeMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void FourMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void FiveMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void SixMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void SevenMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void EightMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m8,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void NineMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m8,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m9,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void TenMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m8,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m9,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m10,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void ElevenMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m8,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m9,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m10,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m11,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void TwelveMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m8,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m9,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m10,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m11,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m12,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void ThirteenMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m8,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m9,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m10,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m11,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m12,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m13,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void FourteenMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m8,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m9,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m10,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m11,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m12,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m13,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m14,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void FifteenMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m8,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m9,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m10,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m11,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m12,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m13,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m14,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m15,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
+
+        @Test
+        void SixteenMock_Success() {
+            new MockCoach(
+                    m1,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m2,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m3,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m4,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m5,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m6,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m7,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m8,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m9,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m10,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m11,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m12,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m13,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m14,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m15,
+                    () -> {
+                    },
+                    () -> {
+                    },
+                    m16,
+                    () -> {
+                    },
+                    () -> {
+                    }
+            );
+        }
 
     }
+
 
 }

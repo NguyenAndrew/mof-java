@@ -24,27 +24,8 @@ public class MockCoach {
     protected MockCoach() {
     }
 
-    /**
-     * Constructs a MockCoach.
-     *
-     * @param mocks           These mocks are any object that are injected or autowired into an object under test.
-     * @param whenRunnables   Whens is an array of runnables, where each runnable may contain multiple when statements.
-     *                        Example of a single runnable: {@code
-     *                        () -> &#123;
-     *                            when(mock.method()).thenReturn(someValue);
-     *                            when(mock.anotherMethod()).thenReturn(anotherValue);
-     *                        &#125;
-     *                        }
-     * @param verifyRunnables Verifies is an array of runnables, where each runnable may contain multiple verify statements.
-     *                        Example of a single runnable: {@code
-     *                        () -> &#123;
-     *                           verify(mock, times(1)).method();
-     *                           verify(mock, times(1)).anotherMethod());
-     *                        &#125;
-     *                        }
-     * @throws IllegalArgumentException Prevents calling constructor with any mocks/whens/verifies that are empty, not the same length, or not permitted type.
-     */
-    public MockCoach(Object[] mocks, MockCoachRunnable[] whenRunnables, MockCoachRunnable[] verifyRunnables) {
+    // Shared private constructor
+    private void setupMockCoach(Object[] mocks, MockCoachRunnable[] whenRunnables, MockCoachRunnable[] verifyRunnables) {
         if (mocks == null) {
             throw new IllegalArgumentException("mocks/whens/verifies cannot be null!");
         }
@@ -65,18 +46,9 @@ public class MockCoach {
 
         containsMoreThanOneMock = mocks.length > 1;
 
-        if (!containsMoreThanOneMock) {
-            // Only contains single mock in mocks
-            mockMap.put(mocks[0], 0);
-            this.mocks = mocks;
-            this.whenRunnables = whenRunnables;
-            this.verifyRunnables = verifyRunnables;
-            return;
-        }
-
         isMocksInCircleChain = mocks[0] == mocks[mocks.length - 1];
 
-        int lengthOfMocksToCheck = isMocksInCircleChain ? mocks.length - 1 : mocks.length;
+        int lengthOfMocksToCheck = isMocksInCircleChain && containsMoreThanOneMock ? mocks.length - 1 : mocks.length;
         for (int i = 0; i < lengthOfMocksToCheck; i++) {
             if (mocks[i] == null) {
                 throw new IllegalArgumentException(String.format("mocks[%d] cannot be null!", i));
@@ -108,6 +80,754 @@ public class MockCoach {
         this.mocks = mocks;
         this.whenRunnables = whenRunnables;
         this.verifyRunnables = verifyRunnables;
+    }
+
+    /**
+     * A MockCoach.
+     *
+     * @param mocks           Array of Mocks injected or autowired into an object-under-test.
+     * @param whenRunnables   Array of Java lambdas containing "when(...)" statements
+     * @param verifyRunnables Array of JAva lambdas containing "verify(...) statements
+     * @throws IllegalArgumentException Prevents calling constructor with any mocks/whens/verifies that are empty, not the same length, or not permitted type.
+     */
+    MockCoach(Object[] mocks, MockCoachRunnable[] whenRunnables, MockCoachRunnable[] verifyRunnables) {
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * One Mock, MockCoach.
+     *
+     * @param m1 Mock One
+     * @param w1 When Lambda One
+     * @param v1 Verify Lambda One
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1
+    ) {
+        Object[] mocks = {m1};
+        MockCoachRunnable[] whenRunnables = {w1};
+        MockCoachRunnable[] verifyRunnables = {v1};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Two Mocks, Mock Coach.
+     *
+     * @param m1 Mock One
+     * @param w1 When One
+     * @param v1 Verify One
+     * @param m2 Mock Two
+     * @param w2 When Two
+     * @param v2 Verify Two
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2
+    ) {
+        Object[] mocks = {m1, m2};
+        MockCoachRunnable[] whenRunnables = {w1, w2};
+        MockCoachRunnable[] verifyRunnables = {v1, v2};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Three Mocks, Mock Coach.
+     *
+     * @param m1 Mock One
+     * @param w1 When One
+     * @param v1 Verify One
+     * @param m2 Mock Two
+     * @param w2 When Two
+     * @param v2 Verify Two
+     * @param m3 Mock Three
+     * @param w3 When Three
+     * @param v3 Verify Three
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3
+    ) {
+        Object[] mocks = {m1, m2, m3};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Four Mocks, Mock Coach.
+     *
+     * @param m1 Mock One
+     * @param w1 When One
+     * @param v1 Verify One
+     * @param m2 Mock Two
+     * @param w2 When Two
+     * @param v2 Verify Two
+     * @param m3 Mock Three
+     * @param w3 When Three
+     * @param v3 Verify Three
+     * @param m4 Mock Four
+     * @param w4 When Four
+     * @param v4 Verify Four
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4
+    ) {
+        Object[] mocks = {m1, m2, m3, m4};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Five Mocks, Mock Coach.
+     *
+     * @param m1 Mock One
+     * @param w1 When One
+     * @param v1 Verify One
+     * @param m2 Mock Two
+     * @param w2 When Two
+     * @param v2 Verify Two
+     * @param m3 Mock Three
+     * @param w3 When Three
+     * @param v3 Verify Three
+     * @param m4 Mock Four
+     * @param w4 When Four
+     * @param v4 Verify Four
+     * @param m5 Mock Five
+     * @param w5 When Five
+     * @param v5 Verify Five
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Six Mocks, Mock Coach.
+     *
+     * @param m1 Mock One
+     * @param w1 When One
+     * @param v1 Verify One
+     * @param m2 Mock Two
+     * @param w2 When Two
+     * @param v2 Verify Two
+     * @param m3 Mock Three
+     * @param w3 When Three
+     * @param v3 Verify Three
+     * @param m4 Mock Four
+     * @param w4 When Four
+     * @param v4 Verify Four
+     * @param m5 Mock Five
+     * @param w5 When Five
+     * @param v5 Verify Five
+     * @param m6 Mock Six
+     * @param w6 When Six
+     * @param v6 Verify Six
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Seven Mocks, Mock Coach.
+     *
+     * @param m1 Mock One
+     * @param w1 When One
+     * @param v1 Verify One
+     * @param m2 Mock Two
+     * @param w2 When Two
+     * @param v2 Verify Two
+     * @param m3 Mock Three
+     * @param w3 When Three
+     * @param v3 Verify Three
+     * @param m4 Mock Four
+     * @param w4 When Four
+     * @param v4 Verify Four
+     * @param m5 Mock Five
+     * @param w5 When Five
+     * @param v5 Verify Five
+     * @param m6 Mock Six
+     * @param w6 When Six
+     * @param v6 Verify Six
+     * @param m7 Mock Seven
+     * @param w7 When Seven
+     * @param v7 Verify Seven
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Eight Mocks, Mock Coach.
+     *
+     * @param m1 Mock One
+     * @param w1 When One
+     * @param v1 Verify One
+     * @param m2 Mock Two
+     * @param w2 When Two
+     * @param v2 Verify Two
+     * @param m3 Mock Three
+     * @param w3 When Three
+     * @param v3 Verify Three
+     * @param m4 Mock Four
+     * @param w4 When Four
+     * @param v4 Verify Four
+     * @param m5 Mock Five
+     * @param w5 When Five
+     * @param v5 Verify Five
+     * @param m6 Mock Six
+     * @param w6 When Six
+     * @param v6 Verify Six
+     * @param m7 Mock Seven
+     * @param w7 When Seven
+     * @param v7 Verify Seven
+     * @param m8 Mock Eight
+     * @param w8 When Eight
+     * @param v8 Verify Eight
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7,
+            Object m8, MockCoachRunnable w8, MockCoachRunnable v8
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7, w8};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Nine Mocks, Mock Coach.
+     *
+     * @param m1 Mock One
+     * @param w1 When One
+     * @param v1 Verify One
+     * @param m2 Mock Two
+     * @param w2 When Two
+     * @param v2 Verify Two
+     * @param m3 Mock Three
+     * @param w3 When Three
+     * @param v3 Verify Three
+     * @param m4 Mock Four
+     * @param w4 When Four
+     * @param v4 Verify Four
+     * @param m5 Mock Five
+     * @param w5 When Five
+     * @param v5 Verify Five
+     * @param m6 Mock Six
+     * @param w6 When Six
+     * @param v6 Verify Six
+     * @param m7 Mock Seven
+     * @param w7 When Seven
+     * @param v7 Verify Seven
+     * @param m8 Mock Eight
+     * @param w8 When Eight
+     * @param v8 Verify Eight
+     * @param m9 Mock Nine
+     * @param w9 When Nine
+     * @param v9 Verify Nine
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7,
+            Object m8, MockCoachRunnable w8, MockCoachRunnable v8,
+            Object m9, MockCoachRunnable w9, MockCoachRunnable v9
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8, m9};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7, w8, w9};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8, v9};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Ten Mocks, Mock Coach.
+     *
+     * @param m1  Mock One
+     * @param w1  When One
+     * @param v1  Verify One
+     * @param m2  Mock Two
+     * @param w2  When Two
+     * @param v2  Verify Two
+     * @param m3  Mock Three
+     * @param w3  When Three
+     * @param v3  Verify Three
+     * @param m4  Mock Four
+     * @param w4  When Four
+     * @param v4  Verify Four
+     * @param m5  Mock Five
+     * @param w5  When Five
+     * @param v5  Verify Five
+     * @param m6  Mock Six
+     * @param w6  When Six
+     * @param v6  Verify Six
+     * @param m7  Mock Seven
+     * @param w7  When Seven
+     * @param v7  Verify Seven
+     * @param m8  Mock Eight
+     * @param w8  When Eight
+     * @param v8  Verify Eight
+     * @param m9  Mock Nine
+     * @param w9  When Nine
+     * @param v9  Verify Nine
+     * @param m10 Mock Ten
+     * @param w10 When Ten
+     * @param v10 Verify Ten
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7,
+            Object m8, MockCoachRunnable w8, MockCoachRunnable v8,
+            Object m9, MockCoachRunnable w9, MockCoachRunnable v9,
+            Object m10, MockCoachRunnable w10, MockCoachRunnable v10
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8, m9, m10};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7, w8, w9, w10};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Eleven Mocks, Mock Coach.
+     *
+     * @param m1  Mock One
+     * @param w1  When One
+     * @param v1  Verify One
+     * @param m2  Mock Two
+     * @param w2  When Two
+     * @param v2  Verify Two
+     * @param m3  Mock Three
+     * @param w3  When Three
+     * @param v3  Verify Three
+     * @param m4  Mock Four
+     * @param w4  When Four
+     * @param v4  Verify Four
+     * @param m5  Mock Five
+     * @param w5  When Five
+     * @param v5  Verify Five
+     * @param m6  Mock Six
+     * @param w6  When Six
+     * @param v6  Verify Six
+     * @param m7  Mock Seven
+     * @param w7  When Seven
+     * @param v7  Verify Seven
+     * @param m8  Mock Eight
+     * @param w8  When Eight
+     * @param v8  Verify Eight
+     * @param m9  Mock Nine
+     * @param w9  When Nine
+     * @param v9  Verify Nine
+     * @param m10 Mock Ten
+     * @param w10 When Ten
+     * @param v10 Verify Ten
+     * @param m11 Mock Eleven
+     * @param w11 When Eleven
+     * @param v11 Verify Eleven
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7,
+            Object m8, MockCoachRunnable w8, MockCoachRunnable v8,
+            Object m9, MockCoachRunnable w9, MockCoachRunnable v9,
+            Object m10, MockCoachRunnable w10, MockCoachRunnable v10,
+            Object m11, MockCoachRunnable w11, MockCoachRunnable v11
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Twelve Mocks, Mock Coach.
+     *
+     * @param m1  Mock One
+     * @param w1  When One
+     * @param v1  Verify One
+     * @param m2  Mock Two
+     * @param w2  When Two
+     * @param v2  Verify Two
+     * @param m3  Mock Three
+     * @param w3  When Three
+     * @param v3  Verify Three
+     * @param m4  Mock Four
+     * @param w4  When Four
+     * @param v4  Verify Four
+     * @param m5  Mock Five
+     * @param w5  When Five
+     * @param v5  Verify Five
+     * @param m6  Mock Six
+     * @param w6  When Six
+     * @param v6  Verify Six
+     * @param m7  Mock Seven
+     * @param w7  When Seven
+     * @param v7  Verify Seven
+     * @param m8  Mock Eight
+     * @param w8  When Eight
+     * @param v8  Verify Eight
+     * @param m9  Mock Nine
+     * @param w9  When Nine
+     * @param v9  Verify Nine
+     * @param m10 Mock Ten
+     * @param w10 When Ten
+     * @param v10 Verify Ten
+     * @param m11 Mock Eleven
+     * @param w11 When Eleven
+     * @param v11 Verify Eleven
+     * @param m12 Mock Twelve
+     * @param w12 When Twelve
+     * @param v12 Verify Twelve
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7,
+            Object m8, MockCoachRunnable w8, MockCoachRunnable v8,
+            Object m9, MockCoachRunnable w9, MockCoachRunnable v9,
+            Object m10, MockCoachRunnable w10, MockCoachRunnable v10,
+            Object m11, MockCoachRunnable w11, MockCoachRunnable v11,
+            Object m12, MockCoachRunnable w12, MockCoachRunnable v12
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Thirteen Mocks, Mock Coach.
+     *
+     * @param m1  Mock One
+     * @param w1  When One
+     * @param v1  Verify One
+     * @param m2  Mock Two
+     * @param w2  When Two
+     * @param v2  Verify Two
+     * @param m3  Mock Three
+     * @param w3  When Three
+     * @param v3  Verify Three
+     * @param m4  Mock Four
+     * @param w4  When Four
+     * @param v4  Verify Four
+     * @param m5  Mock Five
+     * @param w5  When Five
+     * @param v5  Verify Five
+     * @param m6  Mock Six
+     * @param w6  When Six
+     * @param v6  Verify Six
+     * @param m7  Mock Seven
+     * @param w7  When Seven
+     * @param v7  Verify Seven
+     * @param m8  Mock Eight
+     * @param w8  When Eight
+     * @param v8  Verify Eight
+     * @param m9  Mock Nine
+     * @param w9  When Nine
+     * @param v9  Verify Nine
+     * @param m10 Mock Ten
+     * @param w10 When Ten
+     * @param v10 Verify Ten
+     * @param m11 Mock Eleven
+     * @param w11 When Eleven
+     * @param v11 Verify Eleven
+     * @param m12 Mock Twelve
+     * @param w12 When Twelve
+     * @param v12 Verify Twelve
+     * @param m13 Mock Thirteen
+     * @param w13 When Thirteen
+     * @param v13 Verify Thirteen
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7,
+            Object m8, MockCoachRunnable w8, MockCoachRunnable v8,
+            Object m9, MockCoachRunnable w9, MockCoachRunnable v9,
+            Object m10, MockCoachRunnable w10, MockCoachRunnable v10,
+            Object m11, MockCoachRunnable w11, MockCoachRunnable v11,
+            Object m12, MockCoachRunnable w12, MockCoachRunnable v12,
+            Object m13, MockCoachRunnable w13, MockCoachRunnable v13
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Fifteen Mocks, Mock Coach.
+     *
+     * @param m1  Mock One
+     * @param w1  When One
+     * @param v1  Verify One
+     * @param m2  Mock Two
+     * @param w2  When Two
+     * @param v2  Verify Two
+     * @param m3  Mock Three
+     * @param w3  When Three
+     * @param v3  Verify Three
+     * @param m4  Mock Four
+     * @param w4  When Four
+     * @param v4  Verify Four
+     * @param m5  Mock Five
+     * @param w5  When Five
+     * @param v5  Verify Five
+     * @param m6  Mock Six
+     * @param w6  When Six
+     * @param v6  Verify Six
+     * @param m7  Mock Seven
+     * @param w7  When Seven
+     * @param v7  Verify Seven
+     * @param m8  Mock Eight
+     * @param w8  When Eight
+     * @param v8  Verify Eight
+     * @param m9  Mock Nine
+     * @param w9  When Nine
+     * @param v9  Verify Nine
+     * @param m10 Mock Ten
+     * @param w10 When Ten
+     * @param v10 Verify Ten
+     * @param m11 Mock Eleven
+     * @param w11 When Eleven
+     * @param v11 Verify Eleven
+     * @param m12 Mock Twelve
+     * @param w12 When Twelve
+     * @param v12 Verify Twelve
+     * @param m13 Mock Thirteen
+     * @param w13 When Thirteen
+     * @param v13 Verify Thirteen
+     * @param m14 Mock Fourteen
+     * @param w14 When Fourteen
+     * @param v14 Verify Fourteen
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7,
+            Object m8, MockCoachRunnable w8, MockCoachRunnable v8,
+            Object m9, MockCoachRunnable w9, MockCoachRunnable v9,
+            Object m10, MockCoachRunnable w10, MockCoachRunnable v10,
+            Object m11, MockCoachRunnable w11, MockCoachRunnable v11,
+            Object m12, MockCoachRunnable w12, MockCoachRunnable v12,
+            Object m13, MockCoachRunnable w13, MockCoachRunnable v13,
+            Object m14, MockCoachRunnable w14, MockCoachRunnable v14
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Fifteen Mocks, Mock Coach.
+     *
+     * @param m1  Mock One
+     * @param w1  When One
+     * @param v1  Verify One
+     * @param m2  Mock Two
+     * @param w2  When Two
+     * @param v2  Verify Two
+     * @param m3  Mock Three
+     * @param w3  When Three
+     * @param v3  Verify Three
+     * @param m4  Mock Four
+     * @param w4  When Four
+     * @param v4  Verify Four
+     * @param m5  Mock Five
+     * @param w5  When Five
+     * @param v5  Verify Five
+     * @param m6  Mock Six
+     * @param w6  When Six
+     * @param v6  Verify Six
+     * @param m7  Mock Seven
+     * @param w7  When Seven
+     * @param v7  Verify Seven
+     * @param m8  Mock Eight
+     * @param w8  When Eight
+     * @param v8  Verify Eight
+     * @param m9  Mock Nine
+     * @param w9  When Nine
+     * @param v9  Verify Nine
+     * @param m10 Mock Ten
+     * @param w10 When Ten
+     * @param v10 Verify Ten
+     * @param m11 Mock Eleven
+     * @param w11 When Eleven
+     * @param v11 Verify Eleven
+     * @param m12 Mock Twelve
+     * @param w12 When Twelve
+     * @param v12 Verify Twelve
+     * @param m13 Mock Thirteen
+     * @param w13 When Thirteen
+     * @param v13 Verify Thirteen
+     * @param m14 Mock Fourteen
+     * @param w14 When Fourteen
+     * @param v14 Verify Fourteen
+     * @param m15 Mock Fifteen
+     * @param w15 When Fifteen
+     * @param v15 Verify Fifteen
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7,
+            Object m8, MockCoachRunnable w8, MockCoachRunnable v8,
+            Object m9, MockCoachRunnable w9, MockCoachRunnable v9,
+            Object m10, MockCoachRunnable w10, MockCoachRunnable v10,
+            Object m11, MockCoachRunnable w11, MockCoachRunnable v11,
+            Object m12, MockCoachRunnable w12, MockCoachRunnable v12,
+            Object m13, MockCoachRunnable w13, MockCoachRunnable v13,
+            Object m14, MockCoachRunnable w14, MockCoachRunnable v14,
+            Object m15, MockCoachRunnable w15, MockCoachRunnable v15
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
+    }
+
+    /**
+     * Sixteen Mocks, Mock Coach.
+     *
+     * @param m1  Mock One
+     * @param w1  When One
+     * @param v1  Verify One
+     * @param m2  Mock Two
+     * @param w2  When Two
+     * @param v2  Verify Two
+     * @param m3  Mock Three
+     * @param w3  When Three
+     * @param v3  Verify Three
+     * @param m4  Mock Four
+     * @param w4  When Four
+     * @param v4  Verify Four
+     * @param m5  Mock Five
+     * @param w5  When Five
+     * @param v5  Verify Five
+     * @param m6  Mock Six
+     * @param w6  When Six
+     * @param v6  Verify Six
+     * @param m7  Mock Seven
+     * @param w7  When Seven
+     * @param v7  Verify Seven
+     * @param m8  Mock Eight
+     * @param w8  When Eight
+     * @param v8  Verify Eight
+     * @param m9  Mock Nine
+     * @param w9  When Nine
+     * @param v9  Verify Nine
+     * @param m10 Mock Ten
+     * @param w10 When Ten
+     * @param v10 Verify Ten
+     * @param m11 Mock Eleven
+     * @param w11 When Eleven
+     * @param v11 Verify Eleven
+     * @param m12 Mock Twelve
+     * @param w12 When Twelve
+     * @param v12 Verify Twelve
+     * @param m13 Mock Thirteen
+     * @param w13 When Thirteen
+     * @param v13 Verify Thirteen
+     * @param m14 Mock Fourteen
+     * @param w14 When Fourteen
+     * @param v14 Verify Fourteen
+     * @param m15 Mock Fifteen
+     * @param w15 When Fifteen
+     * @param v15 Verify Fifteen
+     * @param m16 Mock Sixteen
+     * @param w16 When Sixteen
+     * @param v16 Verify Sixteen
+     */
+    public MockCoach(
+            Object m1, MockCoachRunnable w1, MockCoachRunnable v1,
+            Object m2, MockCoachRunnable w2, MockCoachRunnable v2,
+            Object m3, MockCoachRunnable w3, MockCoachRunnable v3,
+            Object m4, MockCoachRunnable w4, MockCoachRunnable v4,
+            Object m5, MockCoachRunnable w5, MockCoachRunnable v5,
+            Object m6, MockCoachRunnable w6, MockCoachRunnable v6,
+            Object m7, MockCoachRunnable w7, MockCoachRunnable v7,
+            Object m8, MockCoachRunnable w8, MockCoachRunnable v8,
+            Object m9, MockCoachRunnable w9, MockCoachRunnable v9,
+            Object m10, MockCoachRunnable w10, MockCoachRunnable v10,
+            Object m11, MockCoachRunnable w11, MockCoachRunnable v11,
+            Object m12, MockCoachRunnable w12, MockCoachRunnable v12,
+            Object m13, MockCoachRunnable w13, MockCoachRunnable v13,
+            Object m14, MockCoachRunnable w14, MockCoachRunnable v14,
+            Object m15, MockCoachRunnable w15, MockCoachRunnable v15,
+            Object m16, MockCoachRunnable w16, MockCoachRunnable v16
+    ) {
+        Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16};
+        MockCoachRunnable[] whenRunnables = {w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15, w16};
+        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16};
+        setupMockCoach(mocks, whenRunnables, verifyRunnables);
     }
 
     /**
