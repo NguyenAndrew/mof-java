@@ -1615,8 +1615,5 @@ class MockCoachTest {
                     }
             );
         }
-
     }
-
-
 }

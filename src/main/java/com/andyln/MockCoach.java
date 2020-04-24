@@ -83,7 +83,7 @@ public class MockCoach {
     }
 
     /**
-     * A MockCoach.
+     * A Mock Coach.
      *
      * @param mocks           Array of Mocks injected or autowired into an object-under-test.
      * @param whenRunnables   Array of Java lambdas containing "when(...)" statements
@@ -615,7 +615,7 @@ public class MockCoach {
     }
 
     /**
-     * Fifteen Mocks, Mock Coach.
+     * Fourteen Mocks, Mock Coach.
      *
      * @param m1  Mock One
      * @param w1  When One
