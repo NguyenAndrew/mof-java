@@ -178,6 +178,10 @@ Q: Should I made one MockCoach per class, or one MockCoach per method under test
 
 A: It depends on your test class. There may be advantages to one approach or the other, depending on what (and how many) unit tests you have.
 
+Q: Shouldn't you have all methods in a class reuse the same predefined mocks and whens?
+
+A: It should. This dependency allows for that use case, and additionally also allows for the case where methods may have different initial mock state depending on which method is called.
+
 Q: Why not create separate whens and verifies objects to construct MockCoach?
 
 A: This separate objected implementation was tested in initial POC, but there were auto-formatting issues with IDEs to construct these objects in a human readable format.
