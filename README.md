@@ -69,7 +69,7 @@ Add the following line to your pom.xml
 <dependency>
   <groupId>com.andyln</groupId>
   <artifactId>mock-coach</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -191,6 +191,8 @@ Q: Why support up 16 injects mocks?
 A: A real world system should have 5 or less mocks constructor-injected or setter-injected. This functionality helps support older code bases.
 
 ## Changelog
+
+2.0.1- Hotfix for MockCoachRunnable to make it public instead of default
 
 2.0.0 - Removal of builders and replace MockCoach constructor with overloaded constructors
 
