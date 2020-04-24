@@ -130,7 +130,7 @@ MockCoach mockCoach = new MockCoach() {
         assertEquals(expected, y);
 
         // Verify
-        mockCoach.verifyEverything();
+        mockCoach.verifyAll();
     }
 ```
 
