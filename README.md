@@ -6,6 +6,8 @@
 
 The Java library implementing the Mock Coach design pattern. Used in tests to reduce complex logic and boilerplate code in overall codebase.
 
+(Install Instructions, Usage, and FAQ below)
+
 **Can reduce hours and days of writing unit tests into minutes!** 
 
 Mock Coach orchestrates all the mocks used within a method, allowing you to only write setup and verification code relevant for each unit test.
@@ -167,6 +169,36 @@ Exception Case
         verifyZeroInteractions(subtractionService);
     }
 ```
+
+## FAQ
+
+Q: Why should I use this dependency instead of making my own private methods to setup mocks?
+
+A: Private methods can help abstract method call over mocks (such as abstracting whens and verifies), but doesn't help coordinate how your tests interacts with these mocks (which can be a major time sink). This library solves this problem.
+
+Q: Won't this dependency create an additional maintance cost on my project?
+
+A: This library is MIT licensed and deployed over Maven Central. The source code is fully available and is fully unit tested to help provide developer confidence. 
+
+Q: Wont this cause confusion with developers that are not familiar on how to use this library?
+
+A: This library helps implement a go-forward testing methodology. While there may be additional costs upfront learning new advancements in unit testing, it will save much time when creating new features to your code. This depedency has been shown to save many hours on business production code.
+
+Q: I don't believe it is a good practice to couple a default set of verifies with whens. Doesn't this seem like an anti-pattern?
+
+A: Your test code is already doing this coupling implicity. This dependency helps make it explicit, and takes advantage of this explicitly defined structure to achieve testing intelligence capabilities.
+
+Q: Should I made one MockCoach per class, or one MockCoach per method under test?
+
+A: It depends on your test class. There may be advantages to one approach or the other, depending on what (and how many) unit tests you have.
+
+Q: Why not create separate whens and verifies objects to construct MockCoach?
+
+A: This separate objected implementation was tested in initial POC, but there were auto-formatting issues with IDEs to construct these objects in a human readable format.
+
+Q: Why support up 16 injects mocks?
+
+A: A real world system should have 5 or less mocks constructor-injected or setter-injected. This functionality helps support older code bases.
 
 ## Changelog
 
