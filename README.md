@@ -67,7 +67,7 @@ Add the following line to your pom.xml
 <dependency>
   <groupId>com.andyln</groupId>
   <artifactId>mock-coach</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -78,7 +78,7 @@ This library is on Maven Central: https://search.maven.org/artifact/com.andyln/m
 
 ### Creating MockCoach
 
-![Mock Coach](docs/images/MockCoach.PNG)
+Mock Coach
 
 ```
 private AdditionService additionService = mock(AdditionService.class);
@@ -88,50 +88,50 @@ private SubMultiService subMultiService = mock(SubMultiService.class);
 
 private Calculator calculator = new Calculator(additionService, multiplicationService, subtractionService, subMultiService);
 
-MockCoach mockCoach = new MockCoachBuilder()
-        .mock(
-                additionService,
-                multiplicationService,
-                subtractionService,
-                subMultiService
-        ).when(
-                (/* Addition Service */) -> {
-                    when(additionService.add(anyInt(), anyInt())).thenReturn(SAMPLE_ADDITION_OUTPUT);
-                },
-                (/* Multiplication Service */) -> {
-                    when(multiplicationService.multiply(anyInt(), anyInt())).thenReturn(SAMPLE_MULTIPLICATION_OUTPUT);
-                },
-                (/* Subtraction Service */) -> {
-                    when(subtractionService.subtract(anyInt(), anyInt())).thenReturn(SAMPLE_SUBTRACTION_OUTPUT);
-                },
-                (/* Sub Multi Service */) -> {
-                    when(subMultiService.subtractThenMultiplyBy2(anyInt(), anyInt())).thenReturn(SAMPLE_SUB_MULTI_OUTPUT);
-                }
-        ).verify(
-                (/* Addition Service */) -> {
-                    verify(additionService, times(1)).add(anyInt(), anyInt());
-                },
-                (/* Multiplication Service */) -> {
-                    verify(multiplicationService, times(1)).multiply(anyInt(), anyInt());
-                },
-                (/* Subtraction Service */) -> {
-                    verifyZeroInteractions(subtractionService);
-                },
-                (/* Sub Multi Service */) -> {
-                    verify(subMultiService, times(1)).subtractThenMultiplyBy2(anyInt(), anyInt());
-                }
-        ).build();
+MockCoach mockCoach = new MockCoach() {
+    additionService,
+    () -> {
+        when(additionService.add(anyInt(), anyInt())).thenReturn(SAMPLE_ADDITION_OUTPUT);
+    },
+    () -> {
+        verify(additionService, times(1)).add(anyInt(), anyInt());
+    }
+    multiplicationService,
+    () -> {
+        when(multiplicationService.multiply(anyInt(), anyInt())).thenReturn(SAMPLE_MULTIPLICATION_OUTPUT);
+    },
+    () -> {
+        verify(multiplicationService, times(1)).multiply(anyInt(), anyInt());
+    }
+    subtractionService,
+    () -> {
+        when(subtractionService.subtract(anyInt(), anyInt())).thenReturn(SAMPLE_SUBTRACTION_OUTPUT);
+    },
+    () -> {
+        verifyZeroInteractions(subtractionService);
+    },
+    subMultiService,
+    () -> {
+        when(subMultiService.subtractThenMultiplyBy2(anyInt(), anyInt())).thenReturn(SAMPLE_SUB_MULTI_OUTPUT);
+    },
+    () -> {
+        verify(subMultiService, times(1)).subtractThenMultiplyBy2(anyInt(), anyInt());
+    }
+};
 ```
 
 ### Unit Testing - Success Case
-![Success Case](docs/images/SuccessCase.PNG)
+
+Success Case
+
 ```
     @Test
     public void givenAnInput_whenCalculatorCalculates_thenWeExpectAnOutput() throws Exception {
         // Given (Setup)
         int expected = SAMPLE_SUB_MULTI_OUTPUT;
         int x = 10;
-        mockCoach.whenEverything();
+        
+        mockCoach.whenAll();
 
         // When (Run the thing that you want to test)
         int y = calculator.calculateY(x);
@@ -145,24 +145,23 @@ MockCoach mockCoach = new MockCoachBuilder()
 ```
 
 ### Unit Testing - Exception and Other Cases
-![Exception Case](docs/images/ExceptionCase.PNG)
+
+Exception Case
+
 ```
     @Test
     public void givenAnInput_whenMultiplicationServiceThrowsAnException_thenCalculatorBubblesThatExceptionUp() throws Exception {
-        // Given (Setup)
         int x = 10;
+        
         mockCoach.whenBefore(multiplicationService);
         when(multiplicationService.multiply(anyInt(), anyInt())).thenThrow(new RuntimeException(SAMPLE_EXCEPTION_MESSAGE));
 
-        try {
-            // When (Run the thing that you want to test)
+        Exception actualException = assertThrows(Exception.class, () -> {
             calculator.calculateY(x);
-            fail("Should have failed");
-        } catch (Exception e) {
-            // Then (Asserting what you want to be true, is actually true)
-            assertEquals(SAMPLE_EXCEPTION_MESSAGE, e.getMessage());
-        }
-
+        });
+        
+        assertEquals(SAMPLE_EXCEPTION_MESSAGE, actualException.getMessage());
+        
         // Verify
         mockCoach.verify(multiplicationService);
         verifyZeroInteractions(subtractionService);
