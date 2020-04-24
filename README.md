@@ -6,6 +6,8 @@
 
 The Java library implementing the Mock Coach design pattern. Used in tests to reduce complex logic and boilerplate code in overall codebase.
 
+(Install Instructions, Usage, and FAQ below)
+
 **Can reduce hours and days of writing unit tests into minutes!** 
 
 Mock Coach orchestrates all the mocks used within a method, allowing you to only write setup and verification code relevant for each unit test.
@@ -67,7 +69,7 @@ Add the following line to your pom.xml
 <dependency>
   <groupId>com.andyln</groupId>
   <artifactId>mock-coach</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -78,60 +80,48 @@ This library is on Maven Central: https://search.maven.org/artifact/com.andyln/m
 
 ### Creating MockCoach
 
-![Mock Coach](docs/images/MockCoach.PNG)
-
 ```
 private AdditionService additionService = mock(AdditionService.class);
 private MultiplicationService multiplicationService = mock(MultiplicationService.class);
 private SubtractionService subtractionService = mock(SubtractionService.class);
-private SubMultiService subMultiService = mock(SubMultiService.class);
 
-private Calculator calculator = new Calculator(additionService, multiplicationService, subtractionService, subMultiService);
+private Calculator calculator = new Calculator(additionService, multiplicationService, subtractionService);
 
-MockCoach mockCoach = new MockCoachBuilder()
-        .mock(
-                additionService,
-                multiplicationService,
-                subtractionService,
-                subMultiService
-        ).when(
-                (/* Addition Service */) -> {
-                    when(additionService.add(anyInt(), anyInt())).thenReturn(SAMPLE_ADDITION_OUTPUT);
-                },
-                (/* Multiplication Service */) -> {
-                    when(multiplicationService.multiply(anyInt(), anyInt())).thenReturn(SAMPLE_MULTIPLICATION_OUTPUT);
-                },
-                (/* Subtraction Service */) -> {
-                    when(subtractionService.subtract(anyInt(), anyInt())).thenReturn(SAMPLE_SUBTRACTION_OUTPUT);
-                },
-                (/* Sub Multi Service */) -> {
-                    when(subMultiService.subtractThenMultiplyBy2(anyInt(), anyInt())).thenReturn(SAMPLE_SUB_MULTI_OUTPUT);
-                }
-        ).verify(
-                (/* Addition Service */) -> {
-                    verify(additionService, times(1)).add(anyInt(), anyInt());
-                },
-                (/* Multiplication Service */) -> {
-                    verify(multiplicationService, times(1)).multiply(anyInt(), anyInt());
-                },
-                (/* Subtraction Service */) -> {
-                    verifyZeroInteractions(subtractionService);
-                },
-                (/* Sub Multi Service */) -> {
-                    verify(subMultiService, times(1)).subtractThenMultiplyBy2(anyInt(), anyInt());
-                }
-        ).build();
+MockCoach mockCoach = new MockCoach() {
+    additionService,
+    () -> {
+        when(additionService.add(anyInt(), anyInt())).thenReturn(SAMPLE_ADDITION_OUTPUT);
+    },
+    () -> {
+        verify(additionService, times(1)).add(anyInt(), anyInt());
+    }
+    multiplicationService,
+    () -> {
+        when(multiplicationService.multiply(anyInt(), anyInt())).thenReturn(SAMPLE_MULTIPLICATION_OUTPUT);
+    },
+    () -> {
+        verify(multiplicationService, times(1)).multiply(anyInt(), anyInt());
+    }
+    subtractionService,
+    () -> {
+        when(subtractionService.subtract(anyInt(), anyInt())).thenReturn(SAMPLE_SUBTRACTION_OUTPUT);
+    },
+    () -> {
+        verifyZeroInteractions(subtractionService);
+    }
+};
 ```
 
 ### Unit Testing - Success Case
-![Success Case](docs/images/SuccessCase.PNG)
+
 ```
     @Test
     public void givenAnInput_whenCalculatorCalculates_thenWeExpectAnOutput() throws Exception {
         // Given (Setup)
         int expected = SAMPLE_SUB_MULTI_OUTPUT;
         int x = 10;
-        mockCoach.whenEverything();
+        
+        mockCoach.whenAll();
 
         // When (Run the thing that you want to test)
         int y = calculator.calculateY(x);
@@ -140,31 +130,70 @@ MockCoach mockCoach = new MockCoachBuilder()
         assertEquals(expected, y);
 
         // Verify
-        mockCoach.verifyEverything();
+        mockCoach.verifyAll();
     }
 ```
 
 ### Unit Testing - Exception and Other Cases
-![Exception Case](docs/images/ExceptionCase.PNG)
+
 ```
     @Test
     public void givenAnInput_whenMultiplicationServiceThrowsAnException_thenCalculatorBubblesThatExceptionUp() throws Exception {
-        // Given (Setup)
         int x = 10;
+        
         mockCoach.whenBefore(multiplicationService);
         when(multiplicationService.multiply(anyInt(), anyInt())).thenThrow(new RuntimeException(SAMPLE_EXCEPTION_MESSAGE));
 
-        try {
-            // When (Run the thing that you want to test)
+        Exception actualException = assertThrows(Exception.class, () -> {
             calculator.calculateY(x);
-            fail("Should have failed");
-        } catch (Exception e) {
-            // Then (Asserting what you want to be true, is actually true)
-            assertEquals(SAMPLE_EXCEPTION_MESSAGE, e.getMessage());
-        }
-
+        });
+        
+        assertEquals(SAMPLE_EXCEPTION_MESSAGE, actualException.getMessage());
+        
         // Verify
         mockCoach.verify(multiplicationService);
         verifyZeroInteractions(subtractionService);
     }
 ```
+
+## FAQ
+
+Q: Why should I use this dependency instead of making my own private methods to setup mocks?
+
+A: Private methods can help abstract method call over mocks (such as abstracting whens and verifies), but doesn't help coordinate how your tests interacts with these mocks (which can be a major time sink). This library solves this problem.
+
+Q: Won't this dependency create an additional maintance cost on my project?
+
+A: This library is MIT licensed and deployed over Maven Central. The source code is fully available and is fully unit tested to help provide developer confidence. 
+
+Q: Wont this cause confusion with developers that are not familiar on how to use this library?
+
+A: This library helps implement a go-forward testing methodology. While there may be additional costs upfront learning new advancements in unit testing, it will save much time when creating new features to your code. This depedency has been shown to save many hours on business production code.
+
+Q: I don't believe it is a good practice to couple a default set of verifies with whens. Doesn't this seem like an anti-pattern?
+
+A: Your test code is already doing this coupling implicity. This dependency helps make it explicit, and takes advantage of this explicitly defined structure to achieve testing intelligence capabilities.
+
+Q: Should I made one MockCoach per class, or one MockCoach per method under test?
+
+A: It depends on your test class. There may be advantages to one approach or the other, depending on what (and how many) unit tests you have.
+
+Q: Shouldn't you have all methods in a class reuse the same predefined mocks and whens?
+
+A: It should. This dependency allows for that use case, and additionally also allows for the case where methods may have different initial mock state depending on which method is called.
+
+Q: Why not create separate whens and verifies objects to construct MockCoach?
+
+A: This separate objected implementation was tested in initial POC, but there were auto-formatting issues with IDEs to construct these objects in a human readable format.
+
+Q: Why support up 16 injects mocks?
+
+A: A real world system should have 5 or less mocks constructor-injected or setter-injected. This functionality helps support older code bases.
+
+## Changelog
+
+2.0.0 - Removal of builders and replace MockCoach constructor with overloaded constructors
+
+1.1.0 - Enable usage of MockCoach as an interface for MockCoachLegacy
+
+1.0.0 - GA Release of the project!
