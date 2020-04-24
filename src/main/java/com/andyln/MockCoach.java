@@ -51,29 +51,29 @@ public class MockCoach {
         int lengthOfMocksToCheck = isMocksInCircleChain && containsMoreThanOneMock ? mocks.length - 1 : mocks.length;
         for (int i = 0; i < lengthOfMocksToCheck; i++) {
             if (mocks[i] == null) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be null!", i));
+                throw new IllegalArgumentException(String.format("m%d cannot be null!", i+1));
             }
 
             if (mocks[i] instanceof Integer) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be instance of Integer! Please use LegacyMockCoachBuilder and LegacyMockCoach for Integer support.", i));
+                throw new IllegalArgumentException(String.format("m%d cannot be instance of Integer! Please use LegacyMockCoachBuilder and LegacyMockCoach for Integer support.", i+1));
             }
 
             if (mocks[i] instanceof Character) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be instance of Character! Please use LegacyMockCoachBuilder and LegacyMockCoach for Character support.", i));
+                throw new IllegalArgumentException(String.format("m%d cannot be instance of Character! Please use LegacyMockCoachBuilder and LegacyMockCoach for Character support.", i+1));
             }
 
             if (mocks[i] instanceof String) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be instance of String! Please use LegacyMockCoachBuilder and LegacyMockCoach for String support.", i));
+                throw new IllegalArgumentException(String.format("m%d cannot be instance of String! Please use LegacyMockCoachBuilder and LegacyMockCoach for String support.", i+1));
             }
 
             if (mocks[i] instanceof Enum<?>) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be instance of Enum! Please use LegacyMockCoachBuilder and LegacyMockCoach for Enum support.", i));
+                throw new IllegalArgumentException(String.format("m%d cannot be instance of Enum! Please use LegacyMockCoachBuilder and LegacyMockCoach for Enum support.", i+1));
             }
 
             Object potentiallyDuplicateMock = mockMap.put(mocks[i], i);
             boolean isDuplicateMock = potentiallyDuplicateMock != null;
             if (isDuplicateMock) {
-                throw new IllegalArgumentException(String.format("mocks[%d] cannot be the same as a previous mock in mocks!", i));
+                throw new IllegalArgumentException(String.format("m%d cannot be the same as a previous mock in mocks!", i+1));
             }
         }
 
@@ -856,7 +856,7 @@ public class MockCoach {
             try {
                 whenRunnables[i].run();
             } catch (Exception e) {
-                throw new RuntimeException(String.format("whens[%d] throws an exception! Please check your whens.", i), e);
+                throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i+1), e);
             }
         }
     }
@@ -894,7 +894,7 @@ public class MockCoach {
             try {
                 whenRunnables[i].run();
             } catch (Exception e) {
-                throw new RuntimeException(String.format("whens[%d] throws an exception! Please check your whens.", i), e);
+                throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i+1), e);
             }
         }
     }
@@ -907,7 +907,7 @@ public class MockCoach {
             try {
                 whenRunnables[i].run();
             } catch (Exception e) {
-                throw new RuntimeException(String.format("whens[%d] throws an exception! Please check your whens.", i), e);
+                throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i+1), e);
             }
         }
     }
@@ -938,7 +938,7 @@ public class MockCoach {
             try {
                 verifyRunnables[i].run();
             } catch (Exception e) {
-                throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
+                throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i+1), e);
             }
         }
     }
@@ -969,7 +969,7 @@ public class MockCoach {
             try {
                 verifyRunnables[i].run();
             } catch (Exception e) {
-                throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
+                throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i+1), e);
             }
         }
     }
@@ -1006,7 +1006,7 @@ public class MockCoach {
             try {
                 verifyRunnables[i].run();
             } catch (Exception e) {
-                throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", i), e);
+                throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i+1), e);
             }
         }
     }
@@ -1027,7 +1027,7 @@ public class MockCoach {
         try {
             verifyRunnables[0].run();
         } catch (Exception e) {
-            throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", 0), e);
+            throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", 1), e);
         }
     }
 
@@ -1055,7 +1055,7 @@ public class MockCoach {
             try {
                 verifyRunnables[i].run();
             } catch (Exception e) {
-                throw new RuntimeException(String.format("verifies[%d] throws an exception! Please check your verifies.", 0), e);
+                throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i+1), e);
             }
         }
     }

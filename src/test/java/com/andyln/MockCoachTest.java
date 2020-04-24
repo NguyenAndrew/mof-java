@@ -113,7 +113,7 @@ class MockCoachTest {
 
         @Test
         void whenMocksContainsNull_ThenThrowIllegalArgumentException() {
-            String expectedMessage = "mocks[1] cannot be null!";
+            String expectedMessage = "m2 cannot be null!";
             Object[] invalidMocks = {mock1, null};
 
             IllegalArgumentException actualException = assertThrows(
@@ -126,7 +126,7 @@ class MockCoachTest {
 
         @Test
         void whenMocksContainsInteger_ThenThrowIllegalArgumentException() {
-            String expectedMessage = "mocks[1] cannot be instance of Integer! Please use LegacyMockCoachBuilder and LegacyMockCoach for Integer support.";
+            String expectedMessage = "m2 cannot be instance of Integer! Please use LegacyMockCoachBuilder and LegacyMockCoach for Integer support.";
             Object[] invalidMocks = {mock1, 2};
 
             IllegalArgumentException actualException = assertThrows(
@@ -139,7 +139,7 @@ class MockCoachTest {
 
         @Test
         void whenMocksContainsCharacter_ThenThrowIllegalArgumentException() {
-            String expectedMessage = "mocks[1] cannot be instance of Character! Please use LegacyMockCoachBuilder and LegacyMockCoach for Character support.";
+            String expectedMessage = "m2 cannot be instance of Character! Please use LegacyMockCoachBuilder and LegacyMockCoach for Character support.";
             Object[] invalidMocks = {mock1, 'B'};
 
             IllegalArgumentException actualException = assertThrows(
@@ -152,7 +152,7 @@ class MockCoachTest {
 
         @Test
         void whenMocksContainsString_ThenThrowIllegalArgumentException() {
-            String expectedMessage = "mocks[1] cannot be instance of String! Please use LegacyMockCoachBuilder and LegacyMockCoach for String support.";
+            String expectedMessage = "m2 cannot be instance of String! Please use LegacyMockCoachBuilder and LegacyMockCoach for String support.";
             Object[] invalidMocks = {mock1, "Second Mock"};
 
             IllegalArgumentException actualException = assertThrows(
@@ -165,7 +165,7 @@ class MockCoachTest {
 
         @Test
         void whenMocksContainsEnum_ThenThrowIllegalArgumentException() {
-            String expectedMessage = "mocks[1] cannot be instance of Enum! Please use LegacyMockCoachBuilder and LegacyMockCoach for Enum support.";
+            String expectedMessage = "m2 cannot be instance of Enum! Please use LegacyMockCoachBuilder and LegacyMockCoach for Enum support.";
             Object[] invalidMocks = {mock1, MockEnum.SECOND};
 
             IllegalArgumentException actualException = assertThrows(
@@ -178,7 +178,7 @@ class MockCoachTest {
 
         @Test
         void whenMocksInACyclicGraphThatIsNotACircleChain_ThenThrowIllegalArgumentException() {
-            String expectedMessage = "mocks[2] cannot be the same as a previous mock in mocks!";
+            String expectedMessage = "m3 cannot be the same as a previous mock in mocks!";
             Object[] invalidMocks = {mock1, mock2, mock2};
 
             IllegalArgumentException actualException = assertThrows(
@@ -253,7 +253,7 @@ class MockCoachTest {
 
         @Test
         void whenWhenBefore_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
-            String expectedMessage = "whens[0] throws an exception! Please check your whens.";
+            String expectedMessage = "w1 throws an exception! Please check your whens.";
 
             doThrow(new Exception()).when(when1).run();
 
@@ -343,7 +343,7 @@ class MockCoachTest {
 
         @Test
         void whenWhenBeforeLast_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
-            String expectedMessage = "whens[0] throws an exception! Please check your whens.";
+            String expectedMessage = "w1 throws an exception! Please check your whens.";
 
             doThrow(new Exception()).when(when1).run();
 
@@ -390,7 +390,7 @@ class MockCoachTest {
 
         @Test
         void whenWhenEverything_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
-            String expectedMessage = "whens[0] throws an exception! Please check your whens.";
+            String expectedMessage = "w1 throws an exception! Please check your whens.";
 
             doThrow(new Exception()).when(when1).run();
 
@@ -470,7 +470,7 @@ class MockCoachTest {
 
         @Test
         void whenVerifyBefore_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
-            String expectedMessage = "verifies[0] throws an exception! Please check your verifies.";
+            String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
 
@@ -550,7 +550,7 @@ class MockCoachTest {
 
         @Test
         void whenVerify_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
-            String expectedMessage = "verifies[0] throws an exception! Please check your verifies.";
+            String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
 
@@ -640,7 +640,7 @@ class MockCoachTest {
 
         @Test
         void whenVerifyBeforeLast_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
-            String expectedMessage = "verifies[0] throws an exception! Please check your verifies.";
+            String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
 
@@ -694,7 +694,7 @@ class MockCoachTest {
 
         @Test
         void whenVerifyFirst_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
-            String expectedMessage = "verifies[0] throws an exception! Please check your verifies.";
+            String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
 
@@ -748,7 +748,7 @@ class MockCoachTest {
 
         @Test
         void whenVerifyLast_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
-            String expectedMessage = "verifies[0] throws an exception! Please check your verifies.";
+            String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
 
@@ -795,7 +795,7 @@ class MockCoachTest {
 
         @Test
         void whenVerifyEverything_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
-            String expectedMessage = "verifies[0] throws an exception! Please check your verifies.";
+            String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
 
