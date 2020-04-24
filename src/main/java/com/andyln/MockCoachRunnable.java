@@ -1,6 +1,6 @@
 package com.andyln;
 
 @FunctionalInterface
-interface MockCoachRunnable {
+public interface MockCoachRunnable {
     void run() throws Exception;
 }
