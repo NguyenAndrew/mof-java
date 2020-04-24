@@ -167,3 +167,11 @@ Exception Case
         verifyZeroInteractions(subtractionService);
     }
 ```
+
+## Changelog
+
+2.0.0 - Removal of builders and replace MockCoach constructor with overloaded constructors
+
+1.1.0 - Enable usage of MockCoach as an interface for MockCoachLegacy
+
+1.0.0 - GA Release of the project!
