@@ -84,9 +84,8 @@ This library is on Maven Central: https://search.maven.org/artifact/com.andyln/m
 private AdditionService additionService = mock(AdditionService.class);
 private MultiplicationService multiplicationService = mock(MultiplicationService.class);
 private SubtractionService subtractionService = mock(SubtractionService.class);
-private SubMultiService subMultiService = mock(SubMultiService.class);
 
-private Calculator calculator = new Calculator(additionService, multiplicationService, subtractionService, subMultiService);
+private Calculator calculator = new Calculator(additionService, multiplicationService, subtractionService);
 
 MockCoach mockCoach = new MockCoach() {
     additionService,
@@ -109,13 +108,6 @@ MockCoach mockCoach = new MockCoach() {
     },
     () -> {
         verifyZeroInteractions(subtractionService);
-    },
-    subMultiService,
-    () -> {
-        when(subMultiService.subtractThenMultiplyBy2(anyInt(), anyInt())).thenReturn(SAMPLE_SUB_MULTI_OUTPUT);
-    },
-    () -> {
-        verify(subMultiService, times(1)).subtractThenMultiplyBy2(anyInt(), anyInt());
     }
 };
 ```
