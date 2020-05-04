@@ -112,13 +112,13 @@ MockCoach mockCoach = new MockCoach() {
 };
 ```
 
-### Unit Testing - Success Case
+### Unit Testing - Base Success Case
 
 ```
     @Test
     public void givenAnInput_whenCalculatorCalculates_thenWeExpectAnOutput() throws Exception {
         // Given (Setup)
-        int expected = SAMPLE_SUB_MULTI_OUTPUT;
+        int expected = SAMPLE_CALCULATOR_OUTPUT;
         int x = 10;
         
         mockCoach.whenAll();
@@ -134,7 +134,7 @@ MockCoach mockCoach = new MockCoach() {
     }
 ```
 
-### Unit Testing - Exception and Other Cases
+### Unit Testing - All Other Cases (Including Exceptions)
 
 ```
     @Test
@@ -158,21 +158,41 @@ MockCoach mockCoach = new MockCoach() {
 
 ## FAQ
 
+Q: What problem(s) does this library solve.
+
+A: This library solves the problem of delivering production code faster. By using an explicit when/verify structure it helps solve problems 3-6 from the [Unit Testing Guidelines](https://github.com/NguyenAndrew/Unit-Testing-Guidelines)
+
 Q: Why should I use this dependency instead of making my own private methods to setup mocks?
 
 A: Private methods can help abstract method call over mocks (such as abstracting whens and verifies), but doesn't help coordinate how your tests interacts with these mocks (which can be a major time sink). This library solves this problem.
 
 Q: Won't this dependency create an additional maintance cost on my project?
 
-A: This library is MIT licensed and deployed over Maven Central. The source code is fully available and is fully unit tested to help provide developer confidence. 
+A: This library is MIT licensed and deployed over Maven Central. The source code is fully available and is fully unit tested to help provide developer confidence. Also, this library is easy to seperate and remove, as mentioned later in the FAQ. 
 
 Q: Wont this cause confusion with developers that are not familiar on how to use this library?
 
-A: This library helps implement a go-forward testing methodology. While there may be additional costs upfront learning new advancements in unit testing, it will save much time when creating new features to your code. This depedency has been shown to save many hours on business production code.
+A: While there may be additional costs upfront to learn this library, it will save much time when creating new features to your code. This depedency has been shown to save many hours on business production code.
 
 Q: I don't believe it is a good practice to couple a default set of verifies with whens. Doesn't this seem like an anti-pattern?
 
-A: Your test code is already doing this coupling implicity. This dependency helps make it explicit, and takes advantage of this explicitly defined structure to achieve testing intelligence capabilities.
+A: Your test code is already doing this coupling implicity. This dependency defines this structure explicitly, through the construction of the MockCoach object(s), and takes advantage of this defined structure to achieve testing intelligence capabilities. 
+
+Q: What are these "testing intelligence capabilities"?
+
+A: Intelligence capabilities include: Encouraging code to become straightforward through Service Dipath Chains (Not included in Legacy), Avoiding under and overmocking through clearly defined structures, Reusable code by reducing the amount of one-off private methods, and Only needing to create the whens and verifies for a specific test.
+
+Q: My code is not a legacy codebase! Why call the object I am using MockCoachLegacy?
+
+A: In this case, legacy isn't referring to your codebase. Legacy in MockCoachLegacy is an alias that means "don't affect the design of my business logic, improve my test code".
+
+Q: Should I use MockCoach or MockCoachLegacy.
+
+A: Start with MockCoach. If MockCoach doesn't work, MockCoachLegacy will work for any other use case.
+
+Q: Does this library support TDD?
+
+A: Yes. You can use this library using both TDD, and not TDD. After learning the library, it should make both TDD and non-TDD faster in the short term and long term.
 
 Q: Should I made one MockCoach per class, or one MockCoach per method under test?
 
@@ -185,6 +205,10 @@ A: It should. This dependency allows for that use case, and additionally also al
 Q: Why not create separate whens and verifies objects to construct MockCoach?
 
 A: This separate objected implementation was tested in initial POC, but there were auto-formatting issues with IDEs to construct these objects in a human readable format.
+
+Q: I want to remove this library (Didn't like the user experience, found a better library, etc). How difficult is it to do so?
+
+A: Using Mock Coach decouples and replaces the implicit whens and verifies between your different unit tests with explicit code. The process of removing the library is simple: Recouple your tests by copying and paste those whens and verifies back into each of your unit tests.
 
 Q: Why support up 16 injects mocks?
 
