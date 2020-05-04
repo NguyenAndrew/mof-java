@@ -208,7 +208,7 @@ A: This separate objected implementation was tested in initial POC, but there we
 
 Q: I want to remove this library (Didn't like the user experience, found a better library, etc). How difficult is it to do so?
 
-A: Using Mock Coach decouples and replaces the implicit whens and verifies between your different unit tests with explicit code. The process of removing the library is simple: Recouple your tests by copying and paste those whens and verifies back into each of your unit tests.
+A: Using Mock Coach decouples and replaces the implicit whens and verifies between your different unit tests with explicit code. The process of removing the library is simple: Recouple your tests by copying and paste those extra whens and verifies back into each of your unit tests.
 
 Q: Why support up 16 injects mocks?
 
