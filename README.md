@@ -160,7 +160,7 @@ MockCoach mockCoach = new MockCoach() {
 
 Q: What problem(s) does this library solve.
 
-A: This library solves the problem of delivering production code faster. By using an explicit when/verify structure it helps solve problems 3-6 from the [Unit Testing Guidelines](https://github.com/NguyenAndrew/Unit-Testing-Guidelines)
+A: This library solves the problem of delivering production code faster. By using an explicit when/verify structure it helps solve problems 3-6 from the [Unit Testing Guidelines](https://github.com/NguyenAndrew/Unit-Testing-Guidelines).
 
 Q: Why should I use this dependency instead of making my own private methods to setup mocks?
 
