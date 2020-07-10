@@ -87,7 +87,7 @@ private SubtractionService subtractionService = mock(SubtractionService.class);
 
 private Calculator calculator = new Calculator(additionService, multiplicationService, subtractionService);
 
-MockCoach mockCoach = new MockCoach() {
+MockCoach mockCoach = new MockCoach(
     additionService,
     () -> {
         when(additionService.add(anyInt(), anyInt())).thenReturn(SAMPLE_ADDITION_OUTPUT);
@@ -109,7 +109,7 @@ MockCoach mockCoach = new MockCoach() {
     () -> {
         verifyZeroInteractions(subtractionService);
     }
-};
+);
 ```
 
 ### Unit Testing - Base Success Case
