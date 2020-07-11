@@ -216,10 +216,17 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 
 ## Changelog
 
-2.0.1- Hotfix for MockCoachRunnable to make it public instead of default
+2.0.1 - Hotfix for MockCoachRunnable to make it public instead of default
 
 2.0.0 - Removal of builders and replace MockCoach constructor with overloaded constructors
 
 1.1.0 - Enable usage of MockCoach as an interface for MockCoachLegacy
 
 1.0.0 - GA Release of the project!
+
+## Roadmap
+
+3.0.0 - Details Below:
+* Refactor `mockCoach.when(mock)` to be `mockCoach.whenUpTo(mock)`, and `mockCoach.verify(mockCoach)` to be `mockCoach.verifyUpTo(mock)`. Better clarification that these methods run several when/verify lambdas up to a certain mock, instead of a single when/verify lambda.
+* Refactor to use [Method Chaining](https://en.wikipedia.org/wiki/Method_chaining) with `.in(MockCoach mockCoach)`. Before: `mockCoach.verifyUpTo(mock);`, After: `verifyUpTo(mock).in(mockCoach);`. New style should allow for faster reading of code, since it reads actions left-to-right and closer resembles Mockito when and verifies.
+* Introduce `whenTheRest()` and `verifyTheRest()`, which runs the rest of when/verifies after the previous `whenUpTo(mock)/verifyUpTo(mock)/whenBefore(mock)/verifyBefore(mock)/whenBeforeFirst()`. Allows further reuse of already defined methods of whens/verifies in Mock Coach to remove noisy code, and continues to lower complexity when refactoring tests.
