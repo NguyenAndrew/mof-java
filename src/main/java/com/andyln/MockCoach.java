@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MockCoach {
+
     private Object[] mocks;
     private MockCoachRunnable[] whenRunnables;
     private MockCoachRunnable[] verifyRunnables;
