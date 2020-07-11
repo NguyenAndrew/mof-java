@@ -952,7 +952,7 @@ public class MockCoach {
      *                                  For circle chains, call either verifyFirst() or verifyLast()
      * @throws IllegalArgumentException Calling with object not in mocks.
      */
-    public void verify(Object mock) {
+    public void verifyUpTo(Object mock) {
         if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
             throw new IllegalStateException("Cannot call verify(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyFirst() or verifyLast()");
         }

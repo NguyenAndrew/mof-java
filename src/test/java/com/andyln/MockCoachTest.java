@@ -493,7 +493,7 @@ class MockCoachTest {
 
         @Test
         void success() throws Exception {
-            mockCoachTwoMocks.verify(mock2);
+            mockCoachTwoMocks.verifyUpTo(mock2);
 
             verify(verify1, times(1)).run();
             verify(verify2, times(1)).run();
@@ -501,14 +501,14 @@ class MockCoachTest {
 
         @Test
         void whenSingleMockInMocks_ThenSuccess() throws Exception {
-            mockCoachSingleMock.verify(mock1);
+            mockCoachSingleMock.verifyUpTo(mock1);
 
             verify(verify1, times(1)).run();
         }
 
         @Test
         void whenVerifyMiddleMockInCircleChainMocks_ThenSuccess() throws Exception {
-            mockCoachThreeMocksInCircleChain.verify(mock2);
+            mockCoachThreeMocksInCircleChain.verifyUpTo(mock2);
 
             verify(verify1, times(1)).run();
             verify(verify2, times(1)).run();
@@ -521,7 +521,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> mockCoachThreeMocksInCircleChain.verify(mock1)
+                    () -> mockCoachThreeMocksInCircleChain.verifyUpTo(mock1)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -538,7 +538,7 @@ class MockCoachTest {
 
             IllegalArgumentException actualException = assertThrows(
                     IllegalArgumentException.class,
-                    () -> mockCoachThreeMocksInCircleChain.verify(mockNotInMocks)
+                    () -> mockCoachThreeMocksInCircleChain.verifyUpTo(mockNotInMocks)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -556,7 +556,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> mockCoachThreeMocksInCircleChain.verify(mock2)
+                    () -> mockCoachThreeMocksInCircleChain.verifyUpTo(mock2)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
