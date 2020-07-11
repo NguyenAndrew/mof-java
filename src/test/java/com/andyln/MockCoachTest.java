@@ -1067,4 +1067,30 @@ class MockCoachTest {
             );
         }
     }
+
+    @Nested
+    class Builder {
+
+        @Test
+        void staticMethod_success() {
+            MockCoach.builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    )
+                    .build();
+        }
+
+        @Test
+        void constructor_success() {
+            new MockCoach.Builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    )
+                    .build();
+        }
+    }
 }
