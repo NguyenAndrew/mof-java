@@ -1038,4 +1038,30 @@ class MockCoachLegacyTest {
             );
         }
     }
+
+    @Nested
+    class Builder {
+
+        @Test
+        void staticMethod_success() {
+            MockCoachLegacy.builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    )
+                    .build();
+        }
+
+        @Test
+        void constructor_success() {
+            new MockCoachLegacy.Builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    )
+                    .build();
+        }
+    }
 }

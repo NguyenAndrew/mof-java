@@ -582,7 +582,7 @@ public class MockCoach {
         }
 
         /**
-         * One Mock, MockCoach.
+         * Adds to end of builder.
          *
          * @param m Mock
          * @param w When Lambda
@@ -596,7 +596,7 @@ public class MockCoach {
         }
 
         /**
-         * Returns a new MockCoachLegacy from previously added mocks, whens, and verifies.
+         * Returns a new MockCoach from previously added mocks, when lambdas, and verify lambdas.
          *
          * @return MockCoach
          */

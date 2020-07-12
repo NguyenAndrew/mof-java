@@ -1,6 +1,8 @@
 package com.andyln;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MockCoachLegacy extends MockCoach {
@@ -567,5 +569,58 @@ public class MockCoachLegacy extends MockCoach {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
         }
+    }
+
+    public static class Builder extends MockCoach.Builder {
+        private List<Object> mocks;
+        private List<MockCoachRunnable> whens;
+        private List<MockCoachRunnable> verifies;
+
+        /**
+         * Creates a builder for MockCoachLegacy.
+         */
+        public Builder() {
+            mocks = new ArrayList<>();
+            whens = new ArrayList<>();
+            verifies = new ArrayList<>();
+        }
+
+        /**
+         * Adds to end of builder.
+         *
+         * @param m Mock
+         * @param w When Lambda
+         * @param v Verify Lambda
+         */
+        @Override
+        public Builder add(Object m, MockCoachRunnable w, MockCoachRunnable v) {
+            mocks.add(m);
+            whens.add(w);
+            verifies.add(v);
+            return this;
+        }
+
+        /**
+         * Returns a new MockCoach from previously added mocks, when lambdas, and verify lambdas.
+         *
+         * @return MockCoachLegacy
+         */
+        @Override
+        public MockCoachLegacy build() {
+            return new MockCoachLegacy(
+                    mocks.toArray(new Object[0]),
+                    whens.toArray(new MockCoachRunnable[0]),
+                    verifies.toArray(new MockCoachRunnable[0])
+            );
+        }
+    }
+
+    /**
+     * Creates a builder for MockCoachLegacy.
+     *
+     * @return Builder
+     */
+    public static Builder builder() {
+        return new Builder();
     }
 }
