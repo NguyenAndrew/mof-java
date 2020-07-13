@@ -467,11 +467,11 @@ class MockCoachLegacyTest {
     }
 
     @Nested
-    class Verify {
+    class VerifyThrough {
 
         @Test
         void success() throws Exception {
-            mockCoachLegacyTwoMocks.verifyUpTo(mock2);
+            mockCoachLegacyTwoMocks.verifyThrough(mock2);
 
             verify(verify1, times(1)).run();
             verify(verify2, times(1)).run();
@@ -479,14 +479,14 @@ class MockCoachLegacyTest {
 
         @Test
         void whenSingleMockInMocks_ThenSuccess() throws Exception {
-            mockCoachLegacySingleMock.verifyUpTo(mock1);
+            mockCoachLegacySingleMock.verifyThrough(mock1);
 
             verify(verify1, times(1)).run();
         }
 
         @Test
         void whenVerifyMiddleMockInCircleChainMocks_ThenSuccess() throws Exception {
-            mockCoachLegacyThreeMocksInCircleChain.verifyUpTo(mock2);
+            mockCoachLegacyThreeMocksInCircleChain.verifyThrough(mock2);
 
             verify(verify1, times(1)).run();
             verify(verify2, times(1)).run();
@@ -499,7 +499,7 @@ class MockCoachLegacyTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> mockCoachLegacyThreeMocksInCircleChain.verifyUpTo(mock1)
+                    () -> mockCoachLegacyThreeMocksInCircleChain.verifyThrough(mock1)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -516,7 +516,7 @@ class MockCoachLegacyTest {
 
             IllegalArgumentException actualException = assertThrows(
                     IllegalArgumentException.class,
-                    () -> mockCoachLegacyThreeMocksInCircleChain.verifyUpTo(mockNotInMocks)
+                    () -> mockCoachLegacyThreeMocksInCircleChain.verifyThrough(mockNotInMocks)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -534,7 +534,7 @@ class MockCoachLegacyTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    () -> mockCoachLegacyThreeMocksInCircleChain.verifyUpTo(mock2)
+                    () -> mockCoachLegacyThreeMocksInCircleChain.verifyThrough(mock2)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());

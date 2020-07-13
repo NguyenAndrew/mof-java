@@ -449,7 +449,7 @@ public class MockCoachLegacy extends MockCoach {
     }
 
     /**
-     * Runs all verifies before, and including, verify corresponding to mock.
+     * Runs all verifies up to, and including, verify corresponding to mock.
      *
      * @param mock Any mock within mocks.
      * @throws IllegalStateException    Calling this method for first/last mocks in circle chain
@@ -458,7 +458,7 @@ public class MockCoachLegacy extends MockCoach {
      * @throws IllegalArgumentException Calling with object not in mocks.
      */
     @Override
-    public void verifyUpTo(Object mock) {
+    public void verifyThrough(Object mock) {
         if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
             throw new IllegalStateException("Cannot call verify(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyFirst() or verifyLast()");
         }
