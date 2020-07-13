@@ -408,7 +408,7 @@ class MockCoachTest {
     }
 
     @Nested
-    class whenTheRest {
+    class WhenTheRest {
 
         @Test
         public void whenWhenBefore_ThenSuccess() throws Exception {
