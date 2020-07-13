@@ -15,6 +15,9 @@ public class MockCoach {
 
     private boolean containsMoreThanOneMock;
 
+    private boolean canCallWhenTheRest;
+    private int lastSuccessfulMockIndex;
+
     /*
      * If true, mocks are in a circle chain
      * If false, mocks are in a path graph chain
@@ -83,6 +86,9 @@ public class MockCoach {
         this.mocks = mocks;
         this.whenRunnables = whenRunnables;
         this.verifyRunnables = verifyRunnables;
+
+        this.canCallWhenTheRest = false;
+        this.lastSuccessfulMockIndex = 0;
     }
 
     /**
@@ -366,6 +372,9 @@ public class MockCoach {
                 throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
             }
         }
+
+        canCallWhenTheRest = true;
+        lastSuccessfulMockIndex = indexOfMock;
     }
 
     /**
@@ -381,7 +390,8 @@ public class MockCoach {
             throw new IllegalStateException("Cannot call whenBeforeFirst() for mocks in a path graph! For mocks in a path graph, use whenBefore(INSERT_FIRST_MOCK_HERE)");
         }
 
-        // Does nothing. Used as a placeholder.
+        canCallWhenTheRest = true;
+        lastSuccessfulMockIndex = 0;
     }
 
     /**
@@ -417,6 +427,25 @@ public class MockCoach {
                 throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
             }
         }
+    }
+
+    /**
+     * Runs when lambdas after, but not including, mock used in previous method.
+     */
+    public void whenTheRest() {
+        if (!canCallWhenTheRest) {
+            throw new IllegalStateException("Cannot call whenTheRest()! Must be called only after whenBefore(mock) or whenFirst()");
+        }
+
+        for (int i = lastSuccessfulMockIndex + 1; i < this.mocks.length; i++) {
+            try {
+                whenRunnables[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
+            }
+        }
+
+        canCallWhenTheRest = false;
     }
 
     /**

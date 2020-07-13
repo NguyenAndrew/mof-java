@@ -408,6 +408,79 @@ class MockCoachTest {
     }
 
     @Nested
+    class whenTheRest {
+
+        @Test
+        public void whenWhenBefore_ThenSuccess() throws Exception {
+            mockCoachTwoMocks.whenBefore(mock1);
+
+            mockCoachTwoMocks.whenTheRest();
+
+            verifyNoInteractions(when1);
+            verify(when2, times(1)).run();
+        }
+
+        @Test
+        public void whenWhenBeforeFirst_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.whenBeforeFirst();
+
+            mockCoachThreeMocksInCircleChain.whenTheRest();
+
+            verifyNoInteractions(when1);
+            verify(when2, times(1)).run();
+            verify(when3, times(1)).run();
+        }
+
+        @Test
+        public void whenWhenAll_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call whenTheRest()! Must be called only after whenBefore(mock) or whenFirst()";
+
+            mockCoachTwoMocks.whenAll();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    mockCoachTwoMocks::whenTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenWhenBeforeLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call whenTheRest()! Must be called only after whenBefore(mock) or whenFirst()";
+
+            mockCoachThreeMocksInCircleChain.whenBeforeLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    mockCoachTwoMocks::whenTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+            String expectedMessage = "w2 throws an exception! Please check your whens.";
+
+            doThrow(new Exception()).when(when2).run();
+
+            mockCoachTwoMocks.whenBefore(mock1);
+
+            RuntimeException actualException = assertThrows(
+                    RuntimeException.class,
+                    mockCoachTwoMocks::whenTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verifyNoInteractions(when1);
+            verify(when2, times(1)).run();
+        }
+
+    }
+
+    @Nested
     class VerifyBefore {
 
         @Test
