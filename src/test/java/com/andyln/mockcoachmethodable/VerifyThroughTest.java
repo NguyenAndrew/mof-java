@@ -3,7 +3,7 @@ package com.andyln.mockcoachmethodable;
 import com.andyln.MockCoach;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.VerifyThrough.verifyUpTo;
+import static com.andyln.mockcoachmethodable.VerifyThrough.verifyThrough;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -15,7 +15,7 @@ class VerifyThroughTest {
 
     @Test
     public void success() {
-        verifyUpTo(mock).in(mockCoach);
+        verifyThrough(mock).in(mockCoach);
         verify(mockCoach).verifyThrough(mock);
     }
 }

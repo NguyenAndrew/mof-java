@@ -10,7 +10,7 @@ public class VerifyThrough implements Methodable {
         this.mock = mock;
     }
 
-    public static VerifyThrough verifyUpTo(Object mock) {
+    public static VerifyThrough verifyThrough(Object mock) {
         return new VerifyThrough(mock);
     }
 
