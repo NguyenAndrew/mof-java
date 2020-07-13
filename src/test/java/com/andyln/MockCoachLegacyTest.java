@@ -801,14 +801,6 @@ class MockCoachLegacyTest {
         Object m6 = mock(Object.class);
         Object m7 = mock(Object.class);
         Object m8 = mock(Object.class);
-        Object m9 = mock(Object.class);
-        Object m10 = mock(Object.class);
-        Object m11 = mock(Object.class);
-        Object m12 = mock(Object.class);
-        Object m13 = mock(Object.class);
-        Object m14 = mock(Object.class);
-        Object m15 = mock(Object.class);
-        Object m16 = mock(Object.class);
 
         @Test
         void OneMock_Success() {
