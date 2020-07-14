@@ -1023,6 +1023,114 @@ class MockCoachTest {
     }
 
     @Nested
+    class VerifyTheRest {
+
+        @Test
+        public void whenVerifyBefore_ThenSuccess() throws Exception {
+            mockCoachTwoMocks.verifyBefore(mock1);
+
+            mockCoachTwoMocks.verifyTheRest();
+
+            verifyNoInteractions(verify1);
+            verify(verify2, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyThrough_ThenSuccess() throws Exception {
+            mockCoachTwoMocks.verifyThrough(mock1);
+
+            mockCoachTwoMocks.verifyTheRest();
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyBeforeFirst_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyBeforeFirst();
+
+            mockCoachThreeMocksInCircleChain.verifyTheRest();
+
+            verifyNoInteractions(verify1);
+            verify(verify2, times(1)).run();
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyFirst_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyFirst();
+
+            mockCoachThreeMocksInCircleChain.verifyTheRest();
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyAll_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+
+            mockCoachTwoMocks.verifyAll();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    mockCoachTwoMocks::verifyTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenVerifyBeforeLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+
+            mockCoachThreeMocksInCircleChain.verifyBeforeLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    mockCoachTwoMocks::verifyTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenVerifyLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+
+            mockCoachThreeMocksInCircleChain.verifyLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    mockCoachTwoMocks::verifyTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+            String expectedMessage = "v2 throws an exception! Please check your verifies.";
+
+            doThrow(new Exception()).when(verify2).run();
+
+            mockCoachTwoMocks.verifyBefore(mock1);
+
+            RuntimeException actualException = assertThrows(
+                    RuntimeException.class,
+                    mockCoachTwoMocks::verifyTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verifyNoInteractions(verify1);
+            verify(verify2, times(1)).run();
+        }
+
+    }
+
+    @Nested
     public class DefaultEmptyConstructor {
         @Test
         void success() {

@@ -16,6 +16,7 @@ public class MockCoach {
     private boolean containsMoreThanOneMock;
 
     private boolean canCallWhenTheRest;
+    private boolean canCallVerifyTheRest;
     private int lastSuccessfulMockIndex;
 
     /*
@@ -518,6 +519,9 @@ public class MockCoach {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
         }
+
+        canCallVerifyTheRest = true;
+        lastSuccessfulMockIndex = indexOfMock;
     }
 
     /**
@@ -549,6 +553,9 @@ public class MockCoach {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
         }
+
+        canCallVerifyTheRest = true;
+        lastSuccessfulMockIndex = indexOfMock;
     }
 
     /**
@@ -564,7 +571,8 @@ public class MockCoach {
             throw new IllegalStateException("Cannot call verifyBeforeFirst() for mocks in a path graph! For mocks in a path graph, use verifyBefore(INSERT_FIRST_MOCK_HERE)");
         }
 
-        // Does nothing. Used as a placeholder.
+        canCallVerifyTheRest = true;
+        lastSuccessfulMockIndex = 0;
     }
 
     /**
@@ -606,6 +614,9 @@ public class MockCoach {
         } catch (Exception e) {
             throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", 1), e);
         }
+
+        canCallVerifyTheRest = true;
+        lastSuccessfulMockIndex = 0;
     }
 
     /**
@@ -635,6 +646,25 @@ public class MockCoach {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
         }
+    }
+
+    /**
+     * Runs verify lambdas after, but not including, mock used in previous method.
+     */
+    public void verifyTheRest() {
+        if (!canCallVerifyTheRest) {
+            throw new IllegalStateException("Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()");
+        }
+
+        for (int i = lastSuccessfulMockIndex + 1; i < this.mocks.length; i++) {
+            try {
+                verifyRunnables[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+            }
+        }
+
+        canCallVerifyTheRest = false;
     }
 
     public static class Builder {
