@@ -481,6 +481,144 @@ class MockCoachTest {
     }
 
     @Nested
+    class WhenTheRestAfter {
+
+        private final Object mock3 = mock(Object.class);
+        private final Object[] threeMocks = {mock1, mock2, mock3};
+
+        private final MockCoach mockCoachThreeMocks = new MockCoach(threeMocks, threeWhens, threeVerifies);
+
+        @Test
+        public void whenWhenBefore_ThenSuccess() throws Exception {
+            mockCoachThreeMocks.whenBefore(mock1);
+
+            mockCoachThreeMocks.whenTheRestAfter(mock2);
+
+            verifyNoInteractions(when1);
+            verifyNoInteractions(when2);
+            verify(when3, times(1)).run();
+        }
+
+        @Test
+        public void whenWhenBeforeFirst_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.whenBeforeFirst();
+
+            mockCoachThreeMocksInCircleChain.whenTheRestAfter(mock2);
+
+            verifyNoInteractions(when1);
+            verifyNoInteractions(when2);
+            verify(when3, times(1)).run();
+        }
+
+        @Test
+        public void whenWhenAll_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call whenTheRestAfter(Object mock)! Must be called only after whenBefore(mock) or whenFirst()";
+
+            mockCoachThreeMocks.whenAll();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> mockCoachThreeMocks.whenTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenWhenBeforeLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call whenTheRestAfter(Object mock)! Must be called only after whenBefore(mock) or whenFirst()";
+
+            mockCoachThreeMocksInCircleChain.whenBeforeLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> mockCoachThreeMocksInCircleChain.whenTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithFirstMockOrLastMockInCircleChain_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call whenTheRestAfter(Object mock) for first or last mock in circle chain. If specifying first mock, use whenTheRest(). If specifying the last mock, then this method does not have to be called (will have identical functionality)";
+
+            mockCoachThreeMocksInCircleChain.whenBeforeFirst();
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachThreeMocksInCircleChain.whenTheRestAfter(mock1)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithLastMockInMocks_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call whenTheRestAfter(Object mock) for the last mock! Not calling this method will have identical functionality";
+
+            mockCoachThreeMocks.whenBefore(mock1);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachThreeMocks.whenTheRestAfter(mock3)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call whenTheRestAfter(Object mock) for mock not in mocks!";
+
+            Object mockNotInMocks = mock(Object.class);
+
+            mockCoachThreeMocks.whenBefore(mock1);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachThreeMocks.whenTheRestAfter(mockNotInMocks)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockBeforePreviouslyUsedMock_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call whenTheRestAfter(Object mock) for a mock located before previously used mock! Make sure correct mock is being passed into this method";
+
+            mockCoachThreeMocks.whenBefore(mock2);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachThreeMocks.whenTheRestAfter(mock1)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+            String expectedMessage = "w3 throws an exception! Please check your whens.";
+
+            doThrow(new Exception()).when(when3).run();
+
+            mockCoachThreeMocks.whenBefore(mock1);
+
+            RuntimeException actualException = assertThrows(
+                    RuntimeException.class,
+                    () -> mockCoachThreeMocks.whenTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verifyNoInteractions(when1);
+            verifyNoInteractions(when2);
+            verify(when3, times(1)).run();
+        }
+
+    }
+
+    @Nested
     class VerifyBefore {
 
         @Test
