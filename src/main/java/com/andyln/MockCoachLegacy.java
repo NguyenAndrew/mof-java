@@ -444,6 +444,48 @@ public class MockCoachLegacy extends MockCoach {
     }
 
     /**
+     * Runs when lambdas after, but not including, mock passed into method.
+     *
+     * @param mock Mock after previously used mock, excluding last mock
+     * @throws IllegalStateException    Calling this method when not using whenBefore(mock)
+     * @throws IllegalArgumentException Calling with object not in mocks.
+     *                                  Calling with mock that is at the end of mock list (this method does not have to be called, in this case).
+     *                                  Calling with mock not after previously used mock (would unnecessarily re-run previously run when lambdas).
+     */
+    @Override
+    public void whenTheRestAfter(Object mock) {
+        if (!canCallWhenTheRest) {
+            throw new IllegalStateException("Cannot call whenTheRestAfter(Object mock)! Must be called only after whenBefore(mock) or whenFirst()");
+        }
+
+        if (isMocksInCircleChain && mock == mocks[0]) {
+            throw new IllegalArgumentException("Cannot call whenTheRestAfter(Object mock) for first or last mock in circle chain. If specifying first mock, use whenTheRest(). If specifying the last mock, then this method does not have to be called (will have identical functionality)");
+        }
+
+        if (mock == mocks[mocks.length - 1]) {
+            throw new IllegalArgumentException("Cannot call whenTheRestAfter(Object mock) for the last mock! Not calling this method will have identical functionality");
+        }
+
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call whenTheRestAfter(Object mock) for mock not in mocks!");
+        }
+
+        if (objectIndexOfMock < lastSuccessfulMockIndex) {
+            throw new IllegalArgumentException("Cannot call whenTheRestAfter(Object mock) for a mock located before previously used mock! Make sure correct mock is being passed into this method");
+        }
+
+        for (int i = objectIndexOfMock + 1; i < this.mocks.length; i++) {
+            try {
+                whenRunnables[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
+            }
+        }
+    }
+
+    /**
      * Runs all verifies before, and not including, verify corresponding to mock.
      *
      * @param mock Any mock within mocks.
