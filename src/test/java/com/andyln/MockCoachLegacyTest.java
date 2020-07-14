@@ -1109,6 +1109,180 @@ class MockCoachLegacyTest {
     }
 
     @Nested
+    class VerifyTheRestAfter {
+
+        private final Object mock3 = mock(Object.class);
+        private final Object[] threeMocks = {mock1, mock2, mock3};
+
+        private final MockCoach mockCoachLegacyThreeMocks = new MockCoachLegacy(threeMocks, threeWhens, threeVerifies);
+
+        @Test
+        public void whenVerifyBefore_ThenSuccess() throws Exception {
+            mockCoachLegacyThreeMocks.verifyBefore(mock1);
+
+            mockCoachLegacyThreeMocks.verifyTheRestAfter(mock2);
+
+            verifyNoInteractions(verify1);
+            verifyNoInteractions(verify2);
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyThrough_ThenSuccess() throws Exception {
+            mockCoachLegacyThreeMocks.verifyThrough(mock1);
+
+            mockCoachLegacyThreeMocks.verifyTheRestAfter(mock2);
+
+            verify(verify1, times(1)).run();
+            verifyNoInteractions(verify2);
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyBeforeFirst_ThenSuccess() throws Exception {
+            mockCoachLegacyThreeMocksInCircleChain.verifyBeforeFirst();
+
+            mockCoachLegacyThreeMocksInCircleChain.verifyTheRestAfter(mock2);
+
+            verifyNoInteractions(verify1);
+            verifyNoInteractions(verify2);
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyFirst_ThenSuccess() throws Exception {
+            mockCoachLegacyThreeMocksInCircleChain.verifyFirst();
+
+            mockCoachLegacyThreeMocksInCircleChain.verifyTheRestAfter(mock2);
+
+            verify(verify1, times(1)).run();
+            verifyNoInteractions(verify2);
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyAll_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+
+            mockCoachLegacyTwoMocks.verifyAll();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> mockCoachLegacyTwoMocks.verifyTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenVerifyBeforeLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+
+            mockCoachLegacyThreeMocksInCircleChain.verifyBeforeLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> mockCoachLegacyThreeMocksInCircleChain.verifyTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenVerifyLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+
+            mockCoachLegacyThreeMocksInCircleChain.verifyLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> mockCoachLegacyTwoMocks.verifyTheRestAfter(mock1)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithFirstMockOrLastMockInCircleChain_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock) for first or last mock in circle chain. If specifying first mock, use verifyTheRest(). If specifying the last mock, then this method does not have to be called (will have identical functionality)";
+
+            mockCoachLegacyThreeMocksInCircleChain.verifyBeforeFirst();
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachLegacyThreeMocksInCircleChain.verifyTheRestAfter(mock1)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithLastMockInMocks_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock) for the last mock! Not calling this method will have identical functionality";
+
+            mockCoachLegacyThreeMocks.verifyBefore(mock1);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachLegacyThreeMocks.verifyTheRestAfter(mock3)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock) for mock not in mocks!";
+
+            Object mockNotInMocks = mock(Object.class);
+
+            mockCoachLegacyThreeMocks.verifyBefore(mock1);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachLegacyThreeMocks.verifyTheRestAfter(mockNotInMocks)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockBeforePreviouslyUsedMock_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock) for a mock located before previously used mock! Make sure correct mock is being passed into this method";
+
+            mockCoachLegacyThreeMocks.verifyBefore(mock2);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachLegacyThreeMocks.verifyTheRestAfter(mock1)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+            String expectedMessage = "v3 throws an exception! Please check your verifies.";
+
+            doThrow(new Exception()).when(verify3).run();
+
+            mockCoachLegacyThreeMocks.verifyBefore(mock1);
+
+            RuntimeException actualException = assertThrows(
+                    RuntimeException.class,
+                    () -> mockCoachLegacyThreeMocks.verifyTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verifyNoInteractions(verify1);
+            verifyNoInteractions(verify2);
+            verify(verify3, times(1)).run();
+        }
+
+    }
+
+    @Nested
     public class OverloadedConstructors {
         // List of Mocks
         Object m1 = mock(Object.class);
