@@ -465,7 +465,7 @@ class MockCoachLegacyTest {
         private final Object mock3 = mock(Object.class);
         private final Object[] threeMocks = {mock1, mock2, mock3};
 
-        private final MockCoach mockCoachLegacyThreeMocks = new MockCoach(threeMocks, threeWhens, threeVerifies);
+        private final MockCoach mockCoachLegacyThreeMocks = new MockCoachLegacy(threeMocks, threeWhens, threeVerifies);
 
         @Test
         public void whenWhenBefore_ThenSuccess() throws Exception {
@@ -594,7 +594,6 @@ class MockCoachLegacyTest {
             verifyNoInteractions(when2);
             verify(when3, times(1)).run();
         }
-
     }
 
     @Nested
