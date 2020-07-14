@@ -1001,6 +1001,114 @@ class MockCoachLegacyTest {
     }
 
     @Nested
+    class VerifyTheRest {
+
+        @Test
+        public void whenVerifyBefore_ThenSuccess() throws Exception {
+            mockCoachLegacyTwoMocks.verifyBefore(mock1);
+
+            mockCoachLegacyTwoMocks.verifyTheRest();
+
+            verifyNoInteractions(verify1);
+            verify(verify2, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyThrough_ThenSuccess() throws Exception {
+            mockCoachLegacyTwoMocks.verifyThrough(mock1);
+
+            mockCoachLegacyTwoMocks.verifyTheRest();
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyBeforeFirst_ThenSuccess() throws Exception {
+            mockCoachLegacyThreeMocksInCircleChain.verifyBeforeFirst();
+
+            mockCoachLegacyThreeMocksInCircleChain.verifyTheRest();
+
+            verifyNoInteractions(verify1);
+            verify(verify2, times(1)).run();
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyFirst_ThenSuccess() throws Exception {
+            mockCoachLegacyThreeMocksInCircleChain.verifyFirst();
+
+            mockCoachLegacyThreeMocksInCircleChain.verifyTheRest();
+
+            verify(verify1, times(1)).run();
+            verify(verify2, times(1)).run();
+            verify(verify3, times(1)).run();
+        }
+
+        @Test
+        public void whenVerifyAll_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+
+            mockCoachLegacyTwoMocks.verifyAll();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    mockCoachLegacyTwoMocks::verifyTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenVerifyBeforeLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+
+            mockCoachLegacyThreeMocksInCircleChain.verifyBeforeLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    mockCoachLegacyTwoMocks::verifyTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenVerifyLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+
+            mockCoachLegacyThreeMocksInCircleChain.verifyLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    mockCoachLegacyTwoMocks::verifyTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+            String expectedMessage = "v2 throws an exception! Please check your verifies.";
+
+            doThrow(new Exception()).when(verify2).run();
+
+            mockCoachLegacyTwoMocks.verifyBefore(mock1);
+
+            RuntimeException actualException = assertThrows(
+                    RuntimeException.class,
+                    mockCoachLegacyTwoMocks::verifyTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verifyNoInteractions(verify1);
+            verify(verify2, times(1)).run();
+        }
+
+    }
+
+    @Nested
     public class OverloadedConstructors {
         // List of Mocks
         Object m1 = mock(Object.class);
