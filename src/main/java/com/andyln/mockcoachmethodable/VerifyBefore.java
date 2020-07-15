@@ -11,11 +11,14 @@ public class VerifyBefore implements Methodable {
     }
 
     public static VerifyBefore verifyBefore(Object mock) {
+        MethodableState.inProgress();
         return new VerifyBefore(mock);
     }
 
     @Override
     public void in(MockCoach mockCoach) {
+        MethodableState.clear();
         mockCoach.verifyBefore(mock);
     }
+
 }

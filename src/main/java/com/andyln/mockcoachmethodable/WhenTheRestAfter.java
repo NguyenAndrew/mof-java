@@ -11,11 +11,14 @@ public class WhenTheRestAfter implements Methodable {
     }
 
     public static WhenTheRestAfter whenTheRestAfter(Object mock) {
+        MethodableState.inProgress();
         return new WhenTheRestAfter(mock);
     }
 
     @Override
     public void in(MockCoach mockCoach) {
+        MethodableState.clear();
         mockCoach.whenTheRestAfter(mock);
     }
+
 }

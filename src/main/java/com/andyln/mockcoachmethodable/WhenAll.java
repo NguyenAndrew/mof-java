@@ -14,4 +14,5 @@ public class WhenAll implements Methodable {
         MethodableState.clear();
         mockCoach.whenAll();
     }
+
 }

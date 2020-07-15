@@ -14,4 +14,5 @@ public class WhenBeforeFirst implements Methodable {
         MethodableState.clear();
         mockCoach.whenBeforeFirst();
     }
+
 }

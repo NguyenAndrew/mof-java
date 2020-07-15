@@ -14,4 +14,5 @@ public class VerifyTheRest implements Methodable {
         MethodableState.clear();
         mockCoach.verifyTheRest();
     }
+
 }

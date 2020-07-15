@@ -20,4 +20,5 @@ public class VerifyThrough implements Methodable {
         MethodableState.clear();
         mockCoach.verifyThrough(mock);
     }
+
 }

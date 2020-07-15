@@ -5,4 +5,5 @@ import com.andyln.MockCoach;
 public interface Methodable {
 
     void in(MockCoach mockCoach);
+
 }

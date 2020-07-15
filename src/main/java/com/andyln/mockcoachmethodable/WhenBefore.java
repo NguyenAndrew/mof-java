@@ -11,11 +11,14 @@ public class WhenBefore implements Methodable {
     }
 
     public static WhenBefore whenBefore(Object mock) {
+        MethodableState.inProgress();
         return new WhenBefore(mock);
     }
 
     @Override
     public void in(MockCoach mockCoach) {
+        MethodableState.clear();
         mockCoach.whenBefore(mock);
     }
+
 }
