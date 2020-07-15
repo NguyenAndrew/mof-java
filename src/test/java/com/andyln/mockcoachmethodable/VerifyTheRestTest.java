@@ -1,6 +1,7 @@
 package com.andyln.mockcoachmethodable;
 
 import com.andyln.MockCoach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import static com.andyln.mockcoachmethodable.VerifyTheRest.verifyTheRest;
@@ -34,4 +35,20 @@ class VerifyTheRestTest {
 
         assertEquals(expectedMessage, actualException.getMessage());
     }
+
+    @Test
+    public void clearWorks_ThenSuccess() {
+        verifyTheRest();
+        assertThrows(
+                RuntimeException.class,
+                VerifyTheRest::verifyTheRest
+        );
+        verifyTheRest();
+    }
+
+    @AfterAll
+    public static void cleanUp() {
+        MethodableState.clear();
+    }
+
 }

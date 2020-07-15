@@ -1,6 +1,7 @@
 package com.andyln.mockcoachmethodable;
 
 import com.andyln.MockCoach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import static com.andyln.mockcoachmethodable.WhenBeforeFirst.whenBeforeFirst;
@@ -35,4 +36,20 @@ class WhenBeforeFirstTest {
 
         assertEquals(expectedMessage, actualException.getMessage());
     }
+
+    @Test
+    public void clearWorks_ThenSuccess() {
+        whenBeforeFirst();
+        assertThrows(
+                RuntimeException.class,
+                WhenBeforeFirst::whenBeforeFirst
+        );
+        whenBeforeFirst();
+    }
+
+    @AfterAll
+    public static void cleanUp() {
+        MethodableState.clear();
+    }
+
 }
