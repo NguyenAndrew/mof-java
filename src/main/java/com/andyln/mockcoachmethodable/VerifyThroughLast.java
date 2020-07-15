@@ -4,7 +4,7 @@ import com.andyln.MockCoach;
 
 public class VerifyThroughLast implements Methodable {
 
-    public static VerifyThroughLast verifyLast() {
+    public static VerifyThroughLast verifyThroughLast() {
         MethodableState.inProgress();
         return new VerifyThroughLast();
     }
