@@ -4,20 +4,20 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.VerifyLast.verifyLast;
+import static com.andyln.mockcoachmethodable.VerifyThroughLast.verifyLast;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-class VerifyLastTest {
+class VerifyThroughLastTest {
 
     private static MockCoach mockCoach = mock(MockCoach.class);
 
     @Test
     public void success() {
         verifyLast().in(mockCoach);
-        verify(mockCoach).verifyLast();
+        verify(mockCoach).verifyThroughLast();
     }
 
     @Test
@@ -25,13 +25,13 @@ class VerifyLastTest {
         RuntimeException placeholderException = new RuntimeException();
         verifyLast();
         String expectedMessage = String.format(
-                "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.VerifyLastTest.forgotIn_ThenThrowRuntimeException(VerifyLastTest.java:%d)",
+                "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.VerifyThroughLastTest.forgotIn_ThenThrowRuntimeException(VerifyThroughLastTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
         );
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                VerifyLast::verifyLast
+                VerifyThroughLast::verifyLast
         );
 
         assertEquals(expectedMessage, actualException.getMessage());

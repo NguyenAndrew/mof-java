@@ -923,11 +923,11 @@ class MockCoachTest {
     }
 
     @Nested
-    class VerifyLast {
+    class VerifyThroughLast {
 
         @Test
         void success() throws Exception {
-            mockCoachThreeMocksInCircleChain.verifyLast();
+            mockCoachThreeMocksInCircleChain.verifyThroughLast();
 
             verify(verify1, times(1)).run();
             verify(verify2, times(1)).run();
@@ -936,7 +936,7 @@ class MockCoachTest {
 
         @Test
         void whenSingleMockInMocks_ThenSuccess() throws Exception {
-            mockCoachSingleMock.verifyLast();
+            mockCoachSingleMock.verifyThroughLast();
 
             verify(verify1, times(1)).run();
         }
@@ -947,7 +947,7 @@ class MockCoachTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    mockCoachTwoMocks::verifyLast
+                    mockCoachTwoMocks::verifyThroughLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -964,7 +964,7 @@ class MockCoachTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    mockCoachThreeMocksInCircleChain::verifyLast
+                    mockCoachThreeMocksInCircleChain::verifyThroughLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -1096,10 +1096,10 @@ class MockCoachTest {
         }
 
         @Test
-        public void whenVerifyLast_ThenThrowIllegalStateException() {
+        public void whenVerifyThroughLast_ThenThrowIllegalStateException() {
             String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
 
-            mockCoachThreeMocksInCircleChain.verifyLast();
+            mockCoachThreeMocksInCircleChain.verifyThroughLast();
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
@@ -1211,10 +1211,10 @@ class MockCoachTest {
         }
 
         @Test
-        public void whenVerifyLast_ThenThrowIllegalStateException() {
+        public void whenVerifyThroughLast_ThenThrowIllegalStateException() {
             String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
 
-            mockCoachThreeMocksInCircleChain.verifyLast();
+            mockCoachThreeMocksInCircleChain.verifyThroughLast();
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,

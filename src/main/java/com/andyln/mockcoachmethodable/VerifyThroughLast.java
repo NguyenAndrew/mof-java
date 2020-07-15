@@ -2,17 +2,17 @@ package com.andyln.mockcoachmethodable;
 
 import com.andyln.MockCoach;
 
-public class VerifyLast implements Methodable {
+public class VerifyThroughLast implements Methodable {
 
-    public static VerifyLast verifyLast() {
+    public static VerifyThroughLast verifyLast() {
         MethodableState.inProgress();
-        return new VerifyLast();
+        return new VerifyThroughLast();
     }
 
     @Override
     public void in(MockCoach mockCoach) {
         MethodableState.clear();
-        mockCoach.verifyLast();
+        mockCoach.verifyThroughLast();
     }
 
 }

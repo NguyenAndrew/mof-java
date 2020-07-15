@@ -629,7 +629,7 @@ public class MockCoachLegacy extends MockCoach {
      *                               For directed path chains, call verify(INSERT_LAST_MOCK_HERE)
      */
     @Override
-    public void verifyLast() {
+    public void verifyThroughLast() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)");
         }

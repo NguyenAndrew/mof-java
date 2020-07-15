@@ -901,11 +901,11 @@ class MockCoachLegacyTest {
     }
 
     @Nested
-    class VerifyLast {
+    class VerifyThroughLast {
 
         @Test
         void success() throws Exception {
-            mockCoachLegacyThreeMocksInCircleChain.verifyLast();
+            mockCoachLegacyThreeMocksInCircleChain.verifyThroughLast();
 
             verify(verify1, times(1)).run();
             verify(verify2, times(1)).run();
@@ -914,18 +914,18 @@ class MockCoachLegacyTest {
 
         @Test
         void whenSingleMockInMocks_ThenSuccess() throws Exception {
-            mockCoachLegacySingleMock.verifyLast();
+            mockCoachLegacySingleMock.verifyThroughLast();
 
             verify(verify1, times(1)).run();
         }
 
         @Test
-        void whenVerifyLast_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+        void whenVerifyThroughLast_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
             String expectedMessage = "Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)";
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    mockCoachLegacyTwoMocks::verifyLast
+                    mockCoachLegacyTwoMocks::verifyThroughLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -935,14 +935,14 @@ class MockCoachLegacyTest {
         }
 
         @Test
-        void whenVerifyLast_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+        void whenVerifyThroughLast_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
             String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    mockCoachLegacyThreeMocksInCircleChain::verifyLast
+                    mockCoachLegacyThreeMocksInCircleChain::verifyThroughLast
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -1074,10 +1074,10 @@ class MockCoachLegacyTest {
         }
 
         @Test
-        public void whenVerifyLast_ThenThrowIllegalStateException() {
+        public void whenVerifyThroughLast_ThenThrowIllegalStateException() {
             String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
 
-            mockCoachLegacyThreeMocksInCircleChain.verifyLast();
+            mockCoachLegacyThreeMocksInCircleChain.verifyThroughLast();
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
@@ -1189,10 +1189,10 @@ class MockCoachLegacyTest {
         }
 
         @Test
-        public void whenVerifyLast_ThenThrowIllegalStateException() {
+        public void whenVerifyThroughLast_ThenThrowIllegalStateException() {
             String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
 
-            mockCoachLegacyThreeMocksInCircleChain.verifyLast();
+            mockCoachLegacyThreeMocksInCircleChain.verifyThroughLast();
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
