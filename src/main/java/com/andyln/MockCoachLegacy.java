@@ -605,7 +605,7 @@ public class MockCoachLegacy extends MockCoach {
      *                               For directed path chains, call verify(INSERT_FIRST_MOCK_HERE)
      */
     @Override
-    public void verifyFirst() {
+    public void verifyThroughFirst() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
             throw new IllegalStateException("Cannot call verifyFirst() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_FIRST_MOCK_HERE)");
         }

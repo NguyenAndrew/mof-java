@@ -869,11 +869,11 @@ class MockCoachTest {
     }
 
     @Nested
-    class VerifyFirst {
+    class VerifyThroughFirst {
 
         @Test
         void success() throws Exception {
-            mockCoachThreeMocksInCircleChain.verifyFirst();
+            mockCoachThreeMocksInCircleChain.verifyThroughFirst();
 
             verify(verify1, times(1)).run();
             verify(verify2, times(0)).run();
@@ -882,18 +882,18 @@ class MockCoachTest {
 
         @Test
         void whenSingleMockInMocks_ThenSuccess() throws Exception {
-            mockCoachSingleMock.verifyFirst();
+            mockCoachSingleMock.verifyThroughFirst();
 
             verify(verify1, times(1)).run();
         }
 
         @Test
-        void whenVerifyFirst_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+        void whenVerifyThroughFirst_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
             String expectedMessage = "Cannot call verifyFirst() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_FIRST_MOCK_HERE)";
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    mockCoachTwoMocks::verifyFirst
+                    mockCoachTwoMocks::verifyThroughFirst
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -903,14 +903,14 @@ class MockCoachTest {
         }
 
         @Test
-        void whenVerifyFirst_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+        void whenVerifyThroughFirst_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
             String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    mockCoachThreeMocksInCircleChain::verifyFirst
+                    mockCoachThreeMocksInCircleChain::verifyThroughFirst
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -942,7 +942,7 @@ class MockCoachTest {
         }
 
         @Test
-        void whenVerifyLast_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
+        void whenVerifyThroughLast_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
             String expectedMessage = "Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)";
 
             IllegalStateException actualException = assertThrows(
@@ -957,7 +957,7 @@ class MockCoachTest {
         }
 
         @Test
-        void whenVerifyLast_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+        void whenVerifyThroughLast_CalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
             String expectedMessage = "v1 throws an exception! Please check your verifies.";
 
             doThrow(new Exception()).when(verify1).run();
@@ -1057,8 +1057,8 @@ class MockCoachTest {
         }
 
         @Test
-        public void whenVerifyFirst_ThenSuccess() throws Exception {
-            mockCoachThreeMocksInCircleChain.verifyFirst();
+        public void whenVerifyThroughFirst_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyThroughFirst();
 
             mockCoachThreeMocksInCircleChain.verifyTheRest();
 
@@ -1172,8 +1172,8 @@ class MockCoachTest {
         }
 
         @Test
-        public void whenVerifyFirst_ThenSuccess() throws Exception {
-            mockCoachThreeMocksInCircleChain.verifyFirst();
+        public void whenVerifyThroughFirst_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChain.verifyThroughFirst();
 
             mockCoachThreeMocksInCircleChain.verifyTheRestAfter(mock2);
 

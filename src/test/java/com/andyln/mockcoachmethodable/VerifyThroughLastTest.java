@@ -42,7 +42,7 @@ class VerifyThroughLastTest {
         verifyThroughLast();
         assertThrows(
                 RuntimeException.class,
-                VerifyFirst::verifyFirst
+                VerifyThroughFirst::verifyThroughFirst
         );
         verifyThroughLast();
     }

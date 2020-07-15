@@ -847,11 +847,11 @@ class MockCoachLegacyTest {
     }
 
     @Nested
-    class VerifyFirst {
+    class VerifyThroughFirst {
 
         @Test
         void success() throws Exception {
-            mockCoachLegacyThreeMocksInCircleChain.verifyFirst();
+            mockCoachLegacyThreeMocksInCircleChain.verifyThroughFirst();
 
             verify(verify1, times(1)).run();
             verify(verify2, times(0)).run();
@@ -860,7 +860,7 @@ class MockCoachLegacyTest {
 
         @Test
         void whenSingleMockInMocks_ThenSuccess() throws Exception {
-            mockCoachLegacySingleMock.verifyFirst();
+            mockCoachLegacySingleMock.verifyThroughFirst();
 
             verify(verify1, times(1)).run();
         }
@@ -871,7 +871,7 @@ class MockCoachLegacyTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    mockCoachLegacyTwoMocks::verifyFirst
+                    mockCoachLegacyTwoMocks::verifyThroughFirst
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -888,7 +888,7 @@ class MockCoachLegacyTest {
 
             RuntimeException actualException = assertThrows(
                     RuntimeException.class,
-                    mockCoachLegacyThreeMocksInCircleChain::verifyFirst
+                    mockCoachLegacyThreeMocksInCircleChain::verifyThroughFirst
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
@@ -1036,7 +1036,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenVerifyFirst_ThenSuccess() throws Exception {
-            mockCoachLegacyThreeMocksInCircleChain.verifyFirst();
+            mockCoachLegacyThreeMocksInCircleChain.verifyThroughFirst();
 
             mockCoachLegacyThreeMocksInCircleChain.verifyTheRest();
 
@@ -1151,7 +1151,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenVerifyFirst_ThenSuccess() throws Exception {
-            mockCoachLegacyThreeMocksInCircleChain.verifyFirst();
+            mockCoachLegacyThreeMocksInCircleChain.verifyThroughFirst();
 
             mockCoachLegacyThreeMocksInCircleChain.verifyTheRestAfter(mock2);
 

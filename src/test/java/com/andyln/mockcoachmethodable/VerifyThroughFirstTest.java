@@ -4,34 +4,34 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.VerifyFirst.verifyFirst;
+import static com.andyln.mockcoachmethodable.VerifyThroughFirst.verifyThroughFirst;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-class VerifyFirstTest {
+class VerifyThroughFirstTest {
 
     private static MockCoach mockCoach = mock(MockCoach.class);
 
     @Test
     public void success() {
-        verifyFirst().in(mockCoach);
-        verify(mockCoach).verifyFirst();
+        verifyThroughFirst().in(mockCoach);
+        verify(mockCoach).verifyThroughFirst();
     }
 
     @Test
     public void forgotIn_ThenThrowRuntimeException() {
         RuntimeException placeholderException = new RuntimeException();
-        verifyFirst();
+        verifyThroughFirst();
         String expectedMessage = String.format(
-                "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.VerifyFirstTest.forgotIn_ThenThrowRuntimeException(VerifyFirstTest.java:%d)",
+                "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.VerifyThroughFirstTest.forgotIn_ThenThrowRuntimeException(VerifyThroughFirstTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
         );
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                VerifyFirst::verifyFirst
+                VerifyThroughFirst::verifyThroughFirst
         );
 
         assertEquals(expectedMessage, actualException.getMessage());
@@ -39,12 +39,12 @@ class VerifyFirstTest {
 
     @Test
     public void clearWorks_ThenSuccess() {
-        verifyFirst();
+        verifyThroughFirst();
         assertThrows(
                 RuntimeException.class,
-                VerifyFirst::verifyFirst
+                VerifyThroughFirst::verifyThroughFirst
         );
-        verifyFirst();
+        verifyThroughFirst();
     }
 
     @AfterAll
