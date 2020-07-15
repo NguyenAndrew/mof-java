@@ -233,4 +233,4 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 * ~~Reduce constructor from 16 mocks (48 parameters) to 8 mocks (24 parameters). Current numbers of parameters is causing strange visual effects and lag on Intellij.~~ Done
 * ~~Re-introduce Builder to allow N number of mocks. Support up to n number of mocks. This change is needed, because of the lowering of constructor mocks.~~ Done
 * Replace MockCoachRunnable with WhenLambda and VerifyLambda for clearer API. **In Progress**
-* Introduce verifyTheRestNoInterfactions and verifyNoInteractionsTheRestAfter(mock) to simplify no and no more interaction calls.
+* Introduce verifyTheRestNoInteractions and verifyNoInteractionsTheRestAfter(mock) to simplify no and no more interaction calls.
