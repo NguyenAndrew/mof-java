@@ -430,7 +430,7 @@ public class MockCoachLegacy extends MockCoach {
     @Override
     public void whenTheRest() {
         if (!canCallWhenTheRest) {
-            throw new IllegalStateException("Cannot call whenTheRest()! Must be called only after whenBefore(mock) or whenFirst()");
+            throw new IllegalStateException("Cannot call whenTheRest()! Must be called only after whenBefore(mock) or whenThroughFirst()");
         }
 
         for (int i = lastSuccessfulMockIndex + 1; i < this.mocks.length; i++) {
@@ -456,7 +456,7 @@ public class MockCoachLegacy extends MockCoach {
     @Override
     public void whenTheRestAfter(Object mock) {
         if (!canCallWhenTheRest) {
-            throw new IllegalStateException("Cannot call whenTheRestAfter(Object mock)! Must be called only after whenBefore(mock) or whenFirst()");
+            throw new IllegalStateException("Cannot call whenTheRestAfter(Object mock)! Must be called only after whenBefore(mock) or whenThroughFirst()");
         }
 
         if (isMocksInCircleChain && mock == mocks[0]) {
@@ -527,19 +527,19 @@ public class MockCoachLegacy extends MockCoach {
      * @param mock Any mock within mocks.
      * @throws IllegalStateException    Calling this method for first/last mocks in circle chain
      *                                  (because first and last mock are the same, there would no way to tell which mock to use).
-     *                                  For circle chains, call either verifyFirst() or verifyLast()
+     *                                  For circle chains, call either verifyThroughFirst() or verifyThroughLast()
      * @throws IllegalArgumentException Calling with object not in mocks.
      */
     @Override
     public void verifyThrough(Object mock) {
         if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
-            throw new IllegalStateException("Cannot call verify(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyFirst() or verifyLast()");
+            throw new IllegalStateException("Cannot call verifyThrough(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyThroughFirst() or verifyThroughLast()");
         }
 
         Integer objectIndexOfMock = mockMap.get(mock);
 
         if (objectIndexOfMock == null) {
-            throw new IllegalArgumentException("Cannot call verify(Object mock) for mock not in mocks!");
+            throw new IllegalArgumentException("Cannot call verifyThrough(Object mock) for mock not in mocks!");
         }
 
         int indexOfMock = objectIndexOfMock;
@@ -602,12 +602,12 @@ public class MockCoachLegacy extends MockCoach {
      *
      * @throws IllegalStateException Calling this method for mocks in directed path chain
      *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
-     *                               For directed path chains, call verify(INSERT_FIRST_MOCK_HERE)
+     *                               For directed path chains, call verifyThrough(INSERT_FIRST_MOCK_HERE)
      */
     @Override
     public void verifyThroughFirst() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
-            throw new IllegalStateException("Cannot call verifyFirst() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_FIRST_MOCK_HERE)");
+            throw new IllegalStateException("Cannot call verifyThroughFirst() for mocks in a path graph! For mocks in a path graph, use verifyThrough(INSERT_FIRST_MOCK_HERE)");
         }
 
         try {
@@ -626,12 +626,12 @@ public class MockCoachLegacy extends MockCoach {
      *
      * @throws IllegalStateException Calling this method for mocks in directed path chain
      *                               (using this method in directed path chain, may cause confusion on which mock is being referred to).
-     *                               For directed path chains, call verify(INSERT_LAST_MOCK_HERE)
+     *                               For directed path chains, call verifyThrough(INSERT_LAST_MOCK_HERE)
      */
     @Override
     public void verifyThroughLast() {
         if (containsMoreThanOneMock && !isMocksInCircleChain) {
-            throw new IllegalStateException("Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)");
+            throw new IllegalStateException("Cannot call verifyThroughLast() for mocks in a path graph! For mocks in a path graph, use verifyThrough(INSERT_LAST_MOCK_HERE)");
         }
 
         this.verifyAll();
@@ -657,7 +657,7 @@ public class MockCoachLegacy extends MockCoach {
     @Override
     public void verifyTheRest() {
         if (!canCallVerifyTheRest) {
-            throw new IllegalStateException("Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()");
+            throw new IllegalStateException("Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()");
         }
 
         for (int i = lastSuccessfulMockIndex + 1; i < this.mocks.length; i++) {
@@ -675,7 +675,7 @@ public class MockCoachLegacy extends MockCoach {
      * Runs verify lambdas after, but not including, mock passed into method.
      *
      * @param mock Mock after previously used mock, excluding last mock
-     * @throws IllegalStateException    Calling this method when not using verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()
+     * @throws IllegalStateException    Calling this method when not using verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()
      * @throws IllegalArgumentException Calling with object not in mocks.
      *                                  Calling with mock that is at the end of mock list (this method does not have to be called, in this case).
      *                                  Calling with mock not after previously used mock (would unnecessarily re-run previously run when lambdas).
@@ -683,7 +683,7 @@ public class MockCoachLegacy extends MockCoach {
     @Override
     public void verifyTheRestAfter(Object mock) {
         if (!canCallVerifyTheRest) {
-            throw new IllegalStateException("Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()");
+            throw new IllegalStateException("Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()");
         }
 
         if (isMocksInCircleChain && mock == mocks[0]) {
@@ -765,4 +765,5 @@ public class MockCoachLegacy extends MockCoach {
     public static Builder builder() {
         return new Builder();
     }
+
 }

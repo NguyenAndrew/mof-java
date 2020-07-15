@@ -412,7 +412,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenWhenAll_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call whenTheRest()! Must be called only after whenBefore(mock) or whenFirst()";
+            String expectedMessage = "Cannot call whenTheRest()! Must be called only after whenBefore(mock) or whenThroughFirst()";
 
             mockCoachLegacyTwoMocks.whenAll();
 
@@ -426,7 +426,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenWhenBeforeLast_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call whenTheRest()! Must be called only after whenBefore(mock) or whenFirst()";
+            String expectedMessage = "Cannot call whenTheRest()! Must be called only after whenBefore(mock) or whenThroughFirst()";
 
             mockCoachLegacyThreeMocksInCircleChain.whenBeforeLast();
 
@@ -491,7 +491,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenWhenAll_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call whenTheRestAfter(Object mock)! Must be called only after whenBefore(mock) or whenFirst()";
+            String expectedMessage = "Cannot call whenTheRestAfter(Object mock)! Must be called only after whenBefore(mock) or whenThroughFirst()";
 
             mockCoachLegacyThreeMocks.whenAll();
 
@@ -505,7 +505,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenWhenBeforeLast_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call whenTheRestAfter(Object mock)! Must be called only after whenBefore(mock) or whenFirst()";
+            String expectedMessage = "Cannot call whenTheRestAfter(Object mock)! Must be called only after whenBefore(mock) or whenThroughFirst()";
 
             mockCoachLegacyThreeMocksInCircleChain.whenBeforeLast();
 
@@ -705,7 +705,7 @@ class MockCoachLegacyTest {
 
         @Test
         void whenVerify_CalledWithFirstMockInCircleChainMocks_ThenThrowIllegalStateException() throws Exception {
-            String expectedMessage = "Cannot call verify(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyFirst() or verifyLast()";
+            String expectedMessage = "Cannot call verifyThrough(Object mock) for first/last mock in a circle chain! For mocks in a circle chain, use verifyThroughFirst() or verifyThroughLast()";
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
@@ -721,7 +721,7 @@ class MockCoachLegacyTest {
 
         @Test
         void whenVerify_CalledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
-            String expectedMessage = "Cannot call verify(Object mock) for mock not in mocks!";
+            String expectedMessage = "Cannot call verifyThrough(Object mock) for mock not in mocks!";
             Object mockNotInMocks = mock(Object.class);
 
             IllegalArgumentException actualException = assertThrows(
@@ -867,7 +867,7 @@ class MockCoachLegacyTest {
 
         @Test
         void whenVerifyFirst_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
-            String expectedMessage = "Cannot call verifyFirst() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_FIRST_MOCK_HERE)";
+            String expectedMessage = "Cannot call verifyThroughFirst() for mocks in a path graph! For mocks in a path graph, use verifyThrough(INSERT_FIRST_MOCK_HERE)";
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
@@ -921,7 +921,7 @@ class MockCoachLegacyTest {
 
         @Test
         void whenVerifyThroughLast_CalledOnDirectedPathGraph_ThenThrowIllegalStateException() throws Exception {
-            String expectedMessage = "Cannot call verifyLast() for mocks in a path graph! For mocks in a path graph, use verify(INSERT_LAST_MOCK_HERE)";
+            String expectedMessage = "Cannot call verifyThroughLast() for mocks in a path graph! For mocks in a path graph, use verifyThrough(INSERT_LAST_MOCK_HERE)";
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
@@ -1047,7 +1047,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenVerifyAll_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()";
 
             mockCoachLegacyTwoMocks.verifyAll();
 
@@ -1061,7 +1061,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenVerifyBeforeLast_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()";
 
             mockCoachLegacyThreeMocksInCircleChain.verifyBeforeLast();
 
@@ -1075,7 +1075,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenVerifyThroughLast_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+            String expectedMessage = "Cannot call verifyTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()";
 
             mockCoachLegacyThreeMocksInCircleChain.verifyThroughLast();
 
@@ -1162,7 +1162,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenVerifyAll_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()";
 
             mockCoachLegacyTwoMocks.verifyAll();
 
@@ -1176,7 +1176,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenVerifyBeforeLast_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()";
 
             mockCoachLegacyThreeMocksInCircleChain.verifyBeforeLast();
 
@@ -1190,7 +1190,7 @@ class MockCoachLegacyTest {
 
         @Test
         public void whenVerifyThroughLast_ThenThrowIllegalStateException() {
-            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyFirst()";
+            String expectedMessage = "Cannot call verifyTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()";
 
             mockCoachLegacyThreeMocksInCircleChain.verifyThroughLast();
 
@@ -1548,4 +1548,5 @@ class MockCoachLegacyTest {
                     .build();
         }
     }
+
 }
