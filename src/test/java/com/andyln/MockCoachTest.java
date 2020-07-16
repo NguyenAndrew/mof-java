@@ -15,12 +15,12 @@ class MockCoachTest {
     private final Object[] twoMocks = {mock1, mock2};
     private final Object[] threeMocksInCircleChain = {mock1, mock2, mock1};
 
-    private final MockCoachRunnable when1 = mock(MockCoachRunnable.class);
-    private final MockCoachRunnable when2 = mock(MockCoachRunnable.class);
-    private final MockCoachRunnable when3 = mock(MockCoachRunnable.class);
-    private final MockCoachRunnable[] singleWhen = {when1};
-    private final MockCoachRunnable[] twoWhens = {when1, when2};
-    private final MockCoachRunnable[] threeWhens = {when1, when2, when3};
+    private final WhenLambda when1 = mock(WhenLambda.class);
+    private final WhenLambda when2 = mock(WhenLambda.class);
+    private final WhenLambda when3 = mock(WhenLambda.class);
+    private final WhenLambda[] singleWhen = {when1};
+    private final WhenLambda[] twoWhens = {when1, when2};
+    private final WhenLambda[] threeWhens = {when1, when2, when3};
 
     private final MockCoachRunnable verify1 = mock(MockCoachRunnable.class);
     private final MockCoachRunnable verify2 = mock(MockCoachRunnable.class);
@@ -60,7 +60,7 @@ class MockCoachTest {
             String expectedMessage = "mocks/whens/verifies cannot be null!";
 
             Object[] mocks = null;
-            MockCoachRunnable[] whens = null;
+            WhenLambda[] whens = null;
             MockCoachRunnable[] verifies = null;
 
             IllegalArgumentException actualException = assertThrows(
@@ -99,7 +99,7 @@ class MockCoachTest {
         void whenMocksIsEmpty_ThenThrowIllegalArgumentException() {
             String expectedMessage = "mocks/whens/verifies cannot be empty!";
             Object[] emptyMocks = new Object[0];
-            MockCoachRunnable[] emptyWhens = new MockCoachRunnable[0];
+            WhenLambda[] emptyWhens = new WhenLambda[0];
             MockCoachRunnable[] emptyVerifies = new MockCoachRunnable[0];
 
             IllegalArgumentException actualException = assertThrows(
