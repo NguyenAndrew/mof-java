@@ -11,6 +11,8 @@ public class MockCoach {
     private WhenLambda[] whenLambdas;
     private VerifyLambda[] verifyLambdas;
 
+    private NoInteractionLambda verifyNoInteractionLambda;
+
     private Map<Object, Integer> mockMap;
 
     private boolean containsMoreThanOneMock;
@@ -345,6 +347,16 @@ public class MockCoach {
     }
 
     /**
+     * Allows usage of verifyNoInteractionsTheRest and verifyNoInteractions
+     *
+     * @param verifyNoInteractionLambda A Java Lambda. Example: "setVerifyNoInteractions(mock -> verifyNoInteractions(mock))"
+     */
+    public MockCoach setVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
+        this.verifyNoInteractionLambda = verifyNoInteractionLambda;
+        return this;
+    }
+
+    /**
      * Runs all whens before, and not including, when corresponding to mock.
      *
      * @param mock Any mock within mocks.
@@ -661,6 +673,29 @@ public class MockCoach {
                 verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+            }
+        }
+
+        canCallVerifyTheRest = false;
+    }
+
+    /**
+     * Runs no interaction lambda after, but not including, mocks used in previous method.
+     */
+    public void verifyNoInteractionsTheRest() {
+        if (verifyNoInteractionLambda == null) {
+            throw new IllegalStateException("Must setVerifyNoInteractions(Lambda). Example: 'MockCoach mockCoach = new MockCoach(...).setVerifyNoInteractions(mock -> verifyNoMoreInteractions(mock));'");
+        }
+
+        if (!canCallVerifyTheRest) {
+            throw new IllegalStateException("Cannot call verifyNoInteractionsTheRest()! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()");
+        }
+
+        for (int i = lastSuccessfulMockIndex + 1; i < this.mocks.length; i++) {
+            try {
+                verifyNoInteractionLambda.run(mocks[i]);
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("m%d throws an exception! Please check your mocks and verification lambda", i + 1), e);
             }
         }
 
