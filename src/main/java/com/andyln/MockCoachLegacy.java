@@ -335,6 +335,17 @@ public class MockCoachLegacy extends MockCoach {
     }
 
     /**
+     * Feature only possible in MockCoach, not MockCoachLegacy
+     *
+     * @deprecated Feature only possible in MockCoach, not MockCoachLegacy
+     */
+    @Deprecated
+    @Override
+    public MockCoach setVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
+        throw new UnsupportedOperationException("Feature only possible in MockCoach, not MockCoachLegacy");
+    }
+
+    /**
      * Runs all whens before, and not including, when corresponding to mock.
      *
      * @param mock Any mock within mocks.
@@ -669,6 +680,17 @@ public class MockCoachLegacy extends MockCoach {
         }
 
         canCallVerifyTheRest = false;
+    }
+
+    /**
+     * Feature only possible in MockCoach, not MockCoachLegacy
+     *
+     * @deprecated Feature only possible for MockCoach, not MockCoachLegacy
+     */
+    @Deprecated
+    @Override
+    public void verifyNoInteractionsTheRest() {
+        throw new UnsupportedOperationException("Feature only possible for MockCoach, not MockCoachLegacy");
     }
 
     /**

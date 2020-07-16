@@ -1109,6 +1109,24 @@ class MockCoachLegacyTest {
     }
 
     @Nested
+    class VerifyNoInteractionsTheRest {
+
+        @Test
+        public void fails() {
+            String expectedMessage = "Feature only possible for MockCoach, not MockCoachLegacy";
+
+            UnsupportedOperationException actualException = assertThrows(
+                    UnsupportedOperationException.class,
+                    mockCoachLegacyTwoMocks::verifyNoInteractionsTheRest
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+
+    }
+
+    @Nested
     class VerifyTheRestAfter {
 
         private final Object mock3 = mock(Object.class);
@@ -1521,6 +1539,26 @@ class MockCoachLegacyTest {
                     }
             );
         }
+
+    }
+
+    @Nested
+    class SetVerifyNoInteractions {
+
+        NoInteractionLambda verifyNoInteractionLambda = mock(NoInteractionLambda.class);
+
+        @Test
+        public void fails() {
+            String expectedMessage = "Feature only possible in MockCoach, not MockCoachLegacy";
+
+            UnsupportedOperationException actualException = assertThrows(
+                    UnsupportedOperationException.class,
+                    () -> mockCoachLegacyTwoMocks.setVerifyNoInteractions(verifyNoInteractionLambda)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
     }
 
     @Nested
