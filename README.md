@@ -232,5 +232,5 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 * ~~Introduce `whenTheRest()/whenTheRestAfter(mock)` and `verifyTheRest()/verifyTheRestAfter(mock)`, which runs the rest of when/verifies after the previous or specified `whenBefore(mock)/whenBeforeFirst(mock)` and `verifyUpTo(mock)/verifyBefore(mock)/verifyBeforeFirst()/verifyFirst(mock)`. Allows further reuse of already defined methods of whens/verifies in Mock Coach to remove noisy code, and continues to lower complexity when refactoring tests.~~ Done
 * ~~Reduce constructor from 16 mocks (48 parameters) to 8 mocks (24 parameters). Current numbers of parameters is causing strange visual effects and lag on Intellij.~~ Done
 * ~~Re-introduce Builder to allow N number of mocks. Support up to n number of mocks. This change is needed, because of the lowering of constructor mocks.~~ Done
-* ~~Replace MockCoachRunnable with WhenLambda and VerifyLambda for clearer API.~~ Done
+* ~~Replace MockCoachRunnable with WhenLambda and VerifyLambda for clearer API. Use more language agnostic terminology.~~ Done
 * Introduce verifyTheRestNoInteractions and verifyNoInteractionsTheRestAfter(mock) to simplify no and no more interaction calls.
