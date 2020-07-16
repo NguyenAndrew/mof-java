@@ -9,7 +9,7 @@ public class MockCoachLegacy extends MockCoach {
 
     private Object[] mocks;
     private WhenLambda[] whenLambdas;
-    private MockCoachRunnable[] verifyRunnables;
+    private VerifyLambda[] verifyLambdas;
 
     private Map<Object, Integer> mockMap;
 
@@ -26,7 +26,7 @@ public class MockCoachLegacy extends MockCoach {
     private boolean isMocksInCircleChain;
 
     // Shared private constructor
-    private void setupMockCoachLegacy(Object[] mocks, WhenLambda[] whenLambdas, MockCoachRunnable[] verifyRunnables) {
+    private void setupMockCoachLegacy(Object[] mocks, WhenLambda[] whenLambdas, VerifyLambda[] verifyLambdas) {
         if (mocks == null) {
             throw new IllegalArgumentException("mocks/whens/verifies cannot be null!");
         }
@@ -35,7 +35,7 @@ public class MockCoachLegacy extends MockCoach {
             throw new IllegalArgumentException("whens length does not match mocks length!");
         }
 
-        if (mocks.length != verifyRunnables.length) {
+        if (mocks.length != verifyLambdas.length) {
             throw new IllegalArgumentException("verifies length does not match mocks length!");
         }
 
@@ -52,7 +52,7 @@ public class MockCoachLegacy extends MockCoach {
             mockMap.put(mocks[0], 0);
             this.mocks = mocks;
             this.whenLambdas = whenLambdas;
-            this.verifyRunnables = verifyRunnables;
+            this.verifyLambdas = verifyLambdas;
             return;
         }
 
@@ -73,7 +73,7 @@ public class MockCoachLegacy extends MockCoach {
 
         this.mocks = mocks;
         this.whenLambdas = whenLambdas;
-        this.verifyRunnables = verifyRunnables;
+        this.verifyLambdas = verifyLambdas;
     }
 
     /**
@@ -85,13 +85,13 @@ public class MockCoachLegacy extends MockCoach {
      * It is recommended to use MockCoach, whenever possible, to avoid having to manage a list of "mocks",
      * and to enforce a Service Dipath Chain within your methods.
      *
-     * @param mocks           Array of Mocks injected or autowired into an object-under-test.
+     * @param mocks         Array of Mocks injected or autowired into an object-under-test.
      * @param whenLambdas   Array of Java lambdas containing "when(...)" statements
-     * @param verifyRunnables Array of JAva lambdas containing "verify(...) statements
+     * @param verifyLambdas Array of JAva lambdas containing "verify(...) statements
      * @throws IllegalArgumentException Prevents calling constructor with any mocks/whens/verifies that are empty, not the same length, or not permitted type.
      */
-    public MockCoachLegacy(Object[] mocks, WhenLambda[] whenLambdas, MockCoachRunnable[] verifyRunnables) {
-        setupMockCoachLegacy(mocks, whenLambdas, verifyRunnables);
+    public MockCoachLegacy(Object[] mocks, WhenLambda[] whenLambdas, VerifyLambda[] verifyLambdas) {
+        setupMockCoachLegacy(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -102,12 +102,12 @@ public class MockCoachLegacy extends MockCoach {
      * @param v1 Verify Lambda One
      */
     public MockCoachLegacy(
-            Object m1, WhenLambda w1, MockCoachRunnable v1
+            Object m1, WhenLambda w1, VerifyLambda v1
     ) {
         Object[] mocks = {m1};
         WhenLambda[] whenLambdas = {w1};
-        MockCoachRunnable[] verifyRunnables = {v1};
-        setupMockCoachLegacy(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1};
+        setupMockCoachLegacy(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -121,13 +121,13 @@ public class MockCoachLegacy extends MockCoach {
      * @param v2 Verify Two
      */
     public MockCoachLegacy(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2
     ) {
         Object[] mocks = {m1, m2};
         WhenLambda[] whenLambdas = {w1, w2};
-        MockCoachRunnable[] verifyRunnables = {v1, v2};
-        setupMockCoachLegacy(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2};
+        setupMockCoachLegacy(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -144,14 +144,14 @@ public class MockCoachLegacy extends MockCoach {
      * @param v3 Verify Three
      */
     public MockCoachLegacy(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3
     ) {
         Object[] mocks = {m1, m2, m3};
         WhenLambda[] whenLambdas = {w1, w2, w3};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3};
-        setupMockCoachLegacy(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3};
+        setupMockCoachLegacy(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -171,15 +171,15 @@ public class MockCoachLegacy extends MockCoach {
      * @param v4 Verify Four
      */
     public MockCoachLegacy(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4
     ) {
         Object[] mocks = {m1, m2, m3, m4};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4};
-        setupMockCoachLegacy(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4};
+        setupMockCoachLegacy(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -202,16 +202,16 @@ public class MockCoachLegacy extends MockCoach {
      * @param v5 Verify Five
      */
     public MockCoachLegacy(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4,
-            Object m5, WhenLambda w5, MockCoachRunnable v5
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4,
+            Object m5, WhenLambda w5, VerifyLambda v5
     ) {
         Object[] mocks = {m1, m2, m3, m4, m5};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4, w5};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5};
-        setupMockCoachLegacy(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4, v5};
+        setupMockCoachLegacy(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -237,17 +237,17 @@ public class MockCoachLegacy extends MockCoach {
      * @param v6 Verify Six
      */
     public MockCoachLegacy(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4,
-            Object m5, WhenLambda w5, MockCoachRunnable v5,
-            Object m6, WhenLambda w6, MockCoachRunnable v6
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4,
+            Object m5, WhenLambda w5, VerifyLambda v5,
+            Object m6, WhenLambda w6, VerifyLambda v6
     ) {
         Object[] mocks = {m1, m2, m3, m4, m5, m6};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4, w5, w6};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6};
-        setupMockCoachLegacy(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4, v5, v6};
+        setupMockCoachLegacy(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -276,18 +276,18 @@ public class MockCoachLegacy extends MockCoach {
      * @param v7 Verify Seven
      */
     public MockCoachLegacy(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4,
-            Object m5, WhenLambda w5, MockCoachRunnable v5,
-            Object m6, WhenLambda w6, MockCoachRunnable v6,
-            Object m7, WhenLambda w7, MockCoachRunnable v7
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4,
+            Object m5, WhenLambda w5, VerifyLambda v5,
+            Object m6, WhenLambda w6, VerifyLambda v6,
+            Object m7, WhenLambda w7, VerifyLambda v7
     ) {
         Object[] mocks = {m1, m2, m3, m4, m5, m6, m7};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4, w5, w6, w7};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7};
-        setupMockCoachLegacy(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4, v5, v6, v7};
+        setupMockCoachLegacy(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -319,19 +319,19 @@ public class MockCoachLegacy extends MockCoach {
      * @param v8 Verify Eight
      */
     public MockCoachLegacy(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4,
-            Object m5, WhenLambda w5, MockCoachRunnable v5,
-            Object m6, WhenLambda w6, MockCoachRunnable v6,
-            Object m7, WhenLambda w7, MockCoachRunnable v7,
-            Object m8, WhenLambda w8, MockCoachRunnable v8
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4,
+            Object m5, WhenLambda w5, VerifyLambda v5,
+            Object m6, WhenLambda w6, VerifyLambda v6,
+            Object m7, WhenLambda w7, VerifyLambda v7,
+            Object m8, WhenLambda w8, VerifyLambda v8
     ) {
         Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4, w5, w6, w7, w8};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8};
-        setupMockCoachLegacy(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4, v5, v6, v7, v8};
+        setupMockCoachLegacy(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -511,7 +511,7 @@ public class MockCoachLegacy extends MockCoach {
 
         for (int i = 0; i < indexOfMock; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -546,7 +546,7 @@ public class MockCoachLegacy extends MockCoach {
 
         for (int i = 0; i <= indexOfMock; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -589,7 +589,7 @@ public class MockCoachLegacy extends MockCoach {
 
         for (int i = 0; i < this.mocks.length - 1; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -611,7 +611,7 @@ public class MockCoachLegacy extends MockCoach {
         }
 
         try {
-            verifyRunnables[0].run();
+            verifyLambdas[0].run();
         } catch (Exception e) {
             throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", 1), e);
         }
@@ -644,7 +644,7 @@ public class MockCoachLegacy extends MockCoach {
     public void verifyAll() {
         for (int i = 0; i < this.mocks.length; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -662,7 +662,7 @@ public class MockCoachLegacy extends MockCoach {
 
         for (int i = lastSuccessfulMockIndex + 1; i < this.mocks.length; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -706,7 +706,7 @@ public class MockCoachLegacy extends MockCoach {
 
         for (int i = objectIndexOfMock + 1; i < this.mocks.length; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -716,7 +716,7 @@ public class MockCoachLegacy extends MockCoach {
     public static class Builder extends MockCoach.Builder {
         private List<Object> mocks;
         private List<WhenLambda> whens;
-        private List<MockCoachRunnable> verifies;
+        private List<VerifyLambda> verifies;
 
         /**
          * Creates a builder for MockCoachLegacy.
@@ -735,7 +735,7 @@ public class MockCoachLegacy extends MockCoach {
          * @param v Verify Lambda
          */
         @Override
-        public Builder add(Object m, WhenLambda w, MockCoachRunnable v) {
+        public Builder add(Object m, WhenLambda w, VerifyLambda v) {
             mocks.add(m);
             whens.add(w);
             verifies.add(v);
@@ -752,7 +752,7 @@ public class MockCoachLegacy extends MockCoach {
             return new MockCoachLegacy(
                     mocks.toArray(new Object[0]),
                     whens.toArray(new WhenLambda[0]),
-                    verifies.toArray(new MockCoachRunnable[0])
+                    verifies.toArray(new VerifyLambda[0])
             );
         }
     }

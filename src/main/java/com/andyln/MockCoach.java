@@ -9,7 +9,7 @@ public class MockCoach {
 
     private Object[] mocks;
     private WhenLambda[] whenLambdas;
-    private MockCoachRunnable[] verifyRunnables;
+    private VerifyLambda[] verifyLambdas;
 
     private Map<Object, Integer> mockMap;
 
@@ -32,7 +32,7 @@ public class MockCoach {
     }
 
     // Shared private constructor
-    private void setupMockCoach(Object[] mocks, WhenLambda[] whenLambdas, MockCoachRunnable[] verifyRunnables) {
+    private void setupMockCoach(Object[] mocks, WhenLambda[] whenLambdas, VerifyLambda[] verifyLambdas) {
         if (mocks == null) {
             throw new IllegalArgumentException("mocks/whens/verifies cannot be null!");
         }
@@ -41,7 +41,7 @@ public class MockCoach {
             throw new IllegalArgumentException("whens length does not match mocks length!");
         }
 
-        if (mocks.length != verifyRunnables.length) {
+        if (mocks.length != verifyLambdas.length) {
             throw new IllegalArgumentException("verifies length does not match mocks length!");
         }
 
@@ -86,7 +86,7 @@ public class MockCoach {
 
         this.mocks = mocks;
         this.whenLambdas = whenLambdas;
-        this.verifyRunnables = verifyRunnables;
+        this.verifyLambdas = verifyLambdas;
 
         this.canCallWhenTheRest = false;
         this.lastSuccessfulMockIndex = 0;
@@ -95,13 +95,13 @@ public class MockCoach {
     /**
      * A Mock Coach.
      *
-     * @param mocks           Array of Mocks injected or autowired into an object-under-test.
+     * @param mocks         Array of Mocks injected or autowired into an object-under-test.
      * @param whenLambdas   Array of Java lambdas containing "when(...)" statements
-     * @param verifyRunnables Array of JAva lambdas containing "verify(...) statements
+     * @param verifyLambdas Array of Java lambdas containing "verify(...) statements
      * @throws IllegalArgumentException Prevents calling constructor with any mocks/whens/verifies that are empty, not the same length, or not permitted type.
      */
-    MockCoach(Object[] mocks, WhenLambda[] whenLambdas, MockCoachRunnable[] verifyRunnables) {
-        setupMockCoach(mocks, whenLambdas, verifyRunnables);
+    MockCoach(Object[] mocks, WhenLambda[] whenLambdas, VerifyLambda[] verifyLambdas) {
+        setupMockCoach(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -112,12 +112,12 @@ public class MockCoach {
      * @param v1 Verify Lambda One
      */
     public MockCoach(
-            Object m1, WhenLambda w1, MockCoachRunnable v1
+            Object m1, WhenLambda w1, VerifyLambda v1
     ) {
         Object[] mocks = {m1};
         WhenLambda[] whenLambdas = {w1};
-        MockCoachRunnable[] verifyRunnables = {v1};
-        setupMockCoach(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1};
+        setupMockCoach(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -131,13 +131,13 @@ public class MockCoach {
      * @param v2 Verify Two
      */
     public MockCoach(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2
     ) {
         Object[] mocks = {m1, m2};
         WhenLambda[] whenLambdas = {w1, w2};
-        MockCoachRunnable[] verifyRunnables = {v1, v2};
-        setupMockCoach(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2};
+        setupMockCoach(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -154,14 +154,14 @@ public class MockCoach {
      * @param v3 Verify Three
      */
     public MockCoach(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3
     ) {
         Object[] mocks = {m1, m2, m3};
         WhenLambda[] whenLambdas = {w1, w2, w3};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3};
-        setupMockCoach(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3};
+        setupMockCoach(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -181,15 +181,15 @@ public class MockCoach {
      * @param v4 Verify Four
      */
     public MockCoach(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4
     ) {
         Object[] mocks = {m1, m2, m3, m4};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4};
-        setupMockCoach(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4};
+        setupMockCoach(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -212,16 +212,16 @@ public class MockCoach {
      * @param v5 Verify Five
      */
     public MockCoach(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4,
-            Object m5, WhenLambda w5, MockCoachRunnable v5
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4,
+            Object m5, WhenLambda w5, VerifyLambda v5
     ) {
         Object[] mocks = {m1, m2, m3, m4, m5};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4, w5};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5};
-        setupMockCoach(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4, v5};
+        setupMockCoach(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -247,17 +247,17 @@ public class MockCoach {
      * @param v6 Verify Six
      */
     public MockCoach(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4,
-            Object m5, WhenLambda w5, MockCoachRunnable v5,
-            Object m6, WhenLambda w6, MockCoachRunnable v6
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4,
+            Object m5, WhenLambda w5, VerifyLambda v5,
+            Object m6, WhenLambda w6, VerifyLambda v6
     ) {
         Object[] mocks = {m1, m2, m3, m4, m5, m6};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4, w5, w6};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6};
-        setupMockCoach(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4, v5, v6};
+        setupMockCoach(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -286,18 +286,18 @@ public class MockCoach {
      * @param v7 Verify Seven
      */
     public MockCoach(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4,
-            Object m5, WhenLambda w5, MockCoachRunnable v5,
-            Object m6, WhenLambda w6, MockCoachRunnable v6,
-            Object m7, WhenLambda w7, MockCoachRunnable v7
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4,
+            Object m5, WhenLambda w5, VerifyLambda v5,
+            Object m6, WhenLambda w6, VerifyLambda v6,
+            Object m7, WhenLambda w7, VerifyLambda v7
     ) {
         Object[] mocks = {m1, m2, m3, m4, m5, m6, m7};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4, w5, w6, w7};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7};
-        setupMockCoach(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4, v5, v6, v7};
+        setupMockCoach(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -329,19 +329,19 @@ public class MockCoach {
      * @param v8 Verify Eight
      */
     public MockCoach(
-            Object m1, WhenLambda w1, MockCoachRunnable v1,
-            Object m2, WhenLambda w2, MockCoachRunnable v2,
-            Object m3, WhenLambda w3, MockCoachRunnable v3,
-            Object m4, WhenLambda w4, MockCoachRunnable v4,
-            Object m5, WhenLambda w5, MockCoachRunnable v5,
-            Object m6, WhenLambda w6, MockCoachRunnable v6,
-            Object m7, WhenLambda w7, MockCoachRunnable v7,
-            Object m8, WhenLambda w8, MockCoachRunnable v8
+            Object m1, WhenLambda w1, VerifyLambda v1,
+            Object m2, WhenLambda w2, VerifyLambda v2,
+            Object m3, WhenLambda w3, VerifyLambda v3,
+            Object m4, WhenLambda w4, VerifyLambda v4,
+            Object m5, WhenLambda w5, VerifyLambda v5,
+            Object m6, WhenLambda w6, VerifyLambda v6,
+            Object m7, WhenLambda w7, VerifyLambda v7,
+            Object m8, WhenLambda w8, VerifyLambda v8
     ) {
         Object[] mocks = {m1, m2, m3, m4, m5, m6, m7, m8};
         WhenLambda[] whenLambdas = {w1, w2, w3, w4, w5, w6, w7, w8};
-        MockCoachRunnable[] verifyRunnables = {v1, v2, v3, v4, v5, v6, v7, v8};
-        setupMockCoach(mocks, whenLambdas, verifyRunnables);
+        VerifyLambda[] verifyLambdas = {v1, v2, v3, v4, v5, v6, v7, v8};
+        setupMockCoach(mocks, whenLambdas, verifyLambdas);
     }
 
     /**
@@ -514,7 +514,7 @@ public class MockCoach {
 
         for (int i = 0; i < indexOfMock; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -548,7 +548,7 @@ public class MockCoach {
 
         for (int i = 0; i <= indexOfMock; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -589,7 +589,7 @@ public class MockCoach {
 
         for (int i = 0; i < this.mocks.length - 1; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -610,7 +610,7 @@ public class MockCoach {
         }
 
         try {
-            verifyRunnables[0].run();
+            verifyLambdas[0].run();
         } catch (Exception e) {
             throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", 1), e);
         }
@@ -641,7 +641,7 @@ public class MockCoach {
     public void verifyAll() {
         for (int i = 0; i < this.mocks.length; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -658,7 +658,7 @@ public class MockCoach {
 
         for (int i = lastSuccessfulMockIndex + 1; i < this.mocks.length; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -701,7 +701,7 @@ public class MockCoach {
 
         for (int i = objectIndexOfMock + 1; i < this.mocks.length; i++) {
             try {
-                verifyRunnables[i].run();
+                verifyLambdas[i].run();
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
@@ -711,7 +711,7 @@ public class MockCoach {
     public static class Builder {
         private List<Object> mocks;
         private List<WhenLambda> whens;
-        private List<MockCoachRunnable> verifies;
+        private List<VerifyLambda> verifies;
 
         /**
          * Creates a builder for MockCoach.
@@ -729,7 +729,7 @@ public class MockCoach {
          * @param w When Lambda
          * @param v Verify Lambda
          */
-        public Builder add(Object m, WhenLambda w, MockCoachRunnable v) {
+        public Builder add(Object m, WhenLambda w, VerifyLambda v) {
             mocks.add(m);
             whens.add(w);
             verifies.add(v);
@@ -745,7 +745,7 @@ public class MockCoach {
             return new MockCoach(
                     mocks.toArray(new Object[0]),
                     whens.toArray(new WhenLambda[0]),
-                    verifies.toArray(new MockCoachRunnable[0])
+                    verifies.toArray(new VerifyLambda[0])
             );
         }
     }

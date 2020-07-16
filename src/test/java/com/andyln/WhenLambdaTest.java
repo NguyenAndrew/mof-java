@@ -2,25 +2,24 @@ package com.andyln;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-class MockCoachRunnableTest {
+class WhenLambdaTest {
 
     @Test
-    void mockCoachRunnableImplementation_canThrowException() {
+    void canThrowException() {
         String expectedExceptionMessage = "Expected Exception Message";
 
-        MockCoachRunnable mockCoachRunnable = () -> {
+        VerifyLambda whenLambda = () -> {
             throw new Exception(expectedExceptionMessage);
         };
 
         Exception actualException = assertThrows(
                 Exception.class,
-                mockCoachRunnable::run
+                whenLambda::run
         );
 
         assertEquals(expectedExceptionMessage, actualException.getMessage());
-
     }
+
 }

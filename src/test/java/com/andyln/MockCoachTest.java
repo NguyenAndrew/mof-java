@@ -22,12 +22,12 @@ class MockCoachTest {
     private final WhenLambda[] twoWhens = {when1, when2};
     private final WhenLambda[] threeWhens = {when1, when2, when3};
 
-    private final MockCoachRunnable verify1 = mock(MockCoachRunnable.class);
-    private final MockCoachRunnable verify2 = mock(MockCoachRunnable.class);
-    private final MockCoachRunnable verify3 = mock(MockCoachRunnable.class);
-    private final MockCoachRunnable[] singleVerify = {verify1};
-    private final MockCoachRunnable[] twoVerifies = {verify1, verify2};
-    private final MockCoachRunnable[] threeVerifies = {verify1, verify2, verify3};
+    private final VerifyLambda verify1 = mock(VerifyLambda.class);
+    private final VerifyLambda verify2 = mock(VerifyLambda.class);
+    private final VerifyLambda verify3 = mock(VerifyLambda.class);
+    private final VerifyLambda[] singleVerify = {verify1};
+    private final VerifyLambda[] twoVerifies = {verify1, verify2};
+    private final VerifyLambda[] threeVerifies = {verify1, verify2, verify3};
 
     enum MockEnum {
         SECOND
@@ -61,7 +61,7 @@ class MockCoachTest {
 
             Object[] mocks = null;
             WhenLambda[] whens = null;
-            MockCoachRunnable[] verifies = null;
+            VerifyLambda[] verifies = null;
 
             IllegalArgumentException actualException = assertThrows(
                     IllegalArgumentException.class,
@@ -100,7 +100,7 @@ class MockCoachTest {
             String expectedMessage = "mocks/whens/verifies cannot be empty!";
             Object[] emptyMocks = new Object[0];
             WhenLambda[] emptyWhens = new WhenLambda[0];
-            MockCoachRunnable[] emptyVerifies = new MockCoachRunnable[0];
+            VerifyLambda[] emptyVerifies = new VerifyLambda[0];
 
             IllegalArgumentException actualException = assertThrows(
                     IllegalArgumentException.class,
