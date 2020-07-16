@@ -1699,6 +1699,21 @@ class MockCoachTest {
     }
 
     @Nested
+    class SetVerifyNoInteractions {
+
+        NoInteractionLambda verifyNoInteractionLambda = mock(NoInteractionLambda.class);
+
+        @Test
+        public void success() {
+            MockCoach mockCoachTwoMocksSetVerifyNoInteractions = mockCoachTwoMocks
+                    .setVerifyNoInteractions(verifyNoInteractionLambda);
+
+            assertEquals(mockCoachTwoMocks, mockCoachTwoMocksSetVerifyNoInteractions);
+        }
+
+    }
+
+    @Nested
     class Builder {
 
         @Test
