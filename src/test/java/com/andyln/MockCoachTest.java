@@ -1361,6 +1361,7 @@ class MockCoachTest {
 
             mockCoachThreeMocksInCircleChain.verifyThroughLast();
 
+            // TODO: Bug Fix. Use correct object in lambda.
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
                     () -> mockCoachTwoMocks.verifyTheRestAfter(mock1)
@@ -1445,6 +1446,220 @@ class MockCoachTest {
             verifyNoInteractions(verify1);
             verifyNoInteractions(verify2);
             verify(verify3, times(1)).run();
+        }
+
+    }
+
+    @Nested
+    class VerifyNoInteractionsTheRestAfter {
+
+        private final Object mock3 = mock(Object.class);
+        private final Object[] threeMocks = {mock1, mock2, mock3};
+
+        NoInteractionLambda verifyNoInteractionLambda = mock(NoInteractionLambda.class);
+
+        private final MockCoach mockCoachTwoMocksSetNoVerifications = new MockCoach(twoMocks, twoWhens, twoVerifies)
+                .setVerifyNoInteractions(verifyNoInteractionLambda);
+
+        private final MockCoach mockCoachThreeMocksSetNoVerifications = new MockCoach(threeMocks, threeWhens, threeVerifies)
+                .setVerifyNoInteractions(verifyNoInteractionLambda);
+
+        private final MockCoach mockCoachThreeMocksInCircleChainSetNoVerifications =
+                new MockCoach(threeMocksInCircleChain, threeWhens, threeVerifies)
+                        .setVerifyNoInteractions(verifyNoInteractionLambda);
+
+        @Test
+        public void whenVerifyBefore_ThenSuccess() throws Exception {
+            mockCoachThreeMocksSetNoVerifications.verifyBefore(mock1);
+
+            mockCoachThreeMocksSetNoVerifications.verifyNoInteractionsTheRestAfter(mock2);
+
+            verifyNoInteractions(verify1, verify2, verify3);
+
+            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            verify(verifyNoInteractionLambda, times(1)).run(mock3);
+        }
+
+        @Test
+        public void whenVerifyThrough_ThenSuccess() throws Exception {
+            mockCoachThreeMocksSetNoVerifications.verifyThrough(mock1);
+
+            mockCoachThreeMocksSetNoVerifications.verifyNoInteractionsTheRestAfter(mock2);
+
+            verify(verify1, times(1)).run();
+            verifyNoInteractions(verify2, verify3);
+
+            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            verify(verifyNoInteractionLambda, times(1)).run(mock3);
+        }
+
+        @Test
+        public void whenVerifyBeforeFirst_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChainSetNoVerifications.verifyBeforeFirst();
+
+            mockCoachThreeMocksInCircleChainSetNoVerifications.verifyNoInteractionsTheRestAfter(mock2);
+
+            verifyNoInteractions(verify1, verify2, verify3);
+
+            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            verify(verifyNoInteractionLambda, times(1)).run(mock1);
+
+            verify(verifyNoInteractionLambda, times(0)).run(mock3);
+        }
+
+        @Test
+        public void whenVerifyThroughFirst_ThenSuccess() throws Exception {
+            mockCoachThreeMocksInCircleChainSetNoVerifications.verifyThroughFirst();
+
+            mockCoachThreeMocksInCircleChainSetNoVerifications.verifyNoInteractionsTheRestAfter(mock2);
+
+            verify(verify1, times(1)).run();
+            verifyNoInteractions(verify2, verify3);
+
+            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            verify(verifyNoInteractionLambda, times(1)).run(mock1);
+
+            verify(verifyNoInteractionLambda, times(0)).run(mock3);
+        }
+
+        @Test
+        public void forgotToCallSetVerifyNoVerifications_ThenThrowIllegalStateException() {
+            String expectedMessage = "Must setVerifyNoInteractions(Lambda). Example: 'MockCoach mockCoach = new MockCoach(...).setVerifyNoInteractions(mock -> verifyNoMoreInteractions(mock));'";
+
+            MockCoach forgotSetVerifyNoInteractions = new MockCoach(threeMocks, threeWhens, threeVerifies);
+
+            forgotSetVerifyNoInteractions.verifyBefore(mock1);
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> forgotSetVerifyNoInteractions.verifyNoInteractionsTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenVerifyAll_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyNoInteractionsTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()";
+
+            mockCoachTwoMocksSetNoVerifications.verifyAll();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> mockCoachTwoMocksSetNoVerifications.verifyNoInteractionsTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenVerifyBeforeLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyNoInteractionsTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()";
+
+            mockCoachThreeMocksInCircleChainSetNoVerifications.verifyBeforeLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> mockCoachThreeMocksInCircleChainSetNoVerifications.verifyNoInteractionsTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        public void whenVerifyThroughLast_ThenThrowIllegalStateException() {
+            String expectedMessage = "Cannot call verifyNoInteractionsTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()";
+
+            mockCoachThreeMocksInCircleChainSetNoVerifications.verifyThroughLast();
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> mockCoachThreeMocksInCircleChainSetNoVerifications.verifyNoInteractionsTheRestAfter(mock1)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithFirstMockOrLastMockInCircleChain_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call verifyNoInteractionsTheRestAfter(Object mock) for first or last mock in circle chain. If specifying first mock, use verifyTheRest(). If specifying the last mock, then this method does not have to be called (will have identical functionality)";
+
+            mockCoachThreeMocksInCircleChainSetNoVerifications.verifyBeforeFirst();
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachThreeMocksInCircleChainSetNoVerifications.verifyNoInteractionsTheRestAfter(mock1)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithLastMockInMocks_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call verifyNoInteractionsTheRestAfter(Object mock) for the last mock! Not calling this method will have identical functionality";
+
+            mockCoachThreeMocksSetNoVerifications.verifyBefore(mock1);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachThreeMocksSetNoVerifications.verifyNoInteractionsTheRestAfter(mock3)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call verifyNoInteractionsTheRestAfter(Object mock) for mock not in mocks!";
+
+            Object mockNotInMocks = mock(Object.class);
+
+            mockCoachThreeMocksSetNoVerifications.verifyBefore(mock1);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachThreeMocksSetNoVerifications.verifyNoInteractionsTheRestAfter(mockNotInMocks)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockBeforePreviouslyUsedMock_ThenThrowIllegalIllegalArgumentException() {
+            String expectedMessage = "Cannot call verifyNoInteractionsTheRestAfter(Object mock) for a mock located before previously used mock! Make sure correct mock is being passed into this method";
+
+            mockCoachThreeMocksSetNoVerifications.verifyBefore(mock2);
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> mockCoachThreeMocksSetNoVerifications.verifyNoInteractionsTheRestAfter(mock1)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenCalledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+            String expectedMessage = "m3 throws an exception! Please check your mocks and verification lambda.";
+
+            doThrow(new Exception()).when(verifyNoInteractionLambda).run(mock3);
+
+            mockCoachThreeMocksSetNoVerifications.verifyBefore(mock1);
+
+            RuntimeException actualException = assertThrows(
+                    RuntimeException.class,
+                    () -> mockCoachThreeMocksSetNoVerifications.verifyNoInteractionsTheRestAfter(mock2)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verifyNoInteractions(verify1, verify2, verify3);
+
+            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            verify(verifyNoInteractionLambda, times(1)).run(mock3);
         }
 
     }

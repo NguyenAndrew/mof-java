@@ -743,6 +743,51 @@ public class MockCoach {
         }
     }
 
+    /**
+     * Runs no interaction lambda after, but not including, mock passed into method.
+     *
+     * @param mock Mock after previously used mock, excluding last mock
+     * @throws IllegalStateException    Calling this method when not using verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()
+     * @throws IllegalArgumentException Calling with object not in mocks.
+     *                                  Calling with mock that is at the end of mock list (this method does not have to be called, in this case).
+     *                                  Calling with mock not after previously used mock (would unnecessarily re-run previously run when lambdas).
+     */
+    public void verifyNoInteractionsTheRestAfter(Object mock) {
+        if (verifyNoInteractionLambda == null) {
+            throw new IllegalStateException("Must setVerifyNoInteractions(Lambda). Example: 'MockCoach mockCoach = new MockCoach(...).setVerifyNoInteractions(mock -> verifyNoMoreInteractions(mock));'");
+        }
+
+        if (!canCallVerifyTheRest) {
+            throw new IllegalStateException("Cannot call verifyNoInteractionsTheRestAfter(Object mock)! Must be called only after verifyBefore(mock)/verifyThrough(mock) or verifyBeforeFirst()/verifyThroughFirst()");
+        }
+
+        if (isMocksInCircleChain && mock == mocks[0]) {
+            throw new IllegalArgumentException("Cannot call verifyNoInteractionsTheRestAfter(Object mock) for first or last mock in circle chain. If specifying first mock, use verifyTheRest(). If specifying the last mock, then this method does not have to be called (will have identical functionality)");
+        }
+
+        if (mock == mocks[mocks.length - 1]) {
+            throw new IllegalArgumentException("Cannot call verifyNoInteractionsTheRestAfter(Object mock) for the last mock! Not calling this method will have identical functionality");
+        }
+
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call verifyNoInteractionsTheRestAfter(Object mock) for mock not in mocks!");
+        }
+
+        if (objectIndexOfMock < lastSuccessfulMockIndex) {
+            throw new IllegalArgumentException("Cannot call verifyNoInteractionsTheRestAfter(Object mock) for a mock located before previously used mock! Make sure correct mock is being passed into this method");
+        }
+
+        for (int i = objectIndexOfMock + 1; i < this.mocks.length; i++) {
+            try {
+                verifyNoInteractionLambda.run(mocks[i]);
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("m%d throws an exception! Please check your mocks and verification lambda.", i + 1), e);
+            }
+        }
+    }
+
     public static class Builder {
         private List<Object> mocks;
         private List<WhenLambda> whens;
