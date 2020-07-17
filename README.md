@@ -69,7 +69,7 @@ Add the following line to your pom.xml
 <dependency>
   <groupId>com.andyln</groupId>
   <artifactId>mock-coach</artifactId>
-  <version>2.0.1</version>
+  <version>3.0.0</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -151,8 +151,8 @@ MockCoach mockCoach = new MockCoach(
         assertEquals(SAMPLE_EXCEPTION_MESSAGE, actualException.getMessage());
         
         // Verify
-        mockCoach.verify(multiplicationService);
-        verifyZeroInteractions(subtractionService);
+        mockCoach.verifyThrough(multiplicationService);
+        mockCoach.verifyNoInteractionsTheRest();
     }
 ```
 
@@ -216,6 +216,16 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 
 ## Changelog
 
+3.0.0 - Details below
+
+* Introduce `whenTheRest()/whenTheRestAfter(mock)` and `verifyTheRest()/verifyTheRestAfter(mock)`
+* Introduce `verifyNoInteractionsTheRest()` and `verifyNoInteractionsTheRestAfter(mock)` to simplify no and no more interaction calls
+* Re-introduce Builder to allow arbitrary number of mocks
+* Reduce constructor from 16 mocks (48 parameters) to 8 mocks (24 parameters)
+* Replace MockCoachRunnable with WhenLambda and VerifyLambda for clearer API
+* Refactor `mockCoach.verify(mockCoach)` to be `mockCoach.verifyThrough(mock)`
+* Refactor to use [Method Chaining](https://en.wikipedia.org/wiki/Method_chaining) with `.in(MockCoach mockCoach)`
+
 2.0.1 - Hotfix for MockCoachRunnable to make it public instead of default
 
 2.0.0 - Removal of builders and replace MockCoach constructor with overloaded constructors
@@ -226,11 +236,6 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 
 ## Roadmap
 
-3.0.0 - Details Below:
-* ~~Refactor `mockCoach.verify(mockCoach)` to be `mockCoach.verifyThrough(mock)`. Better clarification that these methods run several verify lambdas up to a certain mock, instead of a single when/verify lambda.~~ Done
-* ~~Refactor to use [Method Chaining](https://en.wikipedia.org/wiki/Method_chaining) with `.in(MockCoach mockCoach)`. Before: `mockCoach.verifyUpTo(mock);`, After: `verifyUpTo(mock).in(mockCoach);`. New style should allow for faster reading of code, since it reads actions left-to-right and closer resembles Mockito when and verifies.~~ Done
-* ~~Introduce `whenTheRest()/whenTheRestAfter(mock)` and `verifyTheRest()/verifyTheRestAfter(mock)`, which runs the rest of when/verifies after the previous or specified `whenBefore(mock)/whenBeforeFirst(mock)` and `verifyUpTo(mock)/verifyBefore(mock)/verifyBeforeFirst()/verifyFirst(mock)`. Allows further reuse of already defined methods of whens/verifies in Mock Coach to remove noisy code, and continues to lower complexity when refactoring tests.~~ Done
-* ~~Reduce constructor from 16 mocks (48 parameters) to 8 mocks (24 parameters). Current numbers of parameters is causing strange visual effects and lag on Intellij.~~ Done
-* ~~Re-introduce Builder to allow N number of mocks. Support up to n number of mocks. This change is needed, because of the lowering of constructor mocks.~~ Done
-* ~~Replace MockCoachRunnable with WhenLambda and VerifyLambda for clearer API. Use more language agnostic terminology.~~ Done
-* ~~Introduce verifyNoInteractionsTheRest() and verifyNoInteractionsTheRestAfter(mock) to simplify no and no more interaction calls.~~ Done
+3.1.0 - Javadoc improvements 
+
+4.0.0 - Condense methodables statics into class. Improves IDE auto completion for these statics.
