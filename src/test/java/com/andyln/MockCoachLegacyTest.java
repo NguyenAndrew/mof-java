@@ -1081,7 +1081,7 @@ class MockCoachLegacyTest {
 
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    mockCoachLegacyTwoMocks::verifyTheRest
+                    mockCoachLegacyThreeMocksInCircleChain::verifyTheRest
             );
 
             assertEquals(expectedMessage, actualException.getMessage());

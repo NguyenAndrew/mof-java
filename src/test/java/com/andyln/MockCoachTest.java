@@ -1361,10 +1361,9 @@ class MockCoachTest {
 
             mockCoachThreeMocksInCircleChain.verifyThroughLast();
 
-            // TODO: Bug Fix. Use correct object in lambda.
             IllegalStateException actualException = assertThrows(
                     IllegalStateException.class,
-                    () -> mockCoachTwoMocks.verifyTheRestAfter(mock1)
+                    () -> mockCoachThreeMocksInCircleChain.verifyTheRestAfter(mock1)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
