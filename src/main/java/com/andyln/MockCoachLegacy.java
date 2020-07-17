@@ -735,6 +735,18 @@ public class MockCoachLegacy extends MockCoach {
         }
     }
 
+    /**
+     * Feature only possible in MockCoach, not MockCoachLegacy
+     *
+     * @deprecated Feature only possible for MockCoach, not MockCoachLegacy
+     */
+    @Deprecated
+    @Override
+    public void verifyNoInteractionsTheRestAfter(Object mock) {
+        throw new UnsupportedOperationException("Feature only possible for MockCoach, not MockCoachLegacy");
+    }
+
+
     public static class Builder extends MockCoach.Builder {
         private List<Object> mocks;
         private List<WhenLambda> whens;

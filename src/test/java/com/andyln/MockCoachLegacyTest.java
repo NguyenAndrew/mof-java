@@ -1123,7 +1123,6 @@ class MockCoachLegacyTest {
             assertEquals(expectedMessage, actualException.getMessage());
         }
 
-
     }
 
     @Nested
@@ -1296,6 +1295,23 @@ class MockCoachLegacyTest {
             verifyNoInteractions(verify1);
             verifyNoInteractions(verify2);
             verify(verify3, times(1)).run();
+        }
+
+    }
+
+    @Nested
+    class VerifyNoInteractionsTheRestAfter {
+
+        @Test
+        public void fails() {
+            String expectedMessage = "Feature only possible for MockCoach, not MockCoachLegacy";
+
+            UnsupportedOperationException actualException = assertThrows(
+                    UnsupportedOperationException.class,
+                    () -> mockCoachLegacyTwoMocks.verifyNoInteractionsTheRestAfter(mock1)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
         }
 
     }
