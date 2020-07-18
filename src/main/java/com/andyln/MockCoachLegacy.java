@@ -770,6 +770,14 @@ public class MockCoachLegacy extends MockCoach {
         }
 
         /**
+         * Feature only possible in MockCoach, not MockCoachLegacy.
+         *
+         */
+        public MockCoach.Builder withVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
+            throw new UnsupportedOperationException("Feature only possible for MockCoach, not MockCoachLegacy");
+        }
+
+        /**
          * Returns a new MockCoach from previously added mocks, when lambdas, and verify lambdas.
          *
          * @return MockCoachLegacy

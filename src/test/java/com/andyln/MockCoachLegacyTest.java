@@ -1580,6 +1580,8 @@ class MockCoachLegacyTest {
     @Nested
     class Builder {
 
+        NoInteractionLambda verifyNoInteractionLambda = mock(NoInteractionLambda.class);
+
         @Test
         void staticMethod_success() {
             MockCoachLegacy.builder()
@@ -1600,6 +1602,25 @@ class MockCoachLegacyTest {
                             verify1
                     )
                     .build();
+        }
+
+        @Test
+        public void withVerifyNoInteraction_fails() {
+            String expectedMessage = "Feature only possible for MockCoach, not MockCoachLegacy";
+
+            UnsupportedOperationException actualException = assertThrows(
+                    UnsupportedOperationException.class,
+                    () -> new MockCoachLegacy.Builder()
+                            .add(
+                                    mock1,
+                                    when1,
+                                    verify1
+                            )
+                            .withVerifyNoInteractions(verifyNoInteractionLambda)
+                            .build()
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
         }
     }
 

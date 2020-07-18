@@ -1930,6 +1930,8 @@ class MockCoachTest {
     @Nested
     class Builder {
 
+        NoInteractionLambda verifyNoInteractionLambda = mock(NoInteractionLambda.class);
+
         @Test
         void staticMethod_success() {
             MockCoach.builder()
@@ -1949,6 +1951,18 @@ class MockCoachTest {
                             when1,
                             verify1
                     )
+                    .build();
+        }
+
+        @Test
+        void withVerifyNoInteractions_success() {
+            new MockCoach.Builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    )
+                    .withVerifyNoInteractions(verifyNoInteractionLambda)
                     .build();
         }
     }

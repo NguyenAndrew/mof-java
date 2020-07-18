@@ -793,6 +793,8 @@ public class MockCoach {
         private List<WhenLambda> whens;
         private List<VerifyLambda> verifies;
 
+        private NoInteractionLambda verifyNoInteractionLambda;
+
         /**
          * Creates a builder for MockCoach.
          */
@@ -808,6 +810,7 @@ public class MockCoach {
          * @param m Mock
          * @param w When Lambda
          * @param v Verify Lambda
+         * @return Builder
          */
         public Builder add(Object m, WhenLambda w, VerifyLambda v) {
             mocks.add(m);
@@ -817,16 +820,28 @@ public class MockCoach {
         }
 
         /**
+         * Allows usage of verifyNoInteractionsTheRest and verifyNoInteractionsTheRestAfter.
+         * @param verifyNoInteractionLambda A Java Lambda. Example: "setVerifyNoInteractions(mock -&gt; verifyNoInteractions(mock))"
+         * @return Builder
+         */
+        public Builder withVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
+            this.verifyNoInteractionLambda = verifyNoInteractionLambda;
+            return this;
+        }
+
+        /**
          * Returns a new MockCoach from previously added mocks, when lambdas, and verify lambdas.
          *
          * @return MockCoach
          */
         public MockCoach build() {
-            return new MockCoach(
+            MockCoach mockCoach = new MockCoach(
                     mocks.toArray(new Object[0]),
                     whens.toArray(new WhenLambda[0]),
                     verifies.toArray(new VerifyLambda[0])
             );
+            mockCoach.setVerifyNoInteractions(verifyNoInteractionLambda);
+            return mockCoach;
         }
     }
 
