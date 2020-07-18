@@ -236,6 +236,12 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 
 ## Roadmap
 
-3.1.0 - Javadoc improvements 
+3.1.0 - Details below
 
-4.0.0 - Condense methodables statics into class. Improves IDE auto completion for these statics.
+* Javadoc improvements
+* Add `withVerifyNoInteractions(...)` to builders. Allow to set this lambda at a builder lambda, when this API is preferred.
+
+4.0.0 - Details below
+
+* Condense methodables statics into class. Improves IDE auto completion for these statics.
+* Add function that has same functionality as `setNoVerifications(...)`. Refactor current setter to return void. Help avoid issues with other libraries that rely on setters being void.
