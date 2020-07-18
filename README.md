@@ -238,8 +238,8 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 
 3.1.0 - Details below
 
-* Javadoc improvements
-* Add `withVerifyNoInteractions(...)` to builders. Allow to set this lambda at a builder lambda, when this API is preferred.
+* ~~Javadoc improvements~~ DONE
+* Add `withVerifyNoInteractions(...)` to builders. Allow to set this lambda at a builder lambda, when this API is preferred. **In Progress**
 
 4.0.0 - Details below
 

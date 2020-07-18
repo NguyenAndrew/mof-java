@@ -335,11 +335,9 @@ public class MockCoachLegacy extends MockCoach {
     }
 
     /**
-     * Feature only possible in MockCoach, not MockCoachLegacy
+     * Feature only possible in MockCoach, not MockCoachLegacy.
      *
-     * @deprecated Feature only possible in MockCoach, not MockCoachLegacy
      */
-    @Deprecated
     @Override
     public MockCoach setVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
         throw new UnsupportedOperationException("Feature only possible in MockCoach, not MockCoachLegacy");
@@ -685,9 +683,7 @@ public class MockCoachLegacy extends MockCoach {
     /**
      * Feature only possible in MockCoach, not MockCoachLegacy
      *
-     * @deprecated Feature only possible for MockCoach, not MockCoachLegacy
      */
-    @Deprecated
     @Override
     public void verifyNoInteractionsTheRest() {
         throw new UnsupportedOperationException("Feature only possible for MockCoach, not MockCoachLegacy");
@@ -736,16 +732,13 @@ public class MockCoachLegacy extends MockCoach {
     }
 
     /**
-     * Feature only possible in MockCoach, not MockCoachLegacy
+     * Feature only possible in MockCoach, not MockCoachLegacy.
      *
-     * @deprecated Feature only possible for MockCoach, not MockCoachLegacy
      */
-    @Deprecated
     @Override
     public void verifyNoInteractionsTheRestAfter(Object mock) {
         throw new UnsupportedOperationException("Feature only possible for MockCoach, not MockCoachLegacy");
     }
-
 
     public static class Builder extends MockCoach.Builder {
         private List<Object> mocks;

@@ -347,7 +347,7 @@ public class MockCoach {
     }
 
     /**
-     * Allows usage of verifyNoInteractionsTheRest and verifyNoInteractions
+     * Allows usage of verifyNoInteractionsTheRest and verifyNoInteractionsTheRestAfter.
      *
      * @param verifyNoInteractionLambda A Java Lambda. Example: "setVerifyNoInteractions(mock -&gt; verifyNoInteractions(mock))"
      */
