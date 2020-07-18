@@ -216,6 +216,8 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 
 ## Changelog
 
+3.1.0 - Add `withVerifyNoInteractions(...)` to builders
+
 3.0.0 - Details below
 
 * Introduce `whenTheRest()/whenTheRestAfter(mock)` and `verifyTheRest()/verifyTheRestAfter(mock)`
@@ -235,11 +237,6 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 1.0.0 - GA Release of the project!
 
 ## Roadmap
-
-3.1.0 - Details below
-
-* ~~Javadoc improvements~~ Done
-* ~~Add `withVerifyNoInteractions(...)` to builders. Allow to set this lambda at a builder lambda, when this API is preferred.~~ Done
 
 4.0.0 - Details below
 
