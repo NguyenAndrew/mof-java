@@ -4,9 +4,8 @@ import com.andyln.MockCoach;
 
 public class WhenAll implements Methodable {
 
-    public static WhenAll whenAll() {
+    WhenAll() {
         MethodableState.inProgress();
-        return new WhenAll();
     }
 
     @Override

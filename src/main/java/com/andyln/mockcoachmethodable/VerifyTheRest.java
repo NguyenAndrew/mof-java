@@ -4,9 +4,8 @@ import com.andyln.MockCoach;
 
 public class VerifyTheRest implements Methodable {
 
-    public static VerifyTheRest verifyTheRest() {
+    VerifyTheRest() {
         MethodableState.inProgress();
-        return new VerifyTheRest();
     }
 
     @Override

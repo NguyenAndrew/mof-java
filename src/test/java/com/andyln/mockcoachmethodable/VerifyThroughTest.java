@@ -4,7 +4,6 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.VerifyThrough.verifyThrough;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -18,14 +17,14 @@ class VerifyThroughTest {
 
     @Test
     public void success() {
-        verifyThrough(mock).in(mockCoach);
+        new VerifyThrough(mock).in(mockCoach);
         verify(mockCoach).verifyThrough(mock);
     }
 
     @Test
     public void forgotIn_ThenThrowRuntimeException() {
         RuntimeException placeholderException = new RuntimeException();
-        verifyThrough(mock);
+        new VerifyThrough(mock);
         String expectedMessage = String.format(
                 "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.VerifyThroughTest.forgotIn_ThenThrowRuntimeException(VerifyThroughTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
@@ -33,7 +32,7 @@ class VerifyThroughTest {
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                () -> verifyThrough(mock)
+                () -> new VerifyThrough(mock)
         );
 
         assertEquals(expectedMessage, actualException.getMessage());
@@ -41,12 +40,12 @@ class VerifyThroughTest {
 
     @Test
     public void clearWorks_ThenSuccess() {
-        verifyThrough(mock);
+        new VerifyThrough(mock);
         assertThrows(
                 RuntimeException.class,
-                () -> verifyThrough(mock)
+                () -> new VerifyThrough(mock)
         );
-        verifyThrough(mock);
+        new VerifyThrough(mock);
     }
 
     @AfterAll

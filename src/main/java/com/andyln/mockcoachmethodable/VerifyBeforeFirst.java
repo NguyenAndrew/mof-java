@@ -4,9 +4,8 @@ import com.andyln.MockCoach;
 
 public class VerifyBeforeFirst implements Methodable {
 
-    public static VerifyBeforeFirst verifyBeforeFirst() {
+    VerifyBeforeFirst() {
         MethodableState.inProgress();
-        return new VerifyBeforeFirst();
     }
 
     @Override

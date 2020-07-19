@@ -8,11 +8,7 @@ public class VerifyThrough implements Methodable {
 
     VerifyThrough(Object mock) {
         this.mock = mock;
-    }
-
-    public static VerifyThrough verifyThrough(Object mock) {
         MethodableState.inProgress();
-        return new VerifyThrough(mock);
     }
 
     @Override

@@ -4,9 +4,8 @@ import com.andyln.MockCoach;
 
 public class WhenTheRest implements Methodable {
 
-    public static WhenTheRest whenTheRest() {
+    WhenTheRest() {
         MethodableState.inProgress();
-        return new WhenTheRest();
     }
 
     @Override

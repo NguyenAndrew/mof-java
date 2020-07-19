@@ -8,11 +8,7 @@ public class WhenBefore implements Methodable {
 
     WhenBefore(Object mock) {
         this.mock = mock;
-    }
-
-    public static WhenBefore whenBefore(Object mock) {
         MethodableState.inProgress();
-        return new WhenBefore(mock);
     }
 
     @Override

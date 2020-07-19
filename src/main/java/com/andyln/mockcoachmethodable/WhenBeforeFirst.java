@@ -4,9 +4,8 @@ import com.andyln.MockCoach;
 
 public class WhenBeforeFirst implements Methodable {
 
-    public static WhenBeforeFirst whenBeforeFirst() {
+    WhenBeforeFirst() {
         MethodableState.inProgress();
-        return new WhenBeforeFirst();
     }
 
     @Override

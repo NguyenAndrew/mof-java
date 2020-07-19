@@ -4,7 +4,6 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.WhenAll.whenAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -16,14 +15,14 @@ class WhenAllTest {
 
     @Test
     public void success() {
-        whenAll().in(mockCoach);
+        new WhenAll().in(mockCoach);
         verify(mockCoach).whenAll();
     }
 
     @Test
     public void forgotIn_ThenThrowRuntimeException() {
         RuntimeException placeholderException = new RuntimeException();
-        whenAll();
+        new WhenAll();
         String expectedMessage = String.format(
                 "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.WhenAllTest.forgotIn_ThenThrowRuntimeException(WhenAllTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
@@ -31,7 +30,7 @@ class WhenAllTest {
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                WhenAll::whenAll
+                WhenAll::new
         );
 
         assertEquals(expectedMessage, actualException.getMessage());
@@ -39,12 +38,12 @@ class WhenAllTest {
 
     @Test
     public void clearWorks_ThenSuccess() {
-        whenAll();
+        new WhenAll();
         assertThrows(
                 RuntimeException.class,
-                WhenAll::whenAll
+                WhenAll::new
         );
-        whenAll();
+        new WhenAll();
     }
 
     @AfterAll

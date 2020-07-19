@@ -8,11 +8,7 @@ public class WhenTheRestAfter implements Methodable {
 
     WhenTheRestAfter(Object mock) {
         this.mock = mock;
-    }
-
-    public static WhenTheRestAfter whenTheRestAfter(Object mock) {
         MethodableState.inProgress();
-        return new WhenTheRestAfter(mock);
     }
 
     @Override

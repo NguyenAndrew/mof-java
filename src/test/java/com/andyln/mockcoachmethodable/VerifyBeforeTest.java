@@ -4,7 +4,6 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.VerifyBefore.verifyBefore;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -18,14 +17,14 @@ class VerifyBeforeTest {
 
     @Test
     public void success() {
-        verifyBefore(mock).in(mockCoach);
+        new VerifyBefore(mock).in(mockCoach);
         verify(mockCoach).verifyBefore(mock);
     }
 
     @Test
     public void forgotIn_ThenThrowRuntimeException() {
         RuntimeException placeholderException = new RuntimeException();
-        verifyBefore(mock);
+        new VerifyBefore(mock);
         String expectedMessage = String.format(
                 "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.VerifyBeforeTest.forgotIn_ThenThrowRuntimeException(VerifyBeforeTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
@@ -33,7 +32,7 @@ class VerifyBeforeTest {
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                () -> verifyBefore(mock)
+                () -> new VerifyBefore(mock)
         );
 
         assertEquals(expectedMessage, actualException.getMessage());
@@ -41,12 +40,12 @@ class VerifyBeforeTest {
 
     @Test
     public void clearWorks_ThenSuccess() {
-        verifyBefore(mock);
+        new VerifyBefore(mock);
         assertThrows(
                 RuntimeException.class,
-                () -> verifyBefore(mock)
+                () -> new VerifyBefore(mock)
         );
-        verifyBefore(mock);
+        new VerifyBefore(mock);
     }
 
     @AfterAll

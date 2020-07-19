@@ -4,9 +4,8 @@ import com.andyln.MockCoach;
 
 public class VerifyNoInteractionsTheRest implements Methodable {
 
-    public static VerifyNoInteractionsTheRest verifyNoInteractionsTheRest() {
+    VerifyNoInteractionsTheRest() {
         MethodableState.inProgress();
-        return new VerifyNoInteractionsTheRest();
     }
 
     @Override

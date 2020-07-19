@@ -4,9 +4,8 @@ import com.andyln.MockCoach;
 
 public class VerifyAll implements Methodable {
 
-    public static VerifyAll verifyAll() {
+    VerifyAll() {
         MethodableState.inProgress();
-        return new VerifyAll();
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.VerifyNoInteractionsTheRestAfter.verifyNoInteractionsTheRestAfter;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -17,14 +16,14 @@ class VerifyNoInteractionsTheRestAfterTest {
 
     @Test
     public void success() {
-        verifyNoInteractionsTheRestAfter(mock).in(mockCoach);
+        new VerifyNoInteractionsTheRestAfter(mock).in(mockCoach);
         verify(mockCoach).verifyNoInteractionsTheRestAfter(mock);
     }
 
     @Test
     public void forgotIn_ThenThrowRuntimeException() {
         RuntimeException placeholderException = new RuntimeException();
-        verifyNoInteractionsTheRestAfter(mock);
+        new VerifyNoInteractionsTheRestAfter(mock);
         String expectedMessage = String.format(
                 "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.VerifyNoInteractionsTheRestAfterTest.forgotIn_ThenThrowRuntimeException(VerifyNoInteractionsTheRestAfterTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
@@ -32,7 +31,7 @@ class VerifyNoInteractionsTheRestAfterTest {
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                () -> verifyNoInteractionsTheRestAfter(mock)
+                () -> new VerifyNoInteractionsTheRestAfter(mock)
         );
 
         assertEquals(expectedMessage, actualException.getMessage());
@@ -40,12 +39,12 @@ class VerifyNoInteractionsTheRestAfterTest {
 
     @Test
     public void clearWorks_ThenSuccess() {
-        verifyNoInteractionsTheRestAfter(mock);
+        new VerifyNoInteractionsTheRestAfter(mock);
         assertThrows(
                 RuntimeException.class,
-                () -> verifyNoInteractionsTheRestAfter(mock)
+                () -> new VerifyNoInteractionsTheRestAfter(mock)
         );
-        verifyNoInteractionsTheRestAfter(mock);
+        new VerifyNoInteractionsTheRestAfter(mock);
     }
 
     @AfterAll

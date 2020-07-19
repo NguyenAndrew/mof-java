@@ -4,7 +4,6 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.WhenBeforeFirst.whenBeforeFirst;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -16,14 +15,14 @@ class WhenBeforeFirstTest {
 
     @Test
     public void success() {
-        whenBeforeFirst().in(mockCoach);
+        new WhenBeforeFirst().in(mockCoach);
         verify(mockCoach).whenBeforeFirst();
     }
 
     @Test
     public void forgotIn_ThenThrowRuntimeException() {
         RuntimeException placeholderException = new RuntimeException();
-        whenBeforeFirst();
+        new WhenBeforeFirst();
         String expectedMessage = String.format(
                 "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.WhenBeforeFirstTest.forgotIn_ThenThrowRuntimeException(WhenBeforeFirstTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
@@ -31,7 +30,7 @@ class WhenBeforeFirstTest {
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                WhenBeforeFirst::whenBeforeFirst
+                WhenBeforeFirst::new
         );
 
         assertEquals(expectedMessage, actualException.getMessage());
@@ -39,12 +38,12 @@ class WhenBeforeFirstTest {
 
     @Test
     public void clearWorks_ThenSuccess() {
-        whenBeforeFirst();
+        new WhenBeforeFirst();
         assertThrows(
                 RuntimeException.class,
-                WhenBeforeFirst::whenBeforeFirst
+                WhenBeforeFirst::new
         );
-        whenBeforeFirst();
+        new WhenBeforeFirst();
     }
 
     @AfterAll

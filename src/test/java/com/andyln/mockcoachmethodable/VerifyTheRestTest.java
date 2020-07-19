@@ -4,7 +4,6 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.VerifyTheRest.verifyTheRest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -15,14 +14,14 @@ class VerifyTheRestTest {
 
     @Test
     public void success() {
-        verifyTheRest().in(mockCoach);
+        new VerifyTheRest().in(mockCoach);
         verify(mockCoach).verifyTheRest();
     }
 
     @Test
     public void forgotIn_ThenThrowRuntimeException() {
         RuntimeException placeholderException = new RuntimeException();
-        verifyTheRest();
+        new VerifyTheRest();
         String expectedMessage = String.format(
                 "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.VerifyTheRestTest.forgotIn_ThenThrowRuntimeException(VerifyTheRestTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
@@ -30,7 +29,7 @@ class VerifyTheRestTest {
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                VerifyTheRest::verifyTheRest
+                VerifyTheRest::new
         );
 
         assertEquals(expectedMessage, actualException.getMessage());
@@ -38,12 +37,12 @@ class VerifyTheRestTest {
 
     @Test
     public void clearWorks_ThenSuccess() {
-        verifyTheRest();
+        new VerifyTheRest();
         assertThrows(
                 RuntimeException.class,
-                VerifyTheRest::verifyTheRest
+                VerifyTheRest::new
         );
-        verifyTheRest();
+        new VerifyTheRest();
     }
 
     @AfterAll

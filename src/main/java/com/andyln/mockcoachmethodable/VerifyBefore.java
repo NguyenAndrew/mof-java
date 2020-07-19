@@ -8,11 +8,7 @@ public class VerifyBefore implements Methodable {
 
     VerifyBefore(Object mock) {
         this.mock = mock;
-    }
-
-    public static VerifyBefore verifyBefore(Object mock) {
         MethodableState.inProgress();
-        return new VerifyBefore(mock);
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.WhenTheRestAfter.whenTheRestAfter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -18,14 +17,14 @@ class WhenTheRestAfterTest {
 
     @Test
     public void success() {
-        whenTheRestAfter(mock).in(mockCoach);
+        new WhenTheRestAfter(mock).in(mockCoach);
         verify(mockCoach).whenTheRestAfter(mock);
     }
 
     @Test
     public void forgotIn_ThenThrowRuntimeException() {
         RuntimeException placeholderException = new RuntimeException();
-        whenTheRestAfter(mock);
+        new WhenTheRestAfter(mock);
         String expectedMessage = String.format(
                 "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.WhenTheRestAfterTest.forgotIn_ThenThrowRuntimeException(WhenTheRestAfterTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
@@ -33,7 +32,7 @@ class WhenTheRestAfterTest {
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                () -> whenTheRestAfter(mock)
+                () -> new WhenTheRestAfter(mock)
         );
 
         assertEquals(expectedMessage, actualException.getMessage());
@@ -41,12 +40,12 @@ class WhenTheRestAfterTest {
 
     @Test
     public void clearWorks_ThenSuccess() {
-        whenTheRestAfter(mock);
+        new WhenTheRestAfter(mock);
         assertThrows(
                 RuntimeException.class,
-                () -> whenTheRestAfter(mock)
+                () -> new WhenTheRestAfter(mock)
         );
-        whenTheRestAfter(mock);
+        new WhenTheRestAfter(mock);
     }
 
     @AfterAll

@@ -4,8 +4,6 @@ import com.andyln.MockCoach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import static com.andyln.mockcoachmethodable.VerifyNoInteractionsTheRest.verifyNoInteractionsTheRest;
-import static com.andyln.mockcoachmethodable.VerifyTheRest.verifyTheRest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -16,14 +14,14 @@ class VerifyNoInteractionsTheRestTest {
 
     @Test
     public void success() {
-        verifyNoInteractionsTheRest().in(mockCoach);
+        new VerifyNoInteractionsTheRest().in(mockCoach);
         verify(mockCoach).verifyNoInteractionsTheRest();
     }
 
     @Test
     public void forgotIn_ThenThrowRuntimeException() {
         RuntimeException placeholderException = new RuntimeException();
-        verifyNoInteractionsTheRest();
+        new VerifyNoInteractionsTheRest();
         String expectedMessage = String.format(
                 "Missing .in(MockCoach) at com.andyln.mockcoachmethodable.VerifyNoInteractionsTheRestTest.forgotIn_ThenThrowRuntimeException(VerifyNoInteractionsTheRestTest.java:%d)",
                 placeholderException.getStackTrace()[0].getLineNumber() + 1
@@ -31,7 +29,7 @@ class VerifyNoInteractionsTheRestTest {
 
         RuntimeException actualException = assertThrows(
                 RuntimeException.class,
-                VerifyNoInteractionsTheRest::verifyNoInteractionsTheRest
+                VerifyNoInteractionsTheRest::new
         );
 
         assertEquals(expectedMessage, actualException.getMessage());
@@ -39,12 +37,12 @@ class VerifyNoInteractionsTheRestTest {
 
     @Test
     public void clearWorks_ThenSuccess() {
-        verifyNoInteractionsTheRest();
+        new VerifyNoInteractionsTheRest();
         assertThrows(
                 RuntimeException.class,
-                VerifyNoInteractionsTheRest::verifyNoInteractionsTheRest
+                VerifyNoInteractionsTheRest::new
         );
-        verifyTheRest();
+        new VerifyNoInteractionsTheRest();
     }
 
     @AfterAll

@@ -8,11 +8,7 @@ public class VerifyTheRestAfter implements Methodable {
 
     VerifyTheRestAfter(Object mock) {
         this.mock = mock;
-    }
-
-    public static VerifyTheRestAfter verifyTheRestAfter(Object mock) {
         MethodableState.inProgress();
-        return new VerifyTheRestAfter(mock);
     }
 
     @Override

@@ -8,11 +8,7 @@ public class VerifyNoInteractionsTheRestAfter implements Methodable {
 
     VerifyNoInteractionsTheRestAfter(Object mock) {
         this.mock = mock;
-    }
-
-    public static VerifyNoInteractionsTheRestAfter verifyNoInteractionsTheRestAfter(Object mock) {
         MethodableState.inProgress();
-        return new VerifyNoInteractionsTheRestAfter(mock);
     }
 
     @Override
