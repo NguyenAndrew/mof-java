@@ -1559,7 +1559,7 @@ class MockCoachLegacyTest {
     }
 
     @Nested
-    class SetVerifyNoInteractions {
+    class PutVerifyNoInteractions {
 
         NoInteractionLambda verifyNoInteractionLambda = mock(NoInteractionLambda.class);
 
@@ -1569,7 +1569,7 @@ class MockCoachLegacyTest {
 
             UnsupportedOperationException actualException = assertThrows(
                     UnsupportedOperationException.class,
-                    () -> mockCoachLegacyTwoMocks.setVerifyNoInteractions(verifyNoInteractionLambda)
+                    () -> mockCoachLegacyTwoMocks.putVerifyNoInteractions(verifyNoInteractionLambda)
             );
 
             assertEquals(expectedMessage, actualException.getMessage());

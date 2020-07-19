@@ -339,7 +339,7 @@ public class MockCoachLegacy extends MockCoach {
      *
      */
     @Override
-    public MockCoach setVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
+    public MockCoach putVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
         throw new UnsupportedOperationException("Feature only possible in MockCoach, not MockCoachLegacy");
     }
 

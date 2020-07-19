@@ -1136,11 +1136,11 @@ class MockCoachTest {
         NoInteractionLambda verifyNoInteractionLambda = mock(NoInteractionLambda.class);
 
         private final MockCoach mockCoachTwoMocksSetNoVerifications = new MockCoach(twoMocks, twoWhens, twoVerifies)
-                .setVerifyNoInteractions(verifyNoInteractionLambda);
+                .putVerifyNoInteractions(verifyNoInteractionLambda);
 
         private final MockCoach mockCoachThreeMocksInCircleChainSetNoVerifications =
                 new MockCoach(threeMocksInCircleChain, threeWhens, threeVerifies)
-                        .setVerifyNoInteractions(verifyNoInteractionLambda);
+                        .putVerifyNoInteractions(verifyNoInteractionLambda);
 
         @Test
         public void whenVerifyBefore_ThenSuccess() throws Exception {
@@ -1458,14 +1458,14 @@ class MockCoachTest {
         NoInteractionLambda verifyNoInteractionLambda = mock(NoInteractionLambda.class);
 
         private final MockCoach mockCoachTwoMocksSetNoVerifications = new MockCoach(twoMocks, twoWhens, twoVerifies)
-                .setVerifyNoInteractions(verifyNoInteractionLambda);
+                .putVerifyNoInteractions(verifyNoInteractionLambda);
 
         private final MockCoach mockCoachThreeMocksSetNoVerifications = new MockCoach(threeMocks, threeWhens, threeVerifies)
-                .setVerifyNoInteractions(verifyNoInteractionLambda);
+                .putVerifyNoInteractions(verifyNoInteractionLambda);
 
         private final MockCoach mockCoachThreeMocksInCircleChainSetNoVerifications =
                 new MockCoach(threeMocksInCircleChain, threeWhens, threeVerifies)
-                        .setVerifyNoInteractions(verifyNoInteractionLambda);
+                        .putVerifyNoInteractions(verifyNoInteractionLambda);
 
         @Test
         public void whenVerifyBefore_ThenSuccess() throws Exception {
@@ -1913,14 +1913,14 @@ class MockCoachTest {
     }
 
     @Nested
-    class SetVerifyNoInteractions {
+    class PutVerifyNoInteractions {
 
         NoInteractionLambda verifyNoInteractionLambda = mock(NoInteractionLambda.class);
 
         @Test
         public void success() {
             MockCoach mockCoachTwoMocksSetVerifyNoInteractions = mockCoachTwoMocks
-                    .setVerifyNoInteractions(verifyNoInteractionLambda);
+                    .putVerifyNoInteractions(verifyNoInteractionLambda);
 
             assertEquals(mockCoachTwoMocks, mockCoachTwoMocksSetVerifyNoInteractions);
         }

@@ -242,4 +242,4 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 
 * ~~Condense methodables statics into class. Improves IDE auto completion for these statics.~~ Done
 * ~~Fix MockCoachLegacy.Builder to include missing override annotation.~~ Done
-* Add function that has same functionality as `setNoVerifications(...)`. Refactor current setter to return void. Help avoid issues with other libraries that rely on setters being void.
+* ~~Refactor `setNoVerifications(...)` to `setNoVerifications(...)`. Help avoid issues with other libraries that rely on setters being void.~~ Done

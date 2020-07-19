@@ -351,7 +351,7 @@ public class MockCoach {
      *
      * @param verifyNoInteractionLambda A Java Lambda. Example: "setVerifyNoInteractions(mock -&gt; verifyNoInteractions(mock))"
      */
-    public MockCoach setVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
+    public MockCoach putVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
         this.verifyNoInteractionLambda = verifyNoInteractionLambda;
         return this;
     }
@@ -840,7 +840,7 @@ public class MockCoach {
                     whens.toArray(new WhenLambda[0]),
                     verifies.toArray(new VerifyLambda[0])
             );
-            mockCoach.setVerifyNoInteractions(verifyNoInteractionLambda);
+            mockCoach.putVerifyNoInteractions(verifyNoInteractionLambda);
             return mockCoach;
         }
     }
