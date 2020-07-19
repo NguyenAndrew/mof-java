@@ -773,7 +773,8 @@ public class MockCoachLegacy extends MockCoach {
          * Feature only possible in MockCoach, not MockCoachLegacy.
          *
          */
-        public MockCoach.Builder withVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
+        @Override
+        public Builder withVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
             throw new UnsupportedOperationException("Feature only possible for MockCoach, not MockCoachLegacy");
         }
 
