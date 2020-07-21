@@ -69,7 +69,7 @@ Add the following line to your pom.xml
 <dependency>
   <groupId>com.andyln</groupId>
   <artifactId>mock-coach</artifactId>
-  <version>3.1.0</version>
+  <version>4.0.0</version>
   <scope>test</scope>
 </dependency>
 ```
