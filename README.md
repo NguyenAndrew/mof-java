@@ -109,7 +109,7 @@ MockCoach mockCoach = new MockCoach(
     () -> {
         verifyZeroInteractions(subtractionService);
     }
-);
+).putVerifyNoInteractions((mock) -> verifyNoMoreInteractions(mock));
 ```
 
 ### Unit Testing - Base Success Case
@@ -216,6 +216,12 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 
 ## Changelog
 
+4.0.0 - Details below
+
+* Condense methodables statics into class. Improves IDE auto completion for these statics.
+* Fix MockCoachLegacy.Builder to include missing override annotation.
+* Refactor `setVerifyNoInteractions(...)` to `putVerifyNoInteractions(...)`.
+
 3.1.0 - Add `withVerifyNoInteractions(...)` to builders
 
 3.0.0 - Details below
@@ -235,11 +241,3 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 1.1.0 - Enable usage of MockCoach as an interface for MockCoachLegacy
 
 1.0.0 - GA Release of the project!
-
-## Roadmap
-
-4.0.0 - Details below
-
-* ~~Condense methodables statics into class. Improves IDE auto completion for these statics.~~ Done
-* ~~Fix MockCoachLegacy.Builder to include missing override annotation.~~ Done
-* ~~Refactor `setNoVerifications(...)` to `setNoVerifications(...)`. Help avoid issues with other libraries that rely on setters being void.~~ Done
