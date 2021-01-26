@@ -216,9 +216,7 @@ A: A real world system should have 5 or less mocks constructor-injected or sette
 
 ## Changelog
 
-5.0.0 - Details below
-
-* Remove methodables to reduce maintenance and usability complexity
+5.0.0 - Remove methodables to reduce maintenance and usability complexity
 
 4.0.0 - Details below
 
