@@ -53,7 +53,7 @@ Service Dipath Chains are recommended in most cases over Service Cyclic Graphs, 
 If the method you are testing happens to be a Service Cyclic Graph, you can either **1. Refactor using sample suggestions** or **2. Use Mock Code Legacy (Backup)** Here are more detailed explanations of these two options:
 
 1. Separate and/or move the service calls into multiple methods within a facade. Call the facade's methods within the current method to achieve same functionality. Sample suggestions: 
-    1. A -> B -> C -> B -> D -> E can be converted to A -> N -> D -> E (where N internally calls B -> C).
+    1. A -> B -> C -> B -> D -> E can be converted to A -> N -> D -> E (where N internally calls B -> C -> B).
     2. A -> B -> C -> D -> E -> F -> ... -> X -> B -> Y -> Z can be coverted to A -> N -> Y -> Z (where N internally calls B -> ... -> B)
     3. A -> B -> C -> B -> ... -> B -> C can be coverted to A -> N (where N internally calls B -> C)
     4. A -> B -> C -> D -> C -> B -> A can be converted in the following ways:
@@ -210,9 +210,13 @@ Q: I want to remove this library (Didn't like the user experience, found a bette
 
 A: Using Mock Coach replaces the implicit whens and verifies between your different unit tests with explicit code. The process of removing the library is simple: Remove the explicit structure by copying and paste those extra whens and verifies back into each of your unit tests.
 
-Q: Why support up 16 injects mocks?
+Q: Why support up 8 injects mocks when intializing Mock Coach with constructor?
 
 A: A real world system should have 5 or less mocks constructor-injected or setter-injected. This functionality helps support older code bases.
+
+Q: If I have more than 8 mocks to inject in my system, how do I use Mock Coach and Mock Coach Legacy?
+
+A: You can use more than 8 mocks by utilizing the `Builder()` and `add(...)` interface for both Mock Coach and Mock Coach Legacy.
 
 ## Changelog
 
