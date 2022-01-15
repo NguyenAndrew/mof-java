@@ -220,6 +220,18 @@ A: You can use more than 8 mocks by utilizing the `Builder()` and `add(...)` int
 
 ## Changelog
 
+6.0.0 - Details below
+
+* Start converting project name from MockCoach to Mock Orchestration Framework
+* Start replacing outdated terminology with the ones in the Simple Programming Paradigm - https://github.com/NguyenAndrew/Simple-Programming
+* Replace MockCoach with Mof, which is (Simple) Mock Orchestration Framework
+* Replace MockCoachLegacy with Nof, which is (Non Simple Mock) Orchestration Framework
+* "Inheritance Removal" between Nof and Mof to support deviating usage of operation
+* verifyNoInteractions is removed from Nof, an unsupported operation that can now be removed, supported by inheritance removal
+* Nof only allows enums for its Mock Markers to make library usage clearer, supported by inheritance removal
+* Mof allows any objects to be used for its mocks to make usage more flexible
+* Remove public constructors Mof and Nof and only allow construction through Builder to simplify and make construction process consistent 
+
 5.0.0 - Remove methodables to reduce maintenance and usability complexity
 
 4.0.0 - Details below
