@@ -287,7 +287,7 @@ public class MofTest {
         }
 
         @Test
-        void whenMocksInACyclicGraphThatIsNotACircleChain_ThenThrowIllegalArgumentException() {
+        void whenMocksInANonSimpleCurve_ThenThrowIllegalArgumentException() {
             String expectedMessage = "m3 cannot be the same as a previous mock in mocks!";
 
             IllegalArgumentException actualException = assertThrows(

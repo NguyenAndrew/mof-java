@@ -1,5 +1,5 @@
 package com.andyln;
 
-public enum Fol {
+public enum FirstOrLast {
     FIRST, LAST
 }
