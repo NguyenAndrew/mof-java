@@ -10,6 +10,9 @@ public class Mof {
     public static final AllOrRemaining ALL = AllOrRemaining.ALL;
     public static final AllOrRemaining REMAINING = AllOrRemaining.REMAINING;
 
+    public static final FirstOrLast FIRST = FirstOrLast.FIRST;
+    public static final FirstOrLast LAST = FirstOrLast.LAST;
+
     private Object[] mocks;
     private WhenLambda[] whenLambdas;
     private VerifyLambda[] verifyLambdas;
