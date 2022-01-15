@@ -11,6 +11,7 @@ public class MofTest {
 
     private final Object mock1 = mock(Object.class);
     private final Object mock2 = mock(Object.class);
+    private final Object mock3 = mock(Object.class);
     private final Object[] singleMock = {mock1};
     private final Object[] twoMocks = {mock1, mock2};
     private final Object[] threeMocksInCircleChain = {mock1, mock2, mock1};
@@ -81,6 +82,175 @@ public class MofTest {
                     )
                     .enableVerifyNoInteractions(verifyNoInteractionLambda)
                     .build();
+        }
+
+        @Test
+        void withTwoMocks_success() {
+            new Mof.Builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    )
+                    .add(
+                            mock2,
+                            when2,
+                            verify2
+                    )
+                    .build();
+        }
+
+        @Test
+        void withThreeMocks_success() {
+            new Mof.Builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    )
+                    .add(
+                            mock2,
+                            when2,
+                            verify2
+                    )
+                    .add(
+                            mock3,
+                            when3,
+                            verify3
+                    )
+                    .build();
+        }
+
+        @Test
+        void withTwoMocksInCircleChain_success() {
+            new Mof.Builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    )
+                    .add(
+                            mock1,
+                            when2,
+                            verify2
+                    )
+                    .build();
+        }
+
+        @Test
+        void whenThreeMocksAreInCircleChain_ThenSuccess() {
+            new Mof.Builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    )
+                    .add(
+                            mock2,
+                            when2,
+                            verify2
+                    )
+                    .add(
+                            mock1,
+                            when3,
+                            verify3
+                    )
+                    .build();
+        }
+
+        @Test
+        void whenMocksIsNull_ThenThrowIllegalArgumentException() {
+            String expectedMessage = "Cannot add null Mock to Mof Builder!";
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> new Mof.Builder()
+                            .add(
+                                    null,
+                                    when1,
+                                    verify1
+                            )
+                            .build()
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenWhenLambdaIsNull_ThenThrowIllegalArgumentException() {
+            String expectedMessage = "Cannot add null WhenLambda to Mof Builder!";
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> new Mof.Builder()
+                            .add(
+                                    mock1,
+                                    null,
+                                    verify1
+                            )
+                            .build()
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenVerifyLambdaIsNull_ThenThrowIllegalArgumentException() {
+            String expectedMessage = "Cannot add null VerifyLambda to Mof Builder!";
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> new Mof.Builder()
+                            .add(
+                                    mock1,
+                                    when1,
+                                    null
+                            )
+                            .build()
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+
+        @Test
+        void whenBuilding_WithNoMocksAdded_ThenThrowIllegalStateException() {
+            String expectedMessage = "Must add at least one mock before calling build on Mof Builder!";
+
+            IllegalStateException actualException = assertThrows(
+                    IllegalStateException.class,
+                    () -> new Mof.Builder().build()
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+        }
+
+        @Test
+        void whenMocksInACyclicGraphThatIsNotACircleChain_ThenThrowIllegalArgumentException() {
+            String expectedMessage = "m3 cannot be the same as a previous mock in mocks!";
+
+            IllegalArgumentException actualException = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> new Mof.Builder()
+                            .add(
+                                    mock1,
+                                    when1,
+                                    verify1
+                            )
+                            .add(
+                                    mock2,
+                                    when2,
+                                    verify2
+                            )
+                            .add(
+                                    mock2,
+                                    when3,
+                                    verify3
+                            )
+                            .build()
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
         }
     }
 }

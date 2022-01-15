@@ -232,6 +232,7 @@ A: You can use more than 8 mocks by utilizing the `Builder()` and `add(...)` int
 * Mof allows any objects to be used for its mocks to make usage more flexible
 * Remove public constructors Mof and Nof and only allow construction through Builder to simplify and make construction process consistent
 * Add copy method to builders for easier reusability
+* Error messages are updated to match updated functionality
 
 5.0.0 - Remove methodables to reduce maintenance and usability complexity
 

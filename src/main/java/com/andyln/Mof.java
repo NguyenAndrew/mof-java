@@ -20,22 +20,6 @@ public class Mof {
     private boolean isMocksInCircleChain;
 
     private Mof(Object[] mocks, WhenLambda[] whenLambdas, VerifyLambda[] verifyLambdas) {
-        if (mocks == null) {
-            throw new IllegalArgumentException("mocks/whens/verifies cannot be null!");
-        }
-
-        if (mocks.length != whenLambdas.length) {
-            throw new IllegalArgumentException("whens length does not match mocks length!");
-        }
-
-        if (mocks.length != verifyLambdas.length) {
-            throw new IllegalArgumentException("verifies length does not match mocks length!");
-        }
-
-        if (mocks.length == 0) {
-            throw new IllegalArgumentException("mocks/whens/verifies cannot be empty!");
-        }
-
         mockMap = new HashMap<>();
 
         containsMoreThanOneMock = mocks.length > 1;
@@ -50,6 +34,10 @@ public class Mof {
                 throw new IllegalArgumentException(String.format("m%d cannot be the same as a previous mock in mocks!", i + 1));
             }
         }
+
+        this.mocks = mocks;
+        this.whenLambdas = whenLambdas;
+        this.verifyLambdas = verifyLambdas;
     }
 
     public void when(Aor mocks) {
@@ -105,6 +93,18 @@ public class Mof {
         }
 
         public Builder add(Object m, WhenLambda w, VerifyLambda v) {
+            if (m == null) {
+                throw new IllegalArgumentException("Cannot add null Mock to Mof Builder!");
+            }
+
+            if (w == null) {
+                throw new IllegalArgumentException("Cannot add null WhenLambda to Mof Builder!");
+            }
+
+            if (v == null) {
+                throw new IllegalArgumentException("Cannot add null VerifyLambda to Mof Builder!");
+            }
+
             mocks.add(m);
             whens.add(w);
             verifies.add(v);
@@ -121,6 +121,10 @@ public class Mof {
         }
 
         public Mof build() {
+            if (mocks.size() == 0) {
+                throw new IllegalStateException("Must add at least one mock before calling build on Mof Builder!");
+            }
+
             Mof mof = new Mof(
                     mocks.toArray(new Object[0]),
                     whens.toArray(new WhenLambda[0]),
