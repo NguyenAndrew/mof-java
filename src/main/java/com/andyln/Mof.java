@@ -98,12 +98,22 @@ public class Mof {
             verifies = new ArrayList<>();
         }
 
+        private Builder(List<Object> mocks, List<WhenLambda> whens, List<VerifyLambda> verifies) {
+            this.mocks = mocks;
+            this.whens = whens;
+            this.verifies = verifies;
+        }
+
         public Builder add(Object m, WhenLambda w, VerifyLambda v) {
             mocks.add(m);
             whens.add(w);
             verifies.add(v);
             return this;
-         }
+        }
+
+        public Builder copy() {
+            return new Builder(this.mocks, this.whens, this.verifies);
+        }
 
         public Builder enableVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
             this.verifyNoInteractionLambda = verifyNoInteractionLambda;

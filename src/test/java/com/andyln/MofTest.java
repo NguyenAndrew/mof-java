@@ -57,6 +57,21 @@ public class MofTest {
         }
 
         @Test
+        void copy_success() {
+            Mof.Builder originalBuilder = new Mof.Builder()
+                    .add(
+                            mock1,
+                            when1,
+                            verify1
+                    );
+
+            Mof.Builder copiedBuilder = originalBuilder.copy();
+
+            originalBuilder.copy();
+            copiedBuilder.copy();
+        }
+
+        @Test
         void withVerifyNoInteractions_success() {
             new Mof.Builder()
                     .add(
