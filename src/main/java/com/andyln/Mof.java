@@ -7,6 +7,9 @@ import java.util.Map;
 
 public class Mof {
 
+    public static final AllOrRemaining ALL = AllOrRemaining.ALL;
+    public static final AllOrRemaining REMAINING = AllOrRemaining.REMAINING;
+
     private Object[] mocks;
     private WhenLambda[] whenLambdas;
     private VerifyLambda[] verifyLambdas;
@@ -40,7 +43,19 @@ public class Mof {
         this.verifyLambdas = verifyLambdas;
     }
 
-    public void when(Aor mocks) {
+    public void when(AllOrRemaining aor) {
+        if (aor == AllOrRemaining.ALL) {
+            for (int i = 0; i < this.mocks.length; i++) {
+                try {
+                    whenLambdas[i].run();
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
+                }
+            }
+            return;
+        }
+
+        System.out.println("Remaining mocks");
     }
 
     public void whenBefore(Object mock) {
@@ -49,7 +64,7 @@ public class Mof {
     public void whenAfter(Object mock) {
     }
 
-    public void verify(Aor mocks) {
+    public void verify(AllOrRemaining mocks) {
     }
 
     public void verifyThrough(Object mock) {
@@ -66,7 +81,7 @@ public class Mof {
         return this;
     }
 
-    public void verifyNoInteractions(Aor mocks) {
+    public void verifyNoInteractions(AllOrRemaining mocks) {
     }
 
     public void verifyNoInteractionsAfter(Object mock) {

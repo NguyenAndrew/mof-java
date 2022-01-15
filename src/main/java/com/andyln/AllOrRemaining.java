@@ -1,5 +1,5 @@
 package com.andyln;
 
-public enum Aor {
+public enum AllOrRemaining {
     ALL, REMAINING
 }

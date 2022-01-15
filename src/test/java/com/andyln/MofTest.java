@@ -7,28 +7,89 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+import static com.andyln.Mof.ALL;
+import static com.andyln.Mof.REMAINING;
+
 public class MofTest {
 
     private final Object mock1 = mock(Object.class);
     private final Object mock2 = mock(Object.class);
     private final Object mock3 = mock(Object.class);
-    private final Object[] singleMock = {mock1};
-    private final Object[] twoMocks = {mock1, mock2};
-    private final Object[] threeMocksInCircleChain = {mock1, mock2, mock1};
 
     private final WhenLambda when1 = mock(WhenLambda.class);
     private final WhenLambda when2 = mock(WhenLambda.class);
     private final WhenLambda when3 = mock(WhenLambda.class);
-    private final WhenLambda[] singleWhen = {when1};
-    private final WhenLambda[] twoWhens = {when1, when2};
-    private final WhenLambda[] threeWhens = {when1, when2, when3};
 
     private final VerifyLambda verify1 = mock(VerifyLambda.class);
     private final VerifyLambda verify2 = mock(VerifyLambda.class);
     private final VerifyLambda verify3 = mock(VerifyLambda.class);
-    private final VerifyLambda[] singleVerify = {verify1};
-    private final VerifyLambda[] twoVerifies = {verify1, verify2};
-    private final VerifyLambda[] threeVerifies = {verify1, verify2, verify3};
+
+    private final Mof mofSingleMock = new Mof.Builder()
+            .add(
+                    mock1,
+                    when1,
+                    verify1
+            )
+            .build();
+    private final Mof mofTwoMocks = new Mof.Builder()
+            .add(
+                    mock1,
+                    when1,
+                    verify1
+            )
+            .add(
+                    mock2,
+                    when2,
+                    verify3
+            )
+            .build();
+    private final Mof mofThreeMocks = new Mof.Builder()
+            .add(
+                    mock1,
+                    when1,
+                    verify1
+            )
+            .add(
+                    mock2,
+                    when2,
+                    verify3
+            )
+            .add(
+                    mock3,
+                    when3,
+                    verify3
+            )
+            .build();
+
+    private final Mof mofTwoMocksInASimpleClosedCurve = new Mof.Builder()
+            .add(
+                    mock1,
+                    when1,
+                    verify1
+            )
+            .add(
+                    mock1,
+                    when2,
+                    verify3
+            )
+            .build();
+    private final Mof mofThreeMocksInASimpleClosedCurve = new Mof.Builder()
+            .add(
+                    mock1,
+                    when1,
+                    verify1
+            )
+            .add(
+                    mock2,
+                    when2,
+                    verify3
+            )
+            .add(
+                    mock1,
+                    when3,
+                    verify3
+            )
+            .build();
 
     @Nested
     class Builder {
@@ -122,7 +183,7 @@ public class MofTest {
         }
 
         @Test
-        void withTwoMocksInCircleChain_success() {
+        void whenTwoMocksAreInASimpleClosedCurve_success() {
             new Mof.Builder()
                     .add(
                             mock1,
@@ -138,7 +199,7 @@ public class MofTest {
         }
 
         @Test
-        void whenThreeMocksAreInCircleChain_ThenSuccess() {
+        void whenThreeMocksAreInASimpleClosedCurve_ThenSuccess() {
             new Mof.Builder()
                     .add(
                             mock1,
@@ -251,6 +312,68 @@ public class MofTest {
             );
 
             assertEquals(expectedMessage, actualException.getMessage());
+        }
+    }
+
+    @Nested
+    class When {
+
+        @Test
+        void success() throws Exception {
+            mofSingleMock.when(ALL);
+
+            verify(when1, times(1)).run();
+        }
+
+        @Test
+        void twoMocks_success() throws Exception {
+            mofTwoMocks.when(ALL);
+
+            verify(when1, times(1)).run();
+            verify(when2, times(1)).run();
+        }
+
+        @Test
+        void threeMocks_success() throws Exception {
+            mofThreeMocks.when(ALL);
+
+            verify(when1, times(1)).run();
+            verify(when2, times(1)).run();
+        }
+
+        @Test
+        void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+            mofTwoMocksInASimpleClosedCurve.when(ALL);
+
+            verify(when1, times(1)).run();
+            verify(when2, times(1)).run();
+        }
+
+        @Test
+        void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+            mofThreeMocksInASimpleClosedCurve.when(ALL);
+
+            verify(when1, times(1)).run();
+            verify(when2, times(1)).run();
+            verify(when3, times(1)).run();
+        }
+
+        @Test
+        void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+            String expectedMessage = "w1 throws an exception! Please check your whens.";
+
+            doThrow(new Exception()).when(when1).run();
+
+            RuntimeException actualException = assertThrows(
+                    RuntimeException.class,
+                    () -> mofThreeMocks.when(ALL)
+            );
+
+            assertEquals(expectedMessage, actualException.getMessage());
+
+            verify(when1, times(1)).run();
+            verify(when2, times(0)).run();
+            verify(when3, times(0)).run();
         }
     }
 }
