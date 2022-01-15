@@ -3,12 +3,10 @@ package com.andyln;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.andyln.Mof.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-
-import static com.andyln.Mof.ALL;
-import static com.andyln.Mof.REMAINING;
 
 public class MofTest {
 
@@ -317,7 +315,6 @@ public class MofTest {
 
     @Nested
     class When {
-
         @Test
         void success() throws Exception {
             mofSingleMock.when(ALL);
@@ -374,6 +371,56 @@ public class MofTest {
             verify(when1, times(1)).run();
             verify(when2, times(0)).run();
             verify(when3, times(0)).run();
+        }
+    }
+
+    @Nested
+    class WhenBefore {
+
+        @Nested
+        class First {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMock.whenBefore(FIRST);
+
+                verify(when1, times(0)).run();
+            }
+
+            @Test
+            void twoMocks_success() throws Exception {
+                mofTwoMocks.whenBefore(FIRST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+            }
+
+            @Test
+            void threeMocks_success() throws Exception {
+                mofThreeMocks.whenBefore(FIRST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofTwoMocksInASimpleClosedCurve.whenBefore(FIRST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurve.whenBefore(FIRST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+
         }
     }
 }
