@@ -339,6 +339,7 @@ public class MofTest {
 
                 verify(when1, times(1)).run();
                 verify(when2, times(1)).run();
+                verify(when3, times(1)).run();
             }
 
             @Test
@@ -480,6 +481,135 @@ public class MofTest {
                 RuntimeException actualException = assertThrows(
                         RuntimeException.class,
                         () -> mofThreeMocks.whenBefore(LAST)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(when1, times(1)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+        }
+
+        @Nested
+        class Mock {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMock.whenBefore(mock1);
+
+                verify(when1, times(0)).run();
+            }
+
+            @Test
+            void twoMocks_onFirstMock_success() throws Exception {
+                mofTwoMocks.whenBefore(mock1);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+            }
+
+            @Test
+            void twoMocks_onSecondMock_success() throws Exception {
+                mofTwoMocks.whenBefore(mock2);
+
+                verify(when1, times(1)).run();
+                verify(when2, times(0)).run();
+            }
+
+            @Test
+            void threeMocks_onFirstMock_success() throws Exception {
+                mofThreeMocks.whenBefore(mock1);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+
+            @Test
+            void threeMocks_onSecondMock_success() throws Exception {
+                mofThreeMocks.whenBefore(mock2);
+
+                verify(when1, times(1)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+
+            @Test
+            void threeMocks_onThirdMock_success() throws Exception {
+                mofThreeMocks.whenBefore(mock3);
+
+                verify(when1, times(1)).run();
+                verify(when2, times(1)).run();
+                verify(when3, times(0)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurve.whenBefore(mock2);
+
+                verify(when1, times(1)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_onFirstLastMock_thenThrowRuntimeException() throws Exception {
+                String expectedMessage = "Cannot call whenBefore(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use whenBefore(FIRST) or whenBefore(LAST).";
+
+                IllegalStateException actualException = assertThrows(
+                        IllegalStateException.class,
+                        () -> mofTwoMocksInASimpleClosedCurve.whenBefore(mock1)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_onFirstLastMock_thenThrowRuntimeException() throws Exception {
+                String expectedMessage = "Cannot call whenBefore(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use whenBefore(FIRST) or whenBefore(LAST).";
+
+                IllegalStateException actualException = assertThrows(
+                        IllegalStateException.class,
+                        () -> mofThreeMocksInASimpleClosedCurve.whenBefore(mock1)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+
+            @Test
+            void calledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
+                String expectedMessage = "Cannot call whenBefore(Object mock) for mock not in mocks!";
+                Object mockNotInMocks = mock(Object.class);
+
+                IllegalArgumentException actualException = assertThrows(
+                        IllegalArgumentException.class,
+                        () -> mofThreeMocks.whenBefore(mockNotInMocks)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+
+            @Test
+            void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "w1 throws an exception! Please check your whens.";
+
+                doThrow(new Exception()).when(when1).run();
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.whenBefore(mock3)
                 );
 
                 assertEquals(expectedMessage, actualException.getMessage());

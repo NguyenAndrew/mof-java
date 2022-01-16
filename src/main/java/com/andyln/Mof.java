@@ -78,6 +78,26 @@ public class Mof {
             }
             return;
         }
+
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
+            throw new IllegalStateException("Cannot call whenBefore(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use whenBefore(FIRST) or whenBefore(LAST).");
+        }
+
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call whenBefore(Object mock) for mock not in mocks!");
+        }
+
+        int indexOfMock = objectIndexOfMock;
+
+        for (int i = 0; i < indexOfMock; i++) {
+            try {
+                whenLambdas[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
+            }
+        }
     }
 
     public void whenAfter(Object mock) {
@@ -172,5 +192,4 @@ public class Mof {
     public static Builder builder() {
         return new Builder();
     }
-
 }
