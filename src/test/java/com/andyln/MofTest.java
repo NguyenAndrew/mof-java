@@ -471,7 +471,6 @@ public class MofTest {
                 verify(when3, times(0)).run();
             }
 
-
             @Test
             void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
                 String expectedMessage = "w1 throws an exception! Please check your whens.";
@@ -616,6 +615,73 @@ public class MofTest {
 
                 verify(when1, times(1)).run();
                 verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+        }
+    }
+
+    @Nested
+    class WhenAfter {
+
+        @Nested
+        class First {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMock.whenAfter(FIRST);
+
+                verify(when1, times(0)).run();
+            }
+
+            @Test
+            void twoMocks_success() throws Exception {
+                mofTwoMocks.whenAfter(FIRST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(1)).run();
+            }
+
+            @Test
+            void threeMocks_success() throws Exception {
+                mofThreeMocks.whenAfter(FIRST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(1)).run();
+                verify(when3, times(1)).run();
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofTwoMocksInASimpleClosedCurve.whenAfter(FIRST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(1)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurve.whenAfter(FIRST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(1)).run();
+                verify(when3, times(1)).run();
+            }
+
+            @Test
+            void calledWithWhenThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "w2 throws an exception! Please check your whens.";
+
+                doThrow(new Exception()).when(when2).run();
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.whenAfter(FIRST)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(when1, times(0)).run();
+                verify(when2, times(1)).run();
                 verify(when3, times(0)).run();
             }
         }

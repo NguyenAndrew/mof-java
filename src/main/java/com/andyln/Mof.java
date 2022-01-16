@@ -101,6 +101,15 @@ public class Mof {
     }
 
     public void whenAfter(Object mock) {
+        if (mock == FirstOrLast.FIRST) {
+            for (int i = 1; i < this.mocks.length; i++) {
+                try {
+                    whenLambdas[i].run();
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
+                }
+            }
+        }
     }
 
     public void verify(AllOrRemaining mocks) {
