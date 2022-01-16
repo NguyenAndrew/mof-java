@@ -66,6 +66,18 @@ public class Mof {
             // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
             return;
         }
+
+        if (mock == FirstOrLast.LAST) {
+            int indexOfLastMock = this.mocks.length - 1;
+            for (int i = 0; i < indexOfLastMock; i++) {
+                try {
+                    whenLambdas[i].run();
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
+                }
+            }
+            return;
+        }
     }
 
     public void whenAfter(Object mock) {
