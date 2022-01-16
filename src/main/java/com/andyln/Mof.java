@@ -80,7 +80,7 @@ public class Mof {
         }
 
         if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
-            throw new IllegalStateException("Cannot call whenBefore(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use whenBefore(FIRST) or whenBefore(LAST).");
+            throw new IllegalArgumentException("Cannot call whenBefore(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use whenBefore(FIRST) or whenBefore(LAST).");
         }
 
         Integer objectIndexOfMock = mockMap.get(mock);
@@ -109,11 +109,30 @@ public class Mof {
                     throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
                 }
             }
+            return;
         }
 
         if (mock == FirstOrLast.LAST) {
             // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
             return;
+        }
+
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
+            throw new IllegalArgumentException("Cannot call whenAfter(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use whenAfter(FIRST) or whenAfter(LAST).");
+        }
+
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call whenAfter(Object mock) for mock not in mocks!");
+        }
+
+        for (int i = objectIndexOfMock + 1; i < this.mocks.length; i++) {
+            try {
+                whenLambdas[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
+            }
         }
 
     }
