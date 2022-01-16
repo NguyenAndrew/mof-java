@@ -685,5 +685,50 @@ public class MofTest {
                 verify(when3, times(0)).run();
             }
         }
+
+        @Nested
+        class Last {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMock.whenAfter(LAST);
+
+                verify(when1, times(0)).run();
+            }
+
+            @Test
+            void twoMocks_success() throws Exception {
+                mofTwoMocks.whenAfter(LAST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+            }
+
+            @Test
+            void threeMocks_success() throws Exception {
+                mofThreeMocks.whenAfter(LAST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofTwoMocksInASimpleClosedCurve.whenAfter(LAST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurve.whenAfter(LAST);
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+        }
     }
 }

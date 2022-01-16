@@ -110,6 +110,12 @@ public class Mof {
                 }
             }
         }
+
+        if (mock == FirstOrLast.LAST) {
+            // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
+            return;
+        }
+
     }
 
     public void verify(AllOrRemaining mocks) {
