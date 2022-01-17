@@ -25,6 +25,8 @@ public class Mof {
 
     private boolean isMocksInCircleChain;
 
+    private int remainingWhenIndex = 0;
+
     private Mof(Object[] mocks, WhenLambda[] whenLambdas, VerifyLambda[] verifyLambdas) {
         mockMap = new HashMap<>();
 
@@ -55,6 +57,19 @@ public class Mof {
                     throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
                 }
             }
+            remainingWhenIndex = this.mocks.length;
+            return;
+        }
+
+        if (aor == AllOrRemaining.REMAINING) {
+            for (int i = remainingWhenIndex; i < this.mocks.length; i++) {
+                try {
+                    whenLambdas[i].run();
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
+                }
+            }
+            remainingWhenIndex = this.mocks.length;
             return;
         }
 
@@ -64,6 +79,7 @@ public class Mof {
     public void whenBefore(Object mock) {
         if (mock == FirstOrLast.FIRST) {
             // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
+            remainingWhenIndex = 1;
             return;
         }
 
@@ -76,6 +92,7 @@ public class Mof {
                     throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
                 }
             }
+            remainingWhenIndex = this.mocks.length;
             return;
         }
 
@@ -98,6 +115,8 @@ public class Mof {
                 throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
             }
         }
+
+        remainingWhenIndex = indexOfMock + 1;
     }
 
     public void whenAfter(Object mock) {
@@ -109,11 +128,14 @@ public class Mof {
                     throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
                 }
             }
+
+            remainingWhenIndex = this.mocks.length;
             return;
         }
 
         if (mock == FirstOrLast.LAST) {
             // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
+            remainingWhenIndex = this.mocks.length;
             return;
         }
 
@@ -135,6 +157,7 @@ public class Mof {
             }
         }
 
+        remainingWhenIndex = this.mocks.length;
     }
 
     public void verify(AllOrRemaining mocks) {
