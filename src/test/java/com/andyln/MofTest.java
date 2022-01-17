@@ -1508,6 +1508,64 @@ public class MofTest {
         @Nested
         class Last {
 
+            @Test
+            void success() throws Exception {
+                mofSingleMock.verifyThrough(LAST);
+
+                verify(verify1, times(1)).run();
+            }
+
+            @Test
+            void twoMocks_success() throws Exception {
+                mofTwoMocks.verifyThrough(LAST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+            }
+
+            @Test
+            void threeMocks_success() throws Exception {
+                mofThreeMocks.verifyThrough(LAST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+                verify(verify3, times(1)).run();
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofTwoMocksInASimpleClosedCurve.verifyThrough(LAST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurve.verifyThrough(LAST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+                verify(verify3, times(1)).run();
+            }
+
+            @Test
+            void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "v1 throws an exception! Please check your verifies.";
+
+                doThrow(new Exception()).when(verify1).run();
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.verifyThrough(LAST)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(0)).run();
+            }
         }
 
         @Nested

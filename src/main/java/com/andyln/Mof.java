@@ -184,6 +184,16 @@ public class Mof {
             }
         }
 
+        if (mock == FirstOrLast.LAST) {
+            for (int i = 0; i < this.mocks.length; i++) {
+                try {
+                    verifyLambdas[i].run();
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+                }
+            }
+        }
+
 
     }
 
