@@ -1438,4 +1438,82 @@ public class MofTest {
             }
         }
     }
+
+    @Nested
+    class VerifyThrough {
+
+        @Nested
+        class First {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMock.verifyThrough(FIRST);
+
+                verify(verify1, times(1)).run();
+            }
+
+            @Test
+            void twoMocks_success() throws Exception {
+                mofTwoMocks.verifyThrough(FIRST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+            }
+
+            @Test
+            void threeMocks_success() throws Exception {
+                mofThreeMocks.verifyThrough(FIRST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(0)).run();
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofTwoMocksInASimpleClosedCurve.verifyThrough(FIRST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurve.verifyThrough(FIRST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(0)).run();
+            }
+
+            @Test
+            void calledWithWhenThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "v1 throws an exception! Please check your verifies.";
+
+                doThrow(new Exception()).when(verify1).run();
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.verifyThrough(FIRST)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(0)).run();
+            }
+        }
+
+        @Nested
+        class Last {
+
+        }
+
+        @Nested
+        class Mock {
+
+        }
+    }
+
 }

@@ -176,6 +176,15 @@ public class Mof {
     }
 
     public void verifyThrough(Object mock) {
+        if (mock == FirstOrLast.FIRST) {
+            try {
+                verifyLambdas[0].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", 1), e);
+            }
+        }
+
+
     }
 
     public void verifyBefore(Object mock) {
