@@ -843,6 +843,26 @@ public class MofTest {
 
             }
         }
+
+        @Nested
+        class Error {
+
+            @Test
+            void calledWithNotAllOrRemaining_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "aor must be ALL or REMAINING.";
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.when(null)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(when1, times(0)).run();
+                verify(when2, times(0)).run();
+                verify(when3, times(0)).run();
+            }
+        }
     }
 
     @Nested

@@ -73,7 +73,7 @@ public class Mof {
             return;
         }
 
-        System.out.println("Remaining mocks");
+        throw new IllegalArgumentException("aor must be ALL or REMAINING.");
     }
 
     public void whenBefore(Object mock) {
