@@ -160,7 +160,17 @@ public class Mof {
         remainingWhenIndex = this.mocks.length;
     }
 
-    public void verify(AllOrRemaining mocks) {
+    public void verify(AllOrRemaining aor) {
+        if (aor == AllOrRemaining.ALL) {
+            for (int i = 0; i < this.mocks.length; i++) {
+                try {
+                    verifyLambdas[i].run();
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+                }
+            }
+            return;
+        }
     }
 
     public void verifyThrough(Object mock) {

@@ -38,7 +38,7 @@ public class MofTest {
             .add(
                     mock2,
                     when2,
-                    verify3
+                    verify2
             )
             .build();
     private final Mof mofThreeMocks = new Mof.Builder()
@@ -50,7 +50,7 @@ public class MofTest {
             .add(
                     mock2,
                     when2,
-                    verify3
+                    verify2
             )
             .add(
                     mock3,
@@ -68,7 +68,7 @@ public class MofTest {
             .add(
                     mock1,
                     when2,
-                    verify3
+                    verify2
             )
             .build();
     private final Mof mofThreeMocksInASimpleClosedCurve = new Mof.Builder()
@@ -80,7 +80,7 @@ public class MofTest {
             .add(
                     mock2,
                     when2,
-                    verify3
+                    verify2
             )
             .add(
                     mock1,
@@ -1324,6 +1324,78 @@ public class MofTest {
                 verify(when2, times(1)).run();
                 verify(when3, times(0)).run();
             }
+        }
+    }
+
+    @Nested
+    class Verify {
+
+        @Nested
+        class All {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMock.verify(ALL);
+
+                verify(verify1, times(1)).run();
+            }
+
+            @Test
+            void twoMocks_success() throws Exception {
+                mofTwoMocks.verify(ALL);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+            }
+
+            @Test
+            void threeMocks_success() throws Exception {
+                mofThreeMocks.verify(ALL);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+                verify(verify3, times(1)).run();
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofTwoMocksInASimpleClosedCurve.verify(ALL);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurve.verify(ALL);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+                verify(verify3, times(1)).run();
+            }
+
+            @Test
+            void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "v1 throws an exception! Please check your verifies.";
+
+                doThrow(new Exception()).when(verify1).run();
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.verify(ALL)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(0)).run();
+            }
+        }
+
+        @Nested
+        class Remaining {
+
         }
     }
 }
