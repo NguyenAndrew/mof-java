@@ -182,6 +182,7 @@ public class Mof {
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", 1), e);
             }
+            return;
         }
 
         if (mock == FirstOrLast.LAST) {
@@ -192,9 +193,28 @@ public class Mof {
                     throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
                 }
             }
+            return;
         }
 
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
+            throw new IllegalArgumentException("Cannot call verifyThrough(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use verifyThrough(FIRST) or verifyThrough(LAST).");
+        }
 
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call verifyThrough(Object mock) for mock not in mocks!");
+        }
+
+        int indexOfMock = objectIndexOfMock;
+
+        for (int i = 0; i <= indexOfMock; i++) {
+            try {
+                verifyLambdas[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+            }
+        }
     }
 
     public void verifyBefore(Object mock) {
