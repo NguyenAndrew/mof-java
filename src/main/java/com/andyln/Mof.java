@@ -171,6 +171,8 @@ public class Mof {
             }
             return;
         }
+
+        throw new IllegalArgumentException("aor must be ALL or REMAINING.");
     }
 
     public void verifyThrough(Object mock) {
