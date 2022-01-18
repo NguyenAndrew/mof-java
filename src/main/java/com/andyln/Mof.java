@@ -218,6 +218,10 @@ public class Mof {
     }
 
     public void verifyBefore(Object mock) {
+        if (mock == FirstOrLast.FIRST) {
+            // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
+            return;
+        }
     }
 
     public void verifyAfter(Object mock) {
