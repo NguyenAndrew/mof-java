@@ -1745,5 +1745,68 @@ public class MofTest {
                 verify(verify3, times(0)).run();
             }
         }
+
+        @Nested
+        class Last {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMock.verifyBefore(LAST);
+
+                verify(verify1, times(0)).run();
+            }
+
+            @Test
+            void twoMocks_success() throws Exception {
+                mofTwoMocks.verifyBefore(LAST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+            }
+
+            @Test
+            void threeMocks_success() throws Exception {
+                mofThreeMocks.verifyBefore(LAST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+                verify(verify3, times(0)).run();
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofTwoMocksInASimpleClosedCurve.verifyBefore(LAST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurve.verifyBefore(LAST);
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(1)).run();
+                verify(verify3, times(0)).run();
+            }
+
+            @Test
+            void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "v1 throws an exception! Please check your verifies.";
+
+                doThrow(new Exception()).when(verify1).run();
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.verifyBefore(LAST)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verify1, times(1)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(0)).run();
+            }
+        }
     }
 }

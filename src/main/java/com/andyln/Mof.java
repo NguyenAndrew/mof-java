@@ -222,6 +222,17 @@ public class Mof {
             // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
             return;
         }
+
+        if (mock == FirstOrLast.LAST) {
+            for (int i = 0; i < this.mocks.length - 1; i++) {
+                try {
+                    verifyLambdas[i].run();
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+                }
+            }
+            return;
+        }
     }
 
     public void verifyAfter(Object mock) {
