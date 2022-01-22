@@ -26,6 +26,7 @@ public class Mof {
     private boolean isMocksInCircleChain;
 
     private int remainingWhenIndex = 0;
+    private int remainingVerifyIndex = 0;
 
     private Mof(Object[] mocks, WhenLambda[] whenLambdas, VerifyLambda[] verifyLambdas) {
         mockMap = new HashMap<>();
@@ -169,6 +170,19 @@ public class Mof {
                     throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
                 }
             }
+            remainingVerifyIndex = this.mocks.length;
+            return;
+        }
+
+        if (aor == AllOrRemaining.REMAINING) {
+            for (int i = remainingVerifyIndex; i < this.mocks.length; i++) {
+                try {
+                    verifyLambdas[i].run();
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+                }
+            }
+            remainingVerifyIndex = this.mocks.length;
             return;
         }
 
@@ -182,6 +196,7 @@ public class Mof {
             } catch (Exception e) {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", 1), e);
             }
+            remainingVerifyIndex = 1;
             return;
         }
 
@@ -193,6 +208,7 @@ public class Mof {
                     throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
                 }
             }
+            remainingVerifyIndex = this.mocks.length;
             return;
         }
 
@@ -215,11 +231,14 @@ public class Mof {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
         }
+
+        remainingVerifyIndex = indexOfMock + 1;
     }
 
     public void verifyBefore(Object mock) {
         if (mock == FirstOrLast.FIRST) {
             // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
+            remainingVerifyIndex = 1;
             return;
         }
 
@@ -231,6 +250,7 @@ public class Mof {
                     throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
                 }
             }
+            remainingVerifyIndex = this.mocks.length;
             return;
         }
 
@@ -253,6 +273,8 @@ public class Mof {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
         }
+
+        remainingVerifyIndex = indexOfMock + 1;
     }
 
     public void verifyAfter(Object mock) {
@@ -264,11 +286,13 @@ public class Mof {
                     throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
                 }
             }
+            remainingVerifyIndex = this.mocks.length;
             return;
         }
 
         if (mock == FirstOrLast.LAST) {
             // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
+            remainingVerifyIndex = this.mocks.length;
             return;
         }
 
@@ -289,6 +313,8 @@ public class Mof {
                 throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
             }
         }
+
+        remainingVerifyIndex = this.mocks.length;
     }
 
     private Mof enableVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {

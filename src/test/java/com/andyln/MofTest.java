@@ -1416,6 +1416,640 @@ public class MofTest {
         @Nested
         class Remaining {
 
+            @Nested
+            class VerifyAll {
+
+                @Test
+                void success() throws Exception {
+                    mofSingleMock.verify(ALL);
+                    mofSingleMock.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                }
+
+                @Test
+                void twoMocks_success() throws Exception {
+                    mofTwoMocks.verify(ALL);
+                    mofTwoMocks.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                    verify(verify2, times(1)).run();
+                }
+
+                @Test
+                void threeMocks_success() throws Exception {
+                    mofThreeMocks.verify(ALL);
+                    mofThreeMocks.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                    verify(verify2, times(1)).run();
+                    verify(verify3, times(1)).run();
+                }
+
+                @Test
+                void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                    mofTwoMocksInASimpleClosedCurve.verify(ALL);
+                    mofTwoMocksInASimpleClosedCurve.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                    verify(verify2, times(1)).run();
+                }
+
+                @Test
+                void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                    mofThreeMocksInASimpleClosedCurve.verify(ALL);
+                    mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                    verify(verify2, times(1)).run();
+                    verify(verify3, times(1)).run();
+                }
+            }
+
+            @Nested
+            class VerifyRemaining {
+
+                @Test
+                void success() throws Exception {
+                    mofSingleMock.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                }
+
+                @Test
+                void twoMocks_success() throws Exception {
+                    mofTwoMocks.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                    verify(verify2, times(1)).run();
+                }
+
+                @Test
+                void threeMocks_success() throws Exception {
+                    mofThreeMocks.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                    verify(verify2, times(1)).run();
+                    verify(verify3, times(1)).run();
+                }
+
+                @Test
+                void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                    mofTwoMocksInASimpleClosedCurve.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                    verify(verify2, times(1)).run();
+                }
+
+                @Test
+                void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                    mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                    verify(verify1, times(1)).run();
+                    verify(verify2, times(1)).run();
+                    verify(verify3, times(1)).run();
+                }
+
+                @Test
+                void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                    String expectedMessage = "v1 throws an exception! Please check your verifies.";
+
+                    doThrow(new Exception()).when(verify1).run();
+
+                    RuntimeException actualException = assertThrows(
+                            RuntimeException.class,
+                            () -> mofThreeMocks.verify(REMAINING)
+                    );
+
+                    assertEquals(expectedMessage, actualException.getMessage());
+
+                    verify(verify1, times(1)).run();
+                    verify(verify2, times(0)).run();
+                    verify(verify3, times(0)).run();
+                }
+            }
+
+            @Nested
+            class VerifyThrough {
+
+                @Nested
+                class First {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMock.verifyThrough(FIRST);
+                        mofSingleMock.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocks.verifyThrough(FIRST);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocks.verifyThrough(FIRST);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurve.verifyThrough(FIRST);
+                        mofTwoMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurve.verifyThrough(FIRST);
+                        mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+                }
+
+                @Nested
+                class Last {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMock.verifyThrough(LAST);
+                        mofSingleMock.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocks.verifyThrough(LAST);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocks.verifyThrough(LAST);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurve.verifyThrough(LAST);
+                        mofTwoMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurve.verifyThrough(LAST);
+                        mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+                }
+
+                @Nested
+                class Mock {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMock.verifyThrough(mock1);
+                        mofSingleMock.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocks_onFirstMock_success() throws Exception {
+                        mofTwoMocks.verifyThrough(mock1);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocks_onSecondMock_success() throws Exception {
+                        mofTwoMocks.verifyThrough(mock2);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_onFirstMock_success() throws Exception {
+                        mofThreeMocks.verifyThrough(mock1);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_onSecondMock_success() throws Exception {
+                        mofThreeMocks.verifyThrough(mock2);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_onThirdMock_success() throws Exception {
+                        mofThreeMocks.verifyThrough(mock3);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurve.verifyThrough(mock2);
+                        mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+                }
+            }
+
+            @Nested
+            class VerifyBefore {
+
+                @Nested
+                class First {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMock.verifyBefore(FIRST);
+                        mofSingleMock.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocks.verifyBefore(FIRST);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocks.verifyBefore(FIRST);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurve.verifyBefore(FIRST);
+                        mofTwoMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurve.verifyBefore(FIRST);
+                        mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+                }
+
+                @Nested
+                class Last {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMock.verifyBefore(LAST);
+                        mofSingleMock.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocks.verifyBefore(LAST);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocks.verifyBefore(LAST);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(0)).run();
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurve.verifyBefore(LAST);
+                        mofTwoMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurve.verifyBefore(LAST);
+                        mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(0)).run();
+                    }
+                }
+
+                @Nested
+                class Mock {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMock.verifyBefore(mock1);
+                        mofSingleMock.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                    }
+
+                    @Test
+                    void twoMocks_onFirstMock_success() throws Exception {
+                        mofTwoMocks.verifyBefore(mock1);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocks_onSecondMock_success() throws Exception {
+                        mofTwoMocks.verifyBefore(mock2);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                    }
+
+                    @Test
+                    void threeMocks_onFirstMock_success() throws Exception {
+                        mofThreeMocks.verifyBefore(mock1);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_onSecondMock_success() throws Exception {
+                        mofThreeMocks.verifyBefore(mock2);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_onThirdMock_success() throws Exception {
+                        mofThreeMocks.verifyBefore(mock3);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(0)).run();
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurve.verifyBefore(mock2);
+                        mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(1)).run();
+                    }
+                }
+            }
+
+            @Nested
+            class VerifyAfter {
+
+                @Nested
+                class First {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMock.verifyAfter(FIRST);
+                        mofSingleMock.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocks.verifyAfter(FIRST);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocks.verifyAfter(FIRST);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurve.verifyAfter(FIRST);
+                        mofTwoMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurve.verifyAfter(FIRST);
+                        mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+                }
+
+                @Nested
+                class Last {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMock.verifyAfter(LAST);
+                        mofSingleMock.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocks.verifyAfter(LAST);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocks.verifyAfter(LAST);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurve.verifyAfter(LAST);
+                        mofTwoMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurve.verifyAfter(LAST);
+                        mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                    }
+                }
+
+                @Nested
+                class Mock {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMock.verifyAfter(mock1);
+                        mofSingleMock.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                    }
+
+                    @Test
+                    void twoMocks_onFirstMock_success() throws Exception {
+                        mofTwoMocks.verifyAfter(mock1);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                    }
+
+                    @Test
+                    void twoMocks_onSecondMock_success() throws Exception {
+                        mofTwoMocks.verifyAfter(mock2);
+                        mofTwoMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                    }
+
+                    @Test
+                    void threeMocks_onFirstMock_success() throws Exception {
+                        mofThreeMocks.verifyAfter(mock1);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_onSecondMock_success() throws Exception {
+                        mofThreeMocks.verifyAfter(mock2);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(1)).run();
+                    }
+
+                    @Test
+                    void threeMocks_onThirdMock_success() throws Exception {
+                        mofThreeMocks.verifyAfter(mock3);
+                        mofThreeMocks.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurve.verifyAfter(mock2);
+                        mofThreeMocksInASimpleClosedCurve.verify(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(1)).run();
+                    }
+                }
+            }
         }
 
         @Nested
