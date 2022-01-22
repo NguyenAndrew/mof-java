@@ -2049,5 +2049,134 @@ public class MofTest {
                 verify(verify3, times(0)).run();
             }
         }
+
+        @Nested
+        class Mock {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMock.verifyAfter(mock1);
+
+                verify(verify1, times(0)).run();
+            }
+
+            @Test
+            void twoMocks_onFirstMock_success() throws Exception {
+                mofTwoMocks.verifyAfter(mock1);
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(1)).run();
+            }
+
+            @Test
+            void twoMocks_onSecondMock_success() throws Exception {
+                mofTwoMocks.verifyAfter(mock2);
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(0)).run();
+            }
+
+            @Test
+            void threeMocks_onFirstMock_success() throws Exception {
+                mofThreeMocks.verifyAfter(mock1);
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(1)).run();
+                verify(verify3, times(1)).run();
+            }
+
+            @Test
+            void threeMocks_onSecondMock_success() throws Exception {
+                mofThreeMocks.verifyAfter(mock2);
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(1)).run();
+            }
+
+            @Test
+            void threeMocks_onThirdMock_success() throws Exception {
+                mofThreeMocks.verifyAfter(mock3);
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(0)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurve.verifyAfter(mock2);
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(1)).run();
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_onFirstLastMock_thenThrowRuntimeException() throws Exception {
+                String expectedMessage = "Cannot call verifyAfter(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use verifyAfter(FIRST) or verifyAfter(LAST).";
+
+                IllegalArgumentException actualException = assertThrows(
+                        IllegalArgumentException.class,
+                        () -> mofTwoMocksInASimpleClosedCurve.verifyAfter(mock1)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(0)).run();
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_onFirstLastMock_thenThrowRuntimeException() throws Exception {
+                String expectedMessage = "Cannot call verifyAfter(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use verifyAfter(FIRST) or verifyAfter(LAST).";
+
+                IllegalArgumentException actualException = assertThrows(
+                        IllegalArgumentException.class,
+                        () -> mofThreeMocksInASimpleClosedCurve.verifyAfter(mock1)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(0)).run();
+            }
+
+            @Test
+            void calledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
+                String expectedMessage = "Cannot call verifyAfter(Object mock) for mock not in mocks!";
+                Object mockNotInMocks = mock(Object.class);
+
+                IllegalArgumentException actualException = assertThrows(
+                        IllegalArgumentException.class,
+                        () -> mofThreeMocks.verifyAfter(mockNotInMocks)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(0)).run();
+                verify(verify3, times(0)).run();
+            }
+
+            @Test
+            void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "v2 throws an exception! Please check your verifies.";
+
+                doThrow(new Exception()).when(verify2).run();
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.verifyAfter(mock1)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verify1, times(0)).run();
+                verify(verify2, times(1)).run();
+                verify(verify3, times(0)).run();
+            }
+        }
     }
 }

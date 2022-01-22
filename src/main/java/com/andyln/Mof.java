@@ -271,6 +271,24 @@ public class Mof {
             // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
             return;
         }
+
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
+            throw new IllegalArgumentException("Cannot call verifyAfter(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use verifyAfter(FIRST) or verifyAfter(LAST).");
+        }
+
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call verifyAfter(Object mock) for mock not in mocks!");
+        }
+
+        for (int i = objectIndexOfMock + 1; i < this.mocks.length; i++) {
+            try {
+                verifyLambdas[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+            }
+        }
     }
 
     private Mof enableVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
