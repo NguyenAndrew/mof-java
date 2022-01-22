@@ -129,7 +129,6 @@ public class Mof {
                     throw new RuntimeException(String.format("w%d throws an exception! Please check your whens.", i + 1), e);
                 }
             }
-
             remainingWhenIndex = this.mocks.length;
             return;
         }
