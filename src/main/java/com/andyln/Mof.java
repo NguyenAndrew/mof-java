@@ -256,6 +256,15 @@ public class Mof {
     }
 
     public void verifyAfter(Object mock) {
+        if (mock == FirstOrLast.FIRST) {
+            for (int i = 1; i < this.mocks.length; i++) {
+                try {
+                    verifyLambdas[i].run();
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+                }
+            }
+        }
     }
 
     private Mof enableVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
