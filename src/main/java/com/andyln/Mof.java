@@ -264,6 +264,12 @@ public class Mof {
                     throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
                 }
             }
+            return;
+        }
+
+        if (mock == FirstOrLast.LAST) {
+            // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
+            return;
         }
     }
 
