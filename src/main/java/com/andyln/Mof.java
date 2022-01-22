@@ -233,6 +233,26 @@ public class Mof {
             }
             return;
         }
+
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
+            throw new IllegalArgumentException("Cannot call verifyBefore(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use verifyBefore(FIRST) or verifyBefore(LAST).");
+        }
+
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call verifyBefore(Object mock) for mock not in mocks!");
+        }
+
+        int indexOfMock = objectIndexOfMock;
+
+        for (int i = 0; i < indexOfMock; i++) {
+            try {
+                verifyLambdas[i].run();
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("v%d throws an exception! Please check your verifies.", i + 1), e);
+            }
+        }
     }
 
     public void verifyAfter(Object mock) {
