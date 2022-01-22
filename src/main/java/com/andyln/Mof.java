@@ -321,7 +321,33 @@ public class Mof {
         return this;
     }
 
-    public void verifyNoInteractions(AllOrRemaining mocks) {
+    public void verifyNoInteractions(AllOrRemaining aor) {
+        if (aor == AllOrRemaining.ALL) {
+            int stoppingIndex;
+
+            if (isMocksInCircleChain) {
+                if (this.mocks.length == 1) {
+                    stoppingIndex = this.mocks.length;
+                } else if (this.mocks.length == 2) {
+                    stoppingIndex = 0;
+                } else {
+                    stoppingIndex = this.mocks.length - 1;
+                }
+            } else {
+                stoppingIndex = this.mocks.length;
+            }
+
+            for (int i = 0; i < stoppingIndex; i++) {
+                try {
+                    verifyNoInteractionLambda.run(mocks[i]);
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("verifyNoInteractionLambda called with m%d throws an exception! Please check your verifyNoInteractionLambda and mocks.", i + 1), e);
+                }
+            }
+            remainingVerifyIndex = this.mocks.length;
+            return;
+        }
+
     }
 
     public void verifyNoInteractionsAfter(Object mock) {
