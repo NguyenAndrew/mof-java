@@ -4513,4 +4513,258 @@ public class MofTest {
             }
         }
     }
+
+    @Nested
+    class VerifyNoInteractionsAfter {
+
+        @Nested
+        class First {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMockWithVerifyNoInteractions.verifyNoInteractionsAfter(FIRST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+            }
+
+            @Test
+            void twoMocks_success() throws Exception {
+                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(FIRST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(1)).run(mock2);
+            }
+
+            @Test
+            void threeMocks_success() throws Exception {
+                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(FIRST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                verify(verifyNoInteractionLambda, times(1)).run(mock3);
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractionsAfter(FIRST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractionsAfter(FIRST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(1)).run(mock2);
+            }
+
+            @Test
+            void calledWithWhenThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "verifyNoInteractionLambda called with m2 throws an exception! Please check your verifyNoInteractionLambda and mocks.";
+
+                doThrow(new Exception()).when(verifyNoInteractionLambda).run(mock2);
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(FIRST)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+            }
+        }
+
+        @Nested
+        class Last {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMockWithVerifyNoInteractions.verifyNoInteractionsAfter(LAST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+            }
+
+            @Test
+            void twoMocks_success() throws Exception {
+                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(LAST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            }
+
+            @Test
+            void threeMocks_success() throws Exception {
+                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(LAST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractionsAfter(LAST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractionsAfter(LAST);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            }
+        }
+
+        @Nested
+        class Mock {
+
+            @Test
+            void success() throws Exception {
+                mofSingleMockWithVerifyNoInteractions.verifyNoInteractionsAfter(mock1);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+            }
+
+            @Test
+            void twoMocks_onFirstMock_success() throws Exception {
+                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(mock1);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(1)).run(mock2);
+            }
+
+            @Test
+            void twoMocks_onSecondMock_success() throws Exception {
+                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(mock2);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            }
+
+            @Test
+            void threeMocks_onFirstMock_success() throws Exception {
+                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(mock1);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                verify(verifyNoInteractionLambda, times(1)).run(mock3);
+            }
+
+            @Test
+            void threeMocks_onSecondMock_success() throws Exception {
+                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(mock2);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                verify(verifyNoInteractionLambda, times(1)).run(mock3);
+            }
+
+            @Test
+            void threeMocks_onThirdMock_success() throws Exception {
+                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(mock3);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractionsAfter(mock2);
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            }
+
+            @Test
+            void twoMocksAreInASimpleClosedCurve_onFirstLastMock_thenThrowRuntimeException() throws Exception {
+                String expectedMessage = "Cannot call verifyNoInteractionsAfter(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use verifyNoInteractionsAfter(FIRST) or verifyNoInteractionsAfter(LAST).";
+
+                IllegalArgumentException actualException = assertThrows(
+                        IllegalArgumentException.class,
+                        () -> mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractionsAfter(mock1)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+            }
+
+            @Test
+            void threeMocksAreInASimpleClosedCurve_onFirstLastMock_thenThrowRuntimeException() throws Exception {
+                String expectedMessage = "Cannot call verifyNoInteractionsAfter(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use verifyNoInteractionsAfter(FIRST) or verifyNoInteractionsAfter(LAST).";
+
+                IllegalArgumentException actualException = assertThrows(
+                        IllegalArgumentException.class,
+                        () -> mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractionsAfter(mock1)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+            }
+
+            @Test
+            void calledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
+                String expectedMessage = "Cannot call verifyNoInteractionsAfter(Object mock) for mock not in mocks!";
+                Object mockNotInMocks = mock(Object.class);
+
+                IllegalArgumentException actualException = assertThrows(
+                        IllegalArgumentException.class,
+                        () -> mofThreeMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(mockNotInMocks)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+            }
+
+            @Test
+            void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "verifyNoInteractionLambda called with m2 throws an exception! Please check your verifyNoInteractionLambda and mocks.";
+
+                doThrow(new Exception()).when(verifyNoInteractionLambda).run(mock2);
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocksWithVerifyNoInteractions.verifyNoInteractionsAfter(mock1)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+            }
+        }
+
+        @Nested
+        class Error {
+
+            @Test
+            void calledWhenNoInteractionsIsNotEnabled_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "Must enableVerifyNoInteractions before calling verifyNoInteractionsAfter.";
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.verifyNoInteractionsAfter(mock1)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+            }
+        }
+    }
 }

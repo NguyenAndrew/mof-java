@@ -370,6 +370,61 @@ public class Mof {
     }
 
     public void verifyNoInteractionsAfter(Object mock) {
+        if (verifyNoInteractionLambda == null) {
+            throw new IllegalArgumentException("Must enableVerifyNoInteractions before calling verifyNoInteractionsAfter.");
+        }
+
+        int stoppingIndex;
+
+        if (isMocksInCircleChain) {
+            if (this.mocks.length == 1) {
+                stoppingIndex = this.mocks.length;
+            } else if (this.mocks.length == 2) {
+                stoppingIndex = 0;
+            } else {
+                stoppingIndex = this.mocks.length - 1;
+            }
+        } else {
+            stoppingIndex = this.mocks.length;
+        }
+
+        if (mock == FirstOrLast.FIRST) {
+            for (int i = 1; i < stoppingIndex; i++) {
+                try {
+                    verifyNoInteractionLambda.run(mocks[i]);
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("verifyNoInteractionLambda called with m%d throws an exception! Please check your verifyNoInteractionLambda and mocks.", i + 1), e);
+                }
+            }
+            remainingVerifyIndex = this.mocks.length;
+            return;
+        }
+
+        if (mock == FirstOrLast.LAST) {
+            // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
+            remainingVerifyIndex = this.mocks.length;
+            return;
+        }
+
+        if (containsMoreThanOneMock && isMocksInCircleChain && mock == mocks[0]) {
+            throw new IllegalArgumentException("Cannot call verifyNoInteractionsAfter(Object mock) for ambiguous first/last mock in a simple closed curve! For mocks in a simple closed curve, use verifyNoInteractionsAfter(FIRST) or verifyNoInteractionsAfter(LAST).");
+        }
+
+        Integer objectIndexOfMock = mockMap.get(mock);
+
+        if (objectIndexOfMock == null) {
+            throw new IllegalArgumentException("Cannot call verifyNoInteractionsAfter(Object mock) for mock not in mocks!");
+        }
+
+        for (int i = objectIndexOfMock + 1; i < stoppingIndex; i++) {
+            try {
+                verifyNoInteractionLambda.run(mocks[i]);
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("verifyNoInteractionLambda called with m%d throws an exception! Please check your verifyNoInteractionLambda and mocks.", i + 1), e);
+            }
+        }
+
+        remainingVerifyIndex = this.mocks.length;
     }
 
     public static class Builder {
