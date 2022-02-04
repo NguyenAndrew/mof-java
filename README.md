@@ -1,44 +1,44 @@
-# Mock Coach
+# Mock Orchestration Framework (Mof) (Java)
 
 ![GitHub](https://img.shields.io/github/license/NguyenAndrew/Mock-Coach)
 [![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Fandyln%2Fmock-coach%2Fmaven-metadata.xml)](https://search.maven.org/artifact/com.andyln/mock-coach)
 [![javadoc](https://javadoc.io/badge2/com.andyln/mock-coach/javadoc.svg)](https://javadoc.io/doc/com.andyln/mock-coach)
 
-The Java library implementing the Mock Coach design pattern. Used in tests to reduce complex logic and boilerplate code in overall codebase.
+The Java library implementing the Mock Orchestration Framework (Mof). Used in tests to reduce complex logic and boilerplate code in overall codebase.
 
 (Install Instructions, Usage, and FAQ below)
 
 **Can reduce hours and days of writing unit tests into minutes!** 
 
-Mock Coach orchestrates all the mocks used within a method, allowing you to only write setup and verification code relevant for each unit test.
+Mof orchestrates all the mocks used within a method, allowing you to only write setup and verification code relevant for each unit test.
 
-* Q: Why mock orchestration? A: Without it, each unit test needs to maintain the state and verification of its own mocks, and may become brittle when there are multiple units tests for a method. In other words, **mock orchestration helps prevent initial and ongoing tech debt within unit tests**.
+* Q: Why Mof? A: Without it, each unit test needs to maintain the state and verification of its own mocks, and may become brittle when there are multiple units tests for a method. In other words, **mock orchestration helps prevent initial and ongoing tech debt within unit tests**.
 
 This library provides two libraries to use:
 
-1. Mock Coach (Default), library used to quickly write tests, and reduce complexities in business logic. Takes a "test improves business logic, and business logic improves test" approach.
-2. Mock Coach Legacy (Backup), library used to write tests quickly (slightly slower and less automated than default approach), where code can't be refactored or is too costly to refactor. 
+1. Mof (Default), library used to quickly write tests, and reduce complexities in business logic. Takes a "test improves business logic, and business logic improves test" approach.
+2. Nof (Backup), library used to write tests quickly (slightly slower and less automated than default approach), where code can't be refactored or is too costly to refactor. 
 
-**Both versions of Mock Coach are compatible with both TDD and non-TDD approaches**. This library helps augment the testing process, while letting the user choose "when" and "how often" to test. 
+**Both Mof and Nof are compatible with both TDD and non-TDD approaches**. This library helps augment the testing process, while letting the user choose "when" and "how often" to test. 
 
-* Mock Coach (Default) provides cleaner unit tests, and takes a hands-on approach to cleaner business logic. 
-* Mock Coach (Legacy) provides cleaner unit tests, and a hands-off approach on the business logic.
+* Mof (Default) provides cleaner unit tests, and takes a hands-on approach to cleaner business logic. 
+* Nof (Backup) provides cleaner unit tests, and a hands-off approach on the business logic.
 
-## Service Dipath Chain and Service Cyclic Graph
+## Simple Curves and Non-Simple Curves
 
-For testing methods and creating new business logic, Mock Coach (Default) helps encourage writing business logic as Service Dipath Chains, over Service Cyclic Graphs (SCG).
+For testing methods and creating new business logic, Mof helps encourage writing business logic using the Simple Programming Paradigm: Using Simple Curves over Non-Simple Curves
 
 * For these design patterns, "Service" refers to any object that is @Autorwired, injected, or constructor injected into the object-under-test.
 
-Examples of Service Dipath Chains:
+Examples of Simple Curves:
 
 A -> B -> C
 
 A -> B -> C -> D -> E
 
-A -> B -> C -> A
+A -> B -> C -> A (Note: A Simple Curve that starts and ends with the same service is also called a Simple Closed Curve)
 
-Example of Service Cyclic Graphs:
+Example of Non-Simple Curves:
 
 A -> B -> C -> B -> D -> E
 
@@ -46,11 +46,11 @@ A -> B -> C -> D -> E -> F -> ... -> X -> B -> Y -> Z
 
 A -> B -> C -> B -> ... -> B -> C
 
-A -> B -> C -> D -> C -> B -> A
+A -> B -> C -> D -> C -> B -> A (Note: A Non-Simple Curve that starts and ends with the same service is also called a Non-Simple Closed Curve)
 
-Service Dipath Chains are recommended in most cases over Service Cyclic Graphs, because it is faster to understand and work with code when services are used in order one-by-one compared to when service usage is intertwined (both in business logic and in tests).
+Simple Curves are recommended in most cases over Non-Simple Curves, because it is faster to understand and work with code when services are used in order one-by-one compared to when service usage is intertwined (both in business logic and in tests).
 
-If the method you are testing happens to be a Service Cyclic Graph, you can either **1. Refactor using sample suggestions** or **2. Use Mock Code Legacy (Backup)** Here are more detailed explanations of these two options:
+If the method you are testing happens to be a Non-Simple Curve, you can either **1. Refactor using sample suggestions** or **2. Use Nof (Backup)** Here are more detailed explanations of these two options:
 
 1. Separate and/or move the service calls into multiple methods within a facade. Call the facade's methods within the current method to achieve same functionality. Sample suggestions: 
     1. A -> B -> C -> B -> D -> E can be converted to A -> N -> D -> E (where N internally calls B -> C -> B).
@@ -59,7 +59,7 @@ If the method you are testing happens to be a Service Cyclic Graph, you can eith
     4. A -> B -> C -> D -> C -> B -> A can be converted in the following ways:
         1. A -> N -> A (where N internally calls B -> C, D -> C, B as separate method calls). Useful if you want to create stricter boundaries between service layers, at the cost of creating more methods.
         2. A -> N -> D -> C -> B -> A (where N internally calls B -> C -> D). Useful if you want to reduce amount of methods, at the cost of using services between multiple service layers.  
-2. Perform your mocks/when/verifies with Mock Coach Legacy. Mock Coach Legacy is 100% compatible with testing on previously existing codebases, and is encouraged for smaller cyclic graphs where splitting the code can cause more confusion than not. Mock Coach Legacy creates an additional cost and overhead of managing the directed graph of mock usage (compared to the default Mock Coach handling that for you).
+2. Perform your mocks/when/verifies with Nof. Nof is 100% compatible with testing on previously existing codebases, and is encouraged for smaller Non-Simple Curves where splitting the code can cause more confusion than not. Nof creates an additional cost and overhead of managing the directed graph of mock usage (compared to the Mof handling that automatically for you).
 
 ## How to Install
 
@@ -176,27 +176,23 @@ A: While there may be additional costs upfront to learn this library, it will sa
 
 Q: I don't believe it is a good practice to couple a default set of verifies with whens. Doesn't this seem like an anti-pattern?
 
-A: Your test code is already doing this coupling implicity. This dependency defines this structure explicitly, through the construction of the MockCoach object(s), and takes advantage of this defined structure to achieve testing intelligence capabilities. 
+A: Your test code is already doing this coupling implicity. This dependency defines this structure explicitly, through the construction of the Mof object(s), and takes advantage of this defined structure to achieve testing intelligence capabilities. 
 
 Q: What are these "testing intelligence capabilities"?
 
 A: Intelligence capabilities include: Encouraging code to become straightforward through Service Dipath Chains (Not included in Legacy), Avoiding under and overmocking through clearly defined structures, Reusable code by reducing the amount of one-off private methods, and Only needing to create the whens and verifies for a specific test.
 
-Q: My code is not a legacy codebase! Why call the object I am using MockCoachLegacy?
+Q: Should I use Mof (Default) or Nof (Backup).
 
-A: In this case, legacy isn't referring to your codebase. Legacy in MockCoachLegacy is an alias that means "don't affect the design of my business logic, improve my test code".
-
-Q: Should I use MockCoach or MockCoachLegacy.
-
-A: Start with MockCoach. If MockCoach doesn't work, MockCoachLegacy will work for any other use case.
+A: Start with Mof (Default). If Mof (Default) doesn't work, Nof (Backup) will work for any other use case.
 
 Q: Does this library support TDD?
 
 A: Yes. You can use this library using both TDD, and not TDD. After learning the library, it should make both TDD and non-TDD faster in the short term and long term.
 
-Q: Should I made one MockCoach per class, or one MockCoach per method under test?
+Q: Should I made one Mof per class, or one Mof per method-under-test?
 
-A: It depends on your test class. There may be advantages to one approach or the other, depending on what (and how many) unit tests you have.
+A: Mof and Nof supports both styles. I have seen this library works best by making a Mof object for each method-under-test, where that method has multiple unit tests.
 
 Q: Shouldn't you have all methods in a class reuse the same predefined mocks and whens?
 
@@ -208,15 +204,7 @@ A: This separate objected implementation was tested in initial POC, but there we
 
 Q: I want to remove this library (Didn't like the user experience, found a better library, etc). How difficult is it to do so?
 
-A: Using Mock Coach replaces the implicit whens and verifies between your different unit tests with explicit code. The process of removing the library is simple: Remove the explicit structure by copying and paste those extra whens and verifies back into each of your unit tests.
-
-Q: Why support up 8 injects mocks when intializing Mock Coach with constructor?
-
-A: A real world system should have 5 or less mocks constructor-injected or setter-injected. This functionality helps support older code bases.
-
-Q: If I have more than 8 mocks to inject in my system, how do I use Mock Coach and Mock Coach Legacy?
-
-A: You can use more than 8 mocks by utilizing the `Builder()` and `add(...)` interface for both Mock Coach and Mock Coach Legacy.
+A: Using Mof replaces the implicit whens and verifies between your different unit tests with explicit code. The process of removing the library is simple: Remove the explicit structure by copying and paste those extra whens and verifies back into each of your unit tests.
 
 ## Changelog
 
