@@ -322,21 +322,26 @@ public class Mof {
     }
 
     public void verifyNoInteractions(AllOrRemaining aor) {
-        if (aor == AllOrRemaining.ALL) {
-            int stoppingIndex;
 
-            if (isMocksInCircleChain) {
-                if (this.mocks.length == 1) {
-                    stoppingIndex = this.mocks.length;
-                } else if (this.mocks.length == 2) {
-                    stoppingIndex = 0;
-                } else {
-                    stoppingIndex = this.mocks.length - 1;
-                }
-            } else {
+        if (verifyNoInteractionLambda == null) {
+            throw new IllegalArgumentException("Must enableVerifyNoInteractions before calling verifyNoInteractions.");
+        }
+
+        int stoppingIndex;
+
+        if (isMocksInCircleChain) {
+            if (this.mocks.length == 1) {
                 stoppingIndex = this.mocks.length;
+            } else if (this.mocks.length == 2) {
+                stoppingIndex = 0;
+            } else {
+                stoppingIndex = this.mocks.length - 1;
             }
+        } else {
+            stoppingIndex = this.mocks.length;
+        }
 
+        if (aor == AllOrRemaining.ALL) {
             for (int i = 0; i < stoppingIndex; i++) {
                 try {
                     verifyNoInteractionLambda.run(mocks[i]);
@@ -347,6 +352,20 @@ public class Mof {
             remainingVerifyIndex = this.mocks.length;
             return;
         }
+
+        if (aor == AllOrRemaining.REMAINING) {
+            for (int i = remainingVerifyIndex; i < stoppingIndex; i++) {
+                try {
+                    verifyNoInteractionLambda.run(mocks[i]);
+                } catch (Exception e) {
+                    throw new RuntimeException(String.format("verifyNoInteractionLambda called with m%d throws an exception! Please check your verifyNoInteractionLambda and mocks.", i + 1), e);
+                }
+            }
+            remainingVerifyIndex = this.mocks.length;
+            return;
+        }
+
+        throw new IllegalArgumentException("aor must be ALL or REMAINING.");
 
     }
 

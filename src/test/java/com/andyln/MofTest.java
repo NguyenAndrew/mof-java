@@ -2955,11 +2955,1562 @@ public class MofTest {
         @Nested
         class Remaining {
 
+            @Nested
+            class Verify {
+
+                @Nested
+                class All {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verify(ALL);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verify(ALL);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verify(ALL);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(ALL);
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(ALL);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+                }
+
+                @Nested
+                class RemainingNested {
+
+                    @Nested
+                    class VerifyAll {
+
+                        @Test
+                        void success() throws Exception {
+                            mofSingleMockWithVerifyNoInteractions.verify(ALL);
+                            mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                            mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        }
+
+                        @Test
+                        void twoMocks_success() throws Exception {
+                            mofTwoMocksWithVerifyNoInteractions.verify(ALL);
+                            mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                            mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verify2, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        }
+
+                        @Test
+                        void threeMocks_success() throws Exception {
+                            mofThreeMocksWithVerifyNoInteractions.verify(ALL);
+                            mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                            mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verify2, times(1)).run();
+                            verify(verify3, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                        }
+
+                        @Test
+                        void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                            mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(ALL);
+                            mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                            mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verify2, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        }
+
+                        @Test
+                        void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                            mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(ALL);
+                            mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verify2, times(1)).run();
+                            verify(verify3, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        }
+                    }
+
+                    @Nested
+                    class VerifyRemaining {
+
+                        @Test
+                        void success() throws Exception {
+                            mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                            mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        }
+
+                        @Test
+                        void twoMocks_success() throws Exception {
+                            mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                            mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verify2, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        }
+
+                        @Test
+                        void threeMocks_success() throws Exception {
+                            mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                            mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verify2, times(1)).run();
+                            verify(verify3, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                        }
+
+                        @Test
+                        void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                            mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                            mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verify2, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        }
+
+                        @Test
+                        void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                            mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                            mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+
+                            verify(verify1, times(1)).run();
+                            verify(verify2, times(1)).run();
+                            verify(verify3, times(1)).run();
+                            verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        }
+                    }
+
+                    @Nested
+                    class VerifyThrough {
+
+                        @Nested
+                        class First {
+
+                            @Test
+                            void success() throws Exception {
+                                mofSingleMockWithVerifyNoInteractions.verifyThrough(FIRST);
+                                mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                                mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void twoMocks_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyThrough(FIRST);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void threeMocks_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyThrough(FIRST);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(FIRST);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(FIRST);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+                        }
+
+                        @Nested
+                        class Last {
+
+                            @Test
+                            void success() throws Exception {
+                                mofSingleMockWithVerifyNoInteractions.verifyThrough(LAST);
+                                mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                                mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void twoMocks_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyThrough(LAST);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void threeMocks_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyThrough(LAST);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(LAST);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(LAST);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+                        }
+
+                        @Nested
+                        class Mock {
+
+                            @Test
+                            void success() throws Exception {
+                                mofSingleMockWithVerifyNoInteractions.verifyThrough(mock1);
+                                mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                                mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void twoMocks_onFirstMock_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyThrough(mock1);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void twoMocks_onSecondMock_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyThrough(mock2);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void threeMocks_onFirstMock_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyThrough(mock1);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void threeMocks_onSecondMock_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyThrough(mock2);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void threeMocks_onThirdMock_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyThrough(mock3);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(mock2);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+                        }
+                    }
+
+                    @Nested
+                    class VerifyBefore {
+
+                        @Nested
+                        class First {
+
+                            @Test
+                            void success() throws Exception {
+                                mofSingleMockWithVerifyNoInteractions.verifyBefore(FIRST);
+                                mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                                mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void twoMocks_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyBefore(FIRST);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void threeMocks_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyBefore(FIRST);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(FIRST);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(FIRST);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+                        }
+
+                        @Nested
+                        class Last {
+
+                            @Test
+                            void success() throws Exception {
+                                mofSingleMockWithVerifyNoInteractions.verifyBefore(LAST);
+                                mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                                mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void twoMocks_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyBefore(LAST);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void threeMocks_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyBefore(LAST);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(LAST);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(LAST);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+                        }
+
+                        @Nested
+                        class Mock {
+
+                            @Test
+                            void success() throws Exception {
+                                mofSingleMockWithVerifyNoInteractions.verifyBefore(mock1);
+                                mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                                mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void twoMocks_onFirstMock_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyBefore(mock1);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void twoMocks_onSecondMock_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyBefore(mock2);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void threeMocks_onFirstMock_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyBefore(mock1);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void threeMocks_onSecondMock_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyBefore(mock2);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void threeMocks_onThirdMock_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyBefore(mock3);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(mock2);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(1)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+                        }
+                    }
+
+                    @Nested
+                    class VerifyAfter {
+
+                        @Nested
+                        class First {
+
+                            @Test
+                            void success() throws Exception {
+                                mofSingleMockWithVerifyNoInteractions.verifyAfter(FIRST);
+                                mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                                mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void twoMocks_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyAfter(FIRST);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void threeMocks_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyAfter(FIRST);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(FIRST);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(FIRST);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+                        }
+
+                        @Nested
+                        class Last {
+
+                            @Test
+                            void success() throws Exception {
+                                mofSingleMockWithVerifyNoInteractions.verifyAfter(LAST);
+                                mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                                mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void twoMocks_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyAfter(LAST);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void threeMocks_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyAfter(LAST);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verify3, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(LAST);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(LAST);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verify3, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+                        }
+
+                        @Nested
+                        class Mock {
+
+                            @Test
+                            void success() throws Exception {
+                                mofSingleMockWithVerifyNoInteractions.verifyAfter(mock1);
+                                mofSingleMockWithVerifyNoInteractions.verify(REMAINING);
+                                mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                            }
+
+                            @Test
+                            void twoMocks_onFirstMock_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyAfter(mock1);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void twoMocks_onSecondMock_success() throws Exception {
+                                mofTwoMocksWithVerifyNoInteractions.verifyAfter(mock2);
+                                mofTwoMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                            }
+
+                            @Test
+                            void threeMocks_onFirstMock_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyAfter(mock1);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(1)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void threeMocks_onSecondMock_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyAfter(mock2);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void threeMocks_onThirdMock_success() throws Exception {
+                                mofThreeMocksWithVerifyNoInteractions.verifyAfter(mock3);
+                                mofThreeMocksWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verify3, times(0)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+
+                            @Test
+                            void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(mock2);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verify(REMAINING);
+                                mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                                verify(verify1, times(0)).run();
+                                verify(verify2, times(0)).run();
+                                verify(verify3, times(1)).run();
+                                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Nested
+            class VerifyThrough {
+
+                @Nested
+                class First {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verifyThrough(FIRST);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyThrough(FIRST);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyThrough(FIRST);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock3);
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(FIRST);
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(FIRST);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                    }
+                }
+
+                @Nested
+                class Last {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verifyThrough(LAST);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyThrough(LAST);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyThrough(LAST);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(LAST);
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(LAST);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+                }
+
+                @Nested
+                class Mock {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verifyThrough(mock1);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_onFirstMock_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyThrough(mock1);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                    }
+
+                    @Test
+                    void twoMocks_onSecondMock_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyThrough(mock2);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_onFirstMock_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyThrough(mock1);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock3);
+                    }
+
+                    @Test
+                    void threeMocks_onSecondMock_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyThrough(mock2);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock3);
+                    }
+
+                    @Test
+                    void threeMocks_onThirdMock_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyThrough(mock3);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyThrough(mock2);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+                }
+            }
+
+            @Nested
+            class VerifyBefore {
+
+                @Nested
+                class First {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verifyBefore(FIRST);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyBefore(FIRST);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyBefore(FIRST);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock3);
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(FIRST);
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(FIRST);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                    }
+                }
+
+                @Nested
+                class Last {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verifyBefore(LAST);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyBefore(LAST);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyBefore(LAST);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(LAST);
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(LAST);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+                }
+
+                @Nested
+                class Mock {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verifyBefore(mock1);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_onFirstMock_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyBefore(mock1);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                    }
+
+                    @Test
+                    void twoMocks_onSecondMock_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyBefore(mock2);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_onFirstMock_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyBefore(mock1);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock3);
+                    }
+
+                    @Test
+                    void threeMocks_onSecondMock_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyBefore(mock2);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(1)).run(mock3);
+                    }
+
+                    @Test
+                    void threeMocks_onThirdMock_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyBefore(mock3);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyBefore(mock2);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(1)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+                }
+            }
+
+            @Nested
+            class VerifyAfter {
+
+                @Nested
+                class First {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verifyAfter(FIRST);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyAfter(FIRST);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyAfter(FIRST);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(FIRST);
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(FIRST);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+                }
+
+                @Nested
+                class Last {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verifyAfter(LAST);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyAfter(LAST);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyAfter(LAST);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void twoMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(LAST);
+                        mofTwoMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(LAST);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+                }
+
+                @Nested
+                class Mock {
+
+                    @Test
+                    void success() throws Exception {
+                        mofSingleMockWithVerifyNoInteractions.verifyAfter(mock1);
+                        mofSingleMockWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                    }
+
+                    @Test
+                    void twoMocks_onFirstMock_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyAfter(mock1);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void twoMocks_onSecondMock_success() throws Exception {
+                        mofTwoMocksWithVerifyNoInteractions.verifyAfter(mock2);
+                        mofTwoMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    }
+
+                    @Test
+                    void threeMocks_onFirstMock_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyAfter(mock1);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(1)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void threeMocks_onSecondMock_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyAfter(mock2);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void threeMocks_onThirdMock_success() throws Exception {
+                        mofThreeMocksWithVerifyNoInteractions.verifyAfter(mock3);
+                        mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(0)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+
+                    @Test
+                    void threeMocksAreInASimpleClosedCurve_success() throws Exception {
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyAfter(mock2);
+                        mofThreeMocksInASimpleClosedCurveWithVerifyNoInteractions.verifyNoInteractions(REMAINING);
+
+                        verify(verify1, times(0)).run();
+                        verify(verify2, times(0)).run();
+                        verify(verify3, times(1)).run();
+                        verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                        verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                    }
+                }
+            }
+
+            @Nested
+            class Error {
+
+                @Test
+                void calledWithMockThatThrowsException_ThenThrowRuntimeException() throws Exception {
+                    String expectedMessage = "verifyNoInteractionLambda called with m1 throws an exception! Please check your verifyNoInteractionLambda and mocks.";
+
+                    doThrow(new Exception()).when(verifyNoInteractionLambda).run(mock1);
+
+                    RuntimeException actualException = assertThrows(
+                            RuntimeException.class,
+                            () -> mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(REMAINING)
+                    );
+
+                    assertEquals(expectedMessage, actualException.getMessage());
+
+                    verify(verifyNoInteractionLambda, times(1)).run(mock1);
+                    verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                    verify(verifyNoInteractionLambda, times(0)).run(mock3);
+                }
+            }
         }
 
         @Nested
         class Error {
 
+            @Test
+            void calledWhenNoInteractionsIsNotEnabled_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "Must enableVerifyNoInteractions before calling verifyNoInteractions.";
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocks.verifyNoInteractions(ALL)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+            }
+
+            @Test
+            void calledWithNotAllOrRemaining_ThenThrowRuntimeException() throws Exception {
+                String expectedMessage = "aor must be ALL or REMAINING.";
+
+                RuntimeException actualException = assertThrows(
+                        RuntimeException.class,
+                        () -> mofThreeMocksWithVerifyNoInteractions.verifyNoInteractions(null)
+                );
+
+                assertEquals(expectedMessage, actualException.getMessage());
+
+                verify(verifyNoInteractionLambda, times(0)).run(mock1);
+                verify(verifyNoInteractionLambda, times(0)).run(mock2);
+                verify(verifyNoInteractionLambda, times(0)).run(mock3);
+            }
         }
     }
 }
