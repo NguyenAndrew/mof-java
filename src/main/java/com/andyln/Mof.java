@@ -188,6 +188,13 @@ public class Mof {
         throw new IllegalArgumentException("aor must be ALL or REMAINING.");
     }
 
+    /**
+     * Runs all verifies up to, and including, the mock
+     *
+     * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
+     * @throws IllegalArgumentException Calling with object not in mocks.
+     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve A -> B -> A, when calling with A, do you mean the first or lack mock? Instead of passing A, Use FIRST or LAST instead.
+     */
     public void verifyThrough(Object mock) {
         if (mock == FirstOrLast.FIRST) {
             try {
@@ -234,6 +241,13 @@ public class Mof {
         remainingVerifyIndex = indexOfMock + 1;
     }
 
+    /**
+     * Runs all verifies up to, <STRONG>not</STRONG> including, the mock
+     *
+     * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
+     * @throws IllegalArgumentException Calling with object not in mocks.
+     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve A -> B -> A, when calling with A, do you mean the first or lack mock? Instead of passing A, Use FIRST or LAST instead.
+     */
     public void verifyBefore(Object mock) {
         if (mock == FirstOrLast.FIRST) {
             // Note: This flow exists, because it creates a better user experience when refactoring between simple closed and simple open curves.
