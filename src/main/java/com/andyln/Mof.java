@@ -49,6 +49,12 @@ public class Mof {
         this.verifyLambdas = verifyLambdas;
     }
 
+    /**
+     * Runs ALL or REMAINING whens
+     *
+     * @param aor ALL or REMAINING enum
+     * @throws IllegalArgumentException Not calling with ALL or REMAINING enum
+     */
     public void when(AllOrRemaining aor) {
         if (aor == AllOrRemaining.ALL) {
             for (int i = 0; i < this.mocks.length; i++) {
