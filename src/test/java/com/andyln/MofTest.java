@@ -10,6 +10,7 @@ import static org.mockito.Mockito.*;
 
 public class MofTest {
 
+    //region Unit Test Variables {...}
     private final Object mock1 = mock(Object.class);
     private final Object mock2 = mock(Object.class);
     private final Object mock3 = mock(Object.class);
@@ -162,6 +163,7 @@ public class MofTest {
             )
             .enableVerifyNoInteractions(verifyNoInteractionLambda)
             .build();
+    //endregion
 
     @Nested
     class Builder {
