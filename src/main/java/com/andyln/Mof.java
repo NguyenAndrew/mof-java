@@ -160,6 +160,12 @@ public class Mof {
         remainingWhenIndex = this.mocks.length;
     }
 
+    /**
+     * Runs ALL or REMAINING verifies
+     *
+     * @param aor ALL or REMAINING enum
+     * @throws IllegalArgumentException Not calling with ALL or REMAINING enum
+     */
     public void verify(AllOrRemaining aor) {
         if (aor == AllOrRemaining.ALL) {
             for (int i = 0; i < this.mocks.length; i++) {
@@ -290,6 +296,13 @@ public class Mof {
         remainingVerifyIndex = indexOfMock + 1;
     }
 
+    /**
+     * Runs all verifies after, <STRONG>not</STRONG> including, the mock
+     *
+     * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
+     * @throws IllegalArgumentException Calling with object not in mocks.
+     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve A -> B -> A, when calling with A, do you mean the first or lack mock? Instead of passing A, Use FIRST or LAST instead.
+     */
     public void verifyAfter(Object mock) {
         if (mock == FirstOrLast.FIRST) {
             for (int i = 1; i < this.mocks.length; i++) {
