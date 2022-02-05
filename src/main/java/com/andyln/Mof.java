@@ -321,6 +321,13 @@ public class Mof {
         return this;
     }
 
+    /**
+     * Runs no interaction lambda for ALL or REMAINING mocks.
+     *
+     * @param aor ALL or REMAINING enum
+     * @throws IllegalStateException    Calling this method when verifyNoInteractions is not enabled.
+     * @throws IllegalArgumentException Not calling with ALL or REMAINING enum
+     */
     public void verifyNoInteractions(AllOrRemaining aor) {
 
         if (verifyNoInteractionLambda == null) {
@@ -369,6 +376,14 @@ public class Mof {
 
     }
 
+    /**
+     * Runs no interaction lambda for all mocks that are after, but not including, mock passed into method.
+     *
+     * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
+     * @throws IllegalStateException    Calling this method when verifyNoInteractions is not enabled.
+     * @throws IllegalArgumentException Calling with object not in mocks.
+     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve A -> B -> A, when calling with A, do you mean the first or lack mock? Instead of passing A, Use FIRST or LAST instead.
+     */
     public void verifyNoInteractionsAfter(Object mock) {
         if (verifyNoInteractionLambda == null) {
             throw new IllegalStateException("Must enableVerifyNoInteractions before calling verifyNoInteractionsAfter.");
