@@ -435,6 +435,9 @@ public class Mof {
 
         private NoInteractionLambda verifyNoInteractionLambda;
 
+        /**
+         * Creates a builder for Mof.
+         */
         public Builder() {
             mocks = new ArrayList<>();
             whens = new ArrayList<>();
@@ -447,6 +450,14 @@ public class Mof {
             this.verifies = verifies;
         }
 
+        /**
+         * Adds to end of builder.
+         *
+         * @param m Mock
+         * @param w When Lambda
+         * @param v Verify Lambda
+         * @return Builder
+         */
         public Builder add(Object m, WhenLambda w, VerifyLambda v) {
             if (m == null) {
                 throw new IllegalArgumentException("Cannot add null Mock to Mof Builder!");
@@ -470,11 +481,21 @@ public class Mof {
             return new Builder(this.mocks, this.whens, this.verifies);
         }
 
+        /**
+         * Allows usage of verifyNoInteractionsTheRest and verifyNoInteractionsTheRestAfter.
+         *
+         * @param verifyNoInteractionLambda A Java Lambda. Example: "enableVerifyNoInteractions(mock -&gt; verifyNoInteractions(mock))"
+         */
         public Builder enableVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
             this.verifyNoInteractionLambda = verifyNoInteractionLambda;
             return this;
         }
 
+        /**
+         * Returns a new Mof.
+         *
+         * @return MockCoach
+         */
         public Mof build() {
             if (mocks.size() == 0) {
                 throw new IllegalStateException("Must add at least one mock before calling build on Mof Builder!");
@@ -490,6 +511,11 @@ public class Mof {
         }
     }
 
+    /**
+     * Creates a builder for Mof.
+     *
+     * @return Builder
+     */
     public static Builder builder() {
         return new Builder();
     }
