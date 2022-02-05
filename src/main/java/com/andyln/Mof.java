@@ -324,7 +324,7 @@ public class Mof {
     public void verifyNoInteractions(AllOrRemaining aor) {
 
         if (verifyNoInteractionLambda == null) {
-            throw new IllegalArgumentException("Must enableVerifyNoInteractions before calling verifyNoInteractions.");
+            throw new IllegalStateException("Must enableVerifyNoInteractions before calling verifyNoInteractions.");
         }
 
         int stoppingIndex;
@@ -371,7 +371,7 @@ public class Mof {
 
     public void verifyNoInteractionsAfter(Object mock) {
         if (verifyNoInteractionLambda == null) {
-            throw new IllegalArgumentException("Must enableVerifyNoInteractions before calling verifyNoInteractionsAfter.");
+            throw new IllegalStateException("Must enableVerifyNoInteractions before calling verifyNoInteractionsAfter.");
         }
 
         int stoppingIndex;
