@@ -404,7 +404,7 @@ public class Mof {
     }
 
     /**
-     * Runs no interaction lambda for all mocks that are after, but not including, mock passed into method.
+     * Runs no interaction lambda for all mocks that are <STRONG>only</STRONG> after, but not including, mock passed into method.
      *
      * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalStateException    Calling this method when verifyNoInteractions is not enabled.
