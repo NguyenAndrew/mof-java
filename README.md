@@ -68,8 +68,8 @@ Add the following line to your pom.xml
 ```
 <dependency>
   <groupId>com.andyln</groupId>
-  <artifactId>mock-coach</artifactId>
-  <version>5.0.0</version>
+  <artifactId>mof</artifactId>
+  <version>1.0.0</version>
   <scope>test</scope>
 </dependency>
 ```
@@ -87,41 +87,41 @@ private SubtractionService subtractionService = mock(SubtractionService.class);
 
 private Calculator calculator = new Calculator(additionService, multiplicationService, subtractionService);
 
-MockCoach mockCoach = new MockCoach(
-    additionService,
-    () -> {
-        when(additionService.add(anyInt(), anyInt())).thenReturn(SAMPLE_ADDITION_OUTPUT);
-    },
-    () -> {
-        verify(additionService, times(1)).add(anyInt(), anyInt());
-    }
-    multiplicationService,
-    () -> {
-        when(multiplicationService.multiply(anyInt(), anyInt())).thenReturn(SAMPLE_MULTIPLICATION_OUTPUT);
-    },
-    () -> {
-        verify(multiplicationService, times(1)).multiply(anyInt(), anyInt());
-    }
-    subtractionService,
-    () -> {
-        when(subtractionService.subtract(anyInt(), anyInt())).thenReturn(SAMPLE_SUBTRACTION_OUTPUT);
-    },
-    () -> {
-        verifyZeroInteractions(subtractionService);
-    }
-).putVerifyNoInteractions((mock) -> verifyNoMoreInteractions(mock));
+private final Mof mof = new Mof.Builder()
+    .add(
+        additionService,
+        () -> when(additionService.add(anyInt(), anyInt())).thenReturn(SAMPLE_ADDITION_OUTPUT),
+        () ->verify(additionService, times(1)).add(anyInt(), anyInt())
+    )
+    .add(
+        multiplicationService,
+        () -> when(multiplicationService.multiply(anyInt(), anyInt())).thenReturn(SAMPLE_MULTIPLICATION_OUTPUT),
+        () -> verify(multiplicationService, times(1)).multiply(anyInt(), anyInt())
+    )
+    .add(
+        subtractionService,
+        () -> when(subtractionService.subtract(anyInt(), anyInt())).thenReturn(SAMPLE_SUBTRACTION_OUTPUT),
+        () -> verifyZeroInteractions(subtractionService)
+    )
+    .enableVerifyNoInteractions(verifyNoInteractionLambda)
+    .build();
 ```
 
 ### Unit Testing - Base Success Case
 
 ```
+import static com.andyln.Mof.ALL;
+
+// ...
+
     @Test
-    public void givenAnInput_whenCalculatorCalculates_thenWeExpectAnOutput() throws Exception {
-        // Given (Setup)
+    public void success() throws Exception {
+        // Given (Setup Data)
         int expected = SAMPLE_CALCULATOR_OUTPUT;
         int x = 10;
         
-        mockCoach.whenAll();
+        // Given (Setup Data Processors)
+        mof.when(ALL);
 
         // When (Run the thing that you want to test)
         int y = calculator.calculateY(x);
@@ -129,8 +129,8 @@ MockCoach mockCoach = new MockCoach(
         // Then (Asserting what you want to be true, is actually true)
         assertEquals(expected, y);
 
-        // Verify
-        mockCoach.verifyAll();
+        // Verify (Asserting the Data Processors are called in the way you want)
+        mof.verify(ALL);
     }
 ```
 
@@ -138,21 +138,25 @@ MockCoach mockCoach = new MockCoach(
 
 ```
     @Test
-    public void givenAnInput_whenMultiplicationServiceThrowsAnException_thenCalculatorBubblesThatExceptionUp() throws Exception {
+    public void whenMultiplicationServiceThrowsAnException_thenCalculatorBubblesThatExceptionUp() throws Exception {
+        // Given (Setup Data)
         int x = 10;
-        
-        mockCoach.whenBefore(multiplicationService);
+    
+        // Given (Setup Data Processors)
+        mof.whenBefore(multiplicationService);
         when(multiplicationService.multiply(anyInt(), anyInt())).thenThrow(new RuntimeException(SAMPLE_EXCEPTION_MESSAGE));
-
+    
+        // When (Run the thing that you want to test)
         Exception actualException = assertThrows(Exception.class, () -> {
             calculator.calculateY(x);
         });
-        
+    
+        // Then (Asserting what you want to be true, is actually true)
         assertEquals(SAMPLE_EXCEPTION_MESSAGE, actualException.getMessage());
         
-        // Verify
-        mockCoach.verifyThrough(multiplicationService);
-        mockCoach.verifyNoInteractionsTheRest();
+        // Verify (Asserting the Data Processors are called in the way you want)
+        mof.verifyThrough(multiplicationService);
+        mof.verifyNoInteractionsTheRest();
     }
 ```
 
