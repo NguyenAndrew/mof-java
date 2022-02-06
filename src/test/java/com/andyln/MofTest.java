@@ -15,6 +15,8 @@ public class MofTest {
     private final Object mock2 = mock(Object.class);
     private final Object mock3 = mock(Object.class);
 
+    Object mockNotInMocks = mock(Object.class);
+
     private final WhenLambda when1 = mock(WhenLambda.class);
     private final WhenLambda when2 = mock(WhenLambda.class);
     private final WhenLambda when3 = mock(WhenLambda.class);
@@ -1148,7 +1150,6 @@ public class MofTest {
             @Test
             void calledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
                 String expectedMessage = "Cannot call whenBefore(Object mock) for mock not in mocks!";
-                Object mockNotInMocks = mock(Object.class);
 
                 IllegalArgumentException actualException = assertThrows(
                         IllegalArgumentException.class,
@@ -1389,7 +1390,6 @@ public class MofTest {
             @Test
             void calledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
                 String expectedMessage = "Cannot call whenAfter(Object mock) for mock not in mocks!";
-                Object mockNotInMocks = mock(Object.class);
 
                 IllegalArgumentException actualException = assertThrows(
                         IllegalArgumentException.class,
@@ -2374,7 +2374,6 @@ public class MofTest {
             @Test
             void calledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
                 String expectedMessage = "Cannot call verifyThrough(Object mock) for mock not in mocks!";
-                Object mockNotInMocks = mock(Object.class);
 
                 IllegalArgumentException actualException = assertThrows(
                         IllegalArgumentException.class,
@@ -2615,7 +2614,6 @@ public class MofTest {
             @Test
             void calledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
                 String expectedMessage = "Cannot call verifyBefore(Object mock) for mock not in mocks!";
-                Object mockNotInMocks = mock(Object.class);
 
                 IllegalArgumentException actualException = assertThrows(
                         IllegalArgumentException.class,
@@ -2856,7 +2854,6 @@ public class MofTest {
             @Test
             void calledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
                 String expectedMessage = "Cannot call verifyAfter(Object mock) for mock not in mocks!";
-                Object mockNotInMocks = mock(Object.class);
 
                 IllegalArgumentException actualException = assertThrows(
                         IllegalArgumentException.class,
@@ -4716,7 +4713,6 @@ public class MofTest {
             @Test
             void calledWithMockNotInMocks_ThenThrowIllegalIllegalArgumentException() throws Exception {
                 String expectedMessage = "Cannot call verifyNoInteractionsAfter(Object mock) for mock not in mocks!";
-                Object mockNotInMocks = mock(Object.class);
 
                 IllegalArgumentException actualException = assertThrows(
                         IllegalArgumentException.class,
