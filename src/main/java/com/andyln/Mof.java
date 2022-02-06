@@ -50,10 +50,10 @@ public class Mof {
     }
 
     /**
-     * Runs ALL or REMAINING whens
+     * Runs ALL or REMAINING whens.
      *
-     * @param aor ALL or REMAINING enum
-     * @throws IllegalArgumentException Not calling with ALL or REMAINING enum
+     * @param aor ALL or REMAINING enum.
+     * @throws IllegalArgumentException Not calling with ALL or REMAINING enum.
      */
     public void when(AllOrRemaining aor) {
         if (aor == AllOrRemaining.ALL) {
@@ -84,7 +84,7 @@ public class Mof {
     }
 
     /**
-     * Runs all whens up to, <STRONG>not</STRONG> including, the mock
+     * Runs all whens up to, <STRONG>not</STRONG> including, the mock.
      *
      * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with object not in mocks.
@@ -134,7 +134,7 @@ public class Mof {
     }
 
     /**
-     * Runs all whens after, <STRONG>not</STRONG> including, the mock
+     * Runs all whens after, <STRONG>not</STRONG> including, the mock.
      *
      * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with object not in mocks.
@@ -181,10 +181,10 @@ public class Mof {
     }
 
     /**
-     * Runs ALL or REMAINING verifies
+     * Runs ALL or REMAINING verifies.
      *
-     * @param aor ALL or REMAINING enum
-     * @throws IllegalArgumentException Not calling with ALL or REMAINING enum
+     * @param aor ALL or REMAINING enum.
+     * @throws IllegalArgumentException Not calling with ALL or REMAINING enum.
      */
     public void verify(AllOrRemaining aor) {
         if (aor == AllOrRemaining.ALL) {
@@ -215,7 +215,7 @@ public class Mof {
     }
 
     /**
-     * Runs all verifies up to, and including, the mock
+     * Runs all verifies up to, and including, the mock.
      *
      * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with object not in mocks.
@@ -268,7 +268,7 @@ public class Mof {
     }
 
     /**
-     * Runs all verifies up to, <STRONG>not</STRONG> including, the mock
+     * Runs all verifies up to, <STRONG>not</STRONG> including, the mock.
      *
      * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with object not in mocks.
@@ -317,7 +317,7 @@ public class Mof {
     }
 
     /**
-     * Runs all verifies after, <STRONG>not</STRONG> including, the mock
+     * Runs all verifies after, <STRONG>not</STRONG> including, the mock.
      *
      * @param mock Any mock within mocks. Note: Excludes ambiguous first/last mock in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with object not in mocks.
@@ -371,9 +371,9 @@ public class Mof {
     /**
      * Runs no interaction lambda for ALL or REMAINING mocks.
      *
-     * @param aor ALL or REMAINING enum
+     * @param aor ALL or REMAINING enum.
      * @throws IllegalStateException    Calling this method when verifyNoInteractions is not enabled.
-     * @throws IllegalArgumentException Not calling with ALL or REMAINING enum
+     * @throws IllegalArgumentException Not calling with ALL or REMAINING enum.
      */
     public void verifyNoInteractions(AllOrRemaining aor) {
 
@@ -546,7 +546,7 @@ public class Mof {
         /**
          * Allows usage of verifyNoInteractionsTheRest and verifyNoInteractionsTheRestAfter.
          *
-         * @param verifyNoInteractionLambda A Java Lambda. Example: "enableVerifyNoInteractions(mock -&gt; verifyNoInteractions(mock))"
+         * @param verifyNoInteractionLambda A Java Lambda. Example: "enableVerifyNoInteractions(mock -&gt; verifyNoInteractions(mock))".
          */
         public Builder enableVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
             this.verifyNoInteractionLambda = verifyNoInteractionLambda;
@@ -556,7 +556,7 @@ public class Mof {
         /**
          * Returns a new Mof.
          *
-         * @return MockCoach
+         * @return Mof
          */
         public Mof build() {
             if (mocks.size() == 0) {
