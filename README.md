@@ -258,44 +258,6 @@ In summary: The combination of your business logic, Mof, and your unit tests, en
 
 ## Changelog
 
-6.0.0 - Details below
-
-* Start converting project name from MockCoach to Mock Orchestration Framework
-* Start replacing outdated terminology with the ones in the Simple Programming Paradigm - https://github.com/NguyenAndrew/Simple-Programming
-* Replace MockCoach with Mof, which is (Simple) Mock Orchestration Framework
-* Replace MockCoachLegacy with Nof, which is (Non Simple Mock) Orchestration Framework
-* "Inheritance Removal" between Nof and Mof to support deviating usage of operation
-* verifyNoInteractions is removed from Nof, an unsupported operation that can now be removed, supported by inheritance removal
-* Nof only allows enums for its Mock Markers to make library usage clearer, supported by inheritance removal
-* Mof allows any objects to be used for its mocks to make usage more flexible
-* Remove public constructors Mof and Nof and only allow construction through Builder to simplify and make construction process consistent
-* Add copy method to builders for easier reusability
-* Error messages are updated to match updated functionality
-
-5.0.0 - Remove methodables to reduce maintenance and usability complexity
-
-4.0.0 - Details below
-
-* Condense methodables statics into class. Improves IDE auto completion for these statics.
-* Fix MockCoachLegacy.Builder to include missing override annotation.
-* Refactor `setVerifyNoInteractions(...)` to `putVerifyNoInteractions(...)`.
-
-3.1.0 - Add `withVerifyNoInteractions(...)` to builders
-
-3.0.0 - Details below
-
-* Introduce `whenTheRest()/whenTheRestAfter(mock)` and `verifyTheRest()/verifyTheRestAfter(mock)`
-* Introduce `verifyNoInteractionsTheRest()` and `verifyNoInteractionsTheRestAfter(mock)` to simplify no and no more interaction calls
-* Re-introduce Builder to allow arbitrary number of mocks
-* Reduce constructor from 16 mocks (48 parameters) to 8 mocks (24 parameters)
-* Replace MockCoachRunnable with WhenLambda and VerifyLambda for clearer API
-* Refactor `mockCoach.verify(mockCoach)` to be `mockCoach.verifyThrough(mock)`
-* Refactor to use [Method Chaining](https://en.wikipedia.org/wiki/Method_chaining) with `.in(MockCoach mockCoach)`
-
-2.0.1 - Hotfix for MockCoachRunnable to make it public instead of default
-
-2.0.0 - Removal of builders and replace MockCoach constructor with overloaded constructors
-
-1.1.0 - Enable usage of MockCoach as an interface for MockCoachLegacy
-
 1.0.0 - GA Release of the project!
+
+0.1.0 - Initial release to Maven
