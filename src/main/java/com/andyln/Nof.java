@@ -88,7 +88,7 @@ public class Nof {
      *
      * @param mockEnum Any MockEnum within MockEnums. Note: Excludes ambiguous first/last MockEnum in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with MockEnum not in MockEnums.
-     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve A -> B -> A, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
+     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve {@code A -> B -> A}, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
      */
     public void whenBefore(Enum<?> mockEnum) {
         if (mockEnum == FirstOrLast.FIRST) {
@@ -138,7 +138,7 @@ public class Nof {
      *
      * @param mockEnum Any MockEnum within MockEnums. Note: Excludes ambiguous first/last MockEnum in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with MockEnum not in MockEnums.
-     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve A -> B -> A, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
+     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve {@code A -> B -> A}, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
      */
     public void whenAfter(Enum<?> mockEnum) {
         if (mockEnum == FirstOrLast.FIRST) {
@@ -219,7 +219,7 @@ public class Nof {
      *
      * @param mockEnum Any MockEnum within MockEnums. Note: Excludes ambiguous first/last MockEnum in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with MockEnum not in MockEnums.
-     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve A -> B -> A, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
+     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve {@code A -> B -> A}, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
      */
     public void verifyThrough(Enum<?> mockEnum) {
         if (mockEnum == FirstOrLast.FIRST) {
@@ -272,7 +272,7 @@ public class Nof {
      *
      * @param mockEnum Any MockEnum within MockEnums. Note: Excludes ambiguous first/last MockEnum in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with MockEnum not in MockEnums.
-     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve A -> B -> A, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
+     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve {@code A -> B -> A}, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
      */
     public void verifyBefore(Enum<?> mockEnum) {
         if (mockEnum == FirstOrLast.FIRST) {
@@ -321,7 +321,7 @@ public class Nof {
      *
      * @param mockEnum Any MockEnum within MockEnums. Note: Excludes ambiguous first/last MockEnum in a Simple Closed Curve (In case of ambiguity, use FIRST or LAST enum).
      * @throws IllegalArgumentException Calling with MockEnum not in MockEnums.
-     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve A -> B -> A, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
+     *                                  Calling with ambiguous first or last mock. Example: In a Simple Closed Curve {@code A -> B -> A}, when calling with A, do you mean the first or lack MockEnum? Instead of passing A, Use FIRST or LAST instead.
      */
     public void verifyAfter(Enum<?> mockEnum) {
         if (mockEnum == FirstOrLast.FIRST) {
