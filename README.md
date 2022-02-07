@@ -12,7 +12,7 @@ The Java library implementing the Mock Orchestration Framework (Mof). Used in te
 
 Mof orchestrates all the mocks used within a method, allowing you to only write setup and verification code relevant for each unit test.
 
-* Q: Why Mof? A: Without it, each unit test needs to maintain the state and verification of its own mocks, and may become brittle when there are multiple units tests for a method. In other words, **mock orchestration helps prevent initial and ongoing tech debt within unit tests**.
+* **Q:** Why Mof? **A:** Without it, each unit test needs to maintain the state and verification of its own mocks, and may become brittle when there are multiple units tests for a method. In other words, **mock orchestration helps prevent initial and ongoing tech debt within unit tests**.
 
 This library provides two libraries to use:
 
@@ -162,53 +162,75 @@ import static com.andyln.Mof.ALL;
 
 ## FAQ
 
-Q: What problem(s) does this library solve.
+**Q:** What problem(s) does this library solve.
 
-A: This library solves the problem of delivering production code faster. By using an explicit when/verify structure it helps solve problems 3-6 from the [Unit Testing Guidelines](https://github.com/NguyenAndrew/Unit-Testing-Guidelines).
+**A:** This library solves the problem of delivering production code faster. By using an explicit when/verify structure it helps solve problems 3-6 from the [Unit Testing Guidelines](https://github.com/NguyenAndrew/Unit-Testing-Guidelines).
 
-Q: Why should I use this dependency instead of making my own private methods to setup mocks?
+---
 
-A: Private methods can help abstract method call over mocks (such as abstracting whens and verifies), but doesn't help coordinate how your tests interacts with these mocks (which can be a major time sink). This library solves this problem.
+**Q:** Why should I use this dependency instead of making my own private methods to setup mocks?
 
-Q: Won't this dependency create an additional maintance cost on my project?
+**A:** Private methods can help abstract method call over mocks (such as abstracting whens and verifies), but doesn't help coordinate how your tests interacts with these mocks (which can be a major time sink). This library solves this problem.
 
-A: This library is MIT licensed and deployed over Maven Central. The source code is fully available and is fully unit tested to help provide developer confidence. Also, this library is easy to seperate and remove, as mentioned later in the FAQ. 
+---
 
-Q: Wont this cause confusion with developers that are not familiar on how to use this library?
+**Q:** Won't this dependency create an additional maintance cost on my project?
 
-A: While there may be additional costs upfront to learn this library, it will save much time when creating new features to your code. This depedency has been shown to save many hours on business production code.
+**A:** This library is MIT licensed and deployed over Maven Central. The source code is fully available and is fully unit tested to help provide developer confidence. Also, this library is easy to seperate and remove, as mentioned later in the FAQ. 
 
-Q: I don't believe it is a good practice to couple a default set of verifies with whens. Doesn't this seem like an anti-pattern?
+---
 
-A: Your test code is already doing this coupling implicity. This dependency defines this structure explicitly, through the construction of the Mof object(s), and takes advantage of this defined structure to achieve testing intelligence capabilities. 
+**Q:** Wont this cause confusion with developers that are not familiar on how to use this library?
 
-Q: What are these "testing intelligence capabilities"?
+**A:** While there may be additional costs upfront to learn this library, it will save much time when creating new features to your code. This depedency has been shown to save many hours on business production code.
 
-A: Intelligence capabilities include: Encouraging code to become straightforward through Service Dipath Chains (Not included in Legacy), Avoiding under and overmocking through clearly defined structures, Reusable code by reducing the amount of one-off private methods, and Only needing to create the whens and verifies for a specific test.
+---
 
-Q: Should I use Mof (Default) or Nof (Backup).
+**Q:** I don't believe it is a good practice to couple a default set of verifies with whens. Doesn't this seem like an anti-pattern?
 
-A: Start with Mof (Default). If Mof (Default) doesn't work, Nof (Backup) will work for any other use case.
+**A:** Your test code is already doing this coupling implicity. This dependency defines this structure explicitly, through the construction of the Mof object(s), and takes advantage of this defined structure to achieve testing intelligence capabilities. 
 
-Q: Does this library support TDD?
+---
 
-A: Yes. You can use this library using both TDD, and not TDD. After learning the library, it should make both TDD and non-TDD faster in the short term and long term.
+**Q:** What are these "testing intelligence capabilities"?
 
-Q: Should I made one Mof per class, or one Mof per method-under-test?
+**A:** Intelligence capabilities include: Encouraging code to become straightforward through Service Dipath Chains (Not included in Legacy), Avoiding under and overmocking through clearly defined structures, Reusable code by reducing the amount of one-off private methods, and Only needing to create the whens and verifies for a specific test.
 
-A: Mof and Nof supports both styles. I have seen this library works best by making a Mof object for each method-under-test, where that method has multiple unit tests.
+---
 
-Q: Shouldn't you have all methods in a class reuse the same predefined mocks and whens?
+**Q:** Should I use Mof (Default) or Nof (Backup).
 
-A: It should. This dependency allows for that use case, and additionally also allows for the case where methods may have different initial mock state depending on which method is called.
+**A:** Start with Mof (Default). If Mof (Default) doesn't work, Nof (Backup) will work for any other use case.
 
-Q: Why not create separate whens and verifies objects to construct MockCoach?
+---
 
-A: This separate objected implementation was tested in initial POC, but there were auto-formatting issues with IDEs to construct these objects in a human readable format.
+**Q:** Does this library support TDD?
 
-Q: I want to remove this library (Didn't like the user experience, found a better library, etc). How difficult is it to do so?
+**A:** Yes. You can use this library using both TDD, and not TDD. After learning the library, it should make both TDD and non-TDD faster in the short term and long term.
 
-A: Using Mof replaces the implicit whens and verifies between your different unit tests with explicit code. The process of removing the library is simple: Remove the explicit structure by copying and paste those extra whens and verifies back into each of your unit tests.
+---
+
+**Q:** Should I made one Mof per class, or one Mof per method-under-test?
+
+**A:** Mof and Nof supports both styles. I have seen this library works best by making a Mof object for each method-under-test, where that method has multiple unit tests.
+
+---
+
+**Q:** Shouldn't you have all methods in a class reuse the same predefined mocks and whens?
+
+**A:** It should. This dependency allows for that use case, and additionally also allows for the case where methods may have different initial mock state depending on which method is called.
+
+---
+
+**Q:** Why not create separate whens and verifies objects to construct MockCoach?
+
+**A:** This separate objected implementation was tested in initial POC, but there were auto-formatting issues with IDEs to construct these objects in a human readable format.
+
+---
+
+**Q:** I want to remove this library (Didn't like the user experience, found a better library, etc). How difficult is it to do so?
+
+**A:** Using Mof replaces the implicit whens and verifies between your different unit tests with explicit code. The process of removing the library is simple: Remove the explicit structure by copying and paste those extra whens and verifies back into each of your unit tests.
 
 ## Changelog
 
