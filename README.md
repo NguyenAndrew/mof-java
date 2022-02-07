@@ -246,9 +246,9 @@ public void whenMotorFails_ThenThrowAnException() throws Exception {
 
 In the test case where you ran `mof.whenBefore(magnetron); ... mof.verifyBefore(magnetron); ... mof.verifyNoInteractions(REMAINING)`, and the business logic has the motor running before magnetron, then an exception would be thrown. 
 
-The reason is that motor would have been called, but by stating `verifyNoInteractions(REMAINING)`, the test would state something like: "Expected no calls to this method, but this method is called 1 time".
+The reason is that motor would have been called, but by stating `mof.verifyNoInteractions(REMAINING)`, the test would state something like: "Expected no calls to this method, but this method is called 1 time".
 
-In summary: The combination of your business logic, Mof, and your unit tests, ensures your tests are testing what they need to, and help keep your business logic and unit tests up-to-date with each other.
+In summary: The combination of your business logic, Mof, and your unit tests, ensures your tests are testing what they need to, and helps keep your business logic and unit tests up-to-date with each other.
 
 ---
 
