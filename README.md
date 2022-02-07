@@ -74,11 +74,11 @@ Add the following line to your pom.xml
 </dependency>
 ```
 
-This library is on Maven Central: https://search.maven.org/artifact/com.andyln/mock-coach/
+This library is on Maven Central: https://search.maven.org/artifact/com.andyln/mof/
 
 ## Example Usages
 
-### Creating MockCoach
+### Creating Mof
 
 ```
 private AdditionService additionService = mock(AdditionService.class);
@@ -194,7 +194,10 @@ import static com.andyln.Mof.ALL;
 
 **Q:** What are these "testing intelligence capabilities"?
 
-**A:** Intelligence capabilities include: Encouraging code to become straightforward through Service Dipath Chains (Not included in Legacy), Avoiding under and overmocking through clearly defined structures, Reusable code by reducing the amount of one-off private methods, and Only needing to create the whens and verifies for a specific test.
+**A:** Intelligence capabilities include: 
+* Encouraging code to become more straightforward through the Simple Programming paradigm
+* Avoiding under and overmocking through the usage of a framework (Mock Orchestration Framework)
+* Reusable code by reducing the amount of one-off private methods, and only needing to create the whens and verifies for a specific test.
 
 ---
 
@@ -222,7 +225,7 @@ import static com.andyln.Mof.ALL;
 
 ---
 
-**Q:** Why not create separate whens and verifies objects to construct MockCoach?
+**Q:** Why not create separate whens and verifies objects to construct Mof?
 
 **A:** This separate objected implementation was tested in initial POC, but there were auto-formatting issues with IDEs to construct these objects in a human readable format.
 
