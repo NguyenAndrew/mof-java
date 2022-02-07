@@ -81,27 +81,27 @@ This library is on Maven Central: https://search.maven.org/artifact/com.andyln/m
 ### Creating Mof
 
 ```
-private AdditionService additionService = mock(AdditionService.class);
-private MultiplicationService multiplicationService = mock(MultiplicationService.class);
-private SubtractionService subtractionService = mock(SubtractionService.class);
+private Timer timer = mock(Lock.class);
+private Motor motor = mock(Motor.class);
+private Magnetron magnetron = mock(Magnetron.class);
 
-private Calculator calculator = new Calculator(additionService, multiplicationService, subtractionService);
+private Microwave microwave = new Microwave(noiseMaker, motor, magnetron);
 
 private final Mof mof = new Mof.Builder()
     .add(
-        additionService,
-        () -> when(additionService.add(anyInt(), anyInt())).thenReturn(SAMPLE_ADDITION_OUTPUT),
-        () ->verify(additionService, times(1)).add(anyInt(), anyInt())
+        timer,
+        () -> when(timer.makeNoise(anyInt()).thenReturn(SAMPLE_ALARM_NOISE),
+        () -> verify(noiseMaker, times(1)).makeNoise(anyInt())
     )
     .add(
-        multiplicationService,
-        () -> when(multiplicationService.multiply(anyInt(), anyInt())).thenReturn(SAMPLE_MULTIPLICATION_OUTPUT),
-        () -> verify(multiplicationService, times(1)).multiply(anyInt(), anyInt())
+        motor,
+        () -> when(motor.spinTurntable(any(Timer.class)).thenReturn(SAMPLE_SPINNING_TURNTABLE),
+        () -> verify(motor, times(1)).spinTurnTabl(anyInt())
     )
     .add(
-        subtractionService,
-        () -> when(subtractionService.subtract(anyInt(), anyInt())).thenReturn(SAMPLE_SUBTRACTION_OUTPUT),
-        () -> verifyZeroInteractions(subtractionService)
+        magnetron,
+        () -> when(magnetron.heatFood(any(Food.class), any(Timer.class))).thenReturn(SAMPLE_HEATED_FOOD),
+        () -> verify(magnetron, times(1)).heatFood(any(Food.class), any(Timer.class))
     )
     .enableVerifyNoInteractions(verifyNoInteractionLambda)
     .build();
@@ -117,47 +117,50 @@ import static com.andyln.Mof.ALL;
     @Test
     public void success() throws Exception {
         // Given (Setup Data)
-        int expected = SAMPLE_CALCULATOR_OUTPUT;
-        int x = 10;
+        Food expected = SAMPLE_HOT_FOOD;
         
         // Given (Setup Data Processors)
         mof.when(ALL);
 
         // When (Run the thing that you want to test)
-        int y = calculator.calculateY(x);
+        Food actual = microwave.heatFood(SAMPLE_COLD_FOOD, SAMPLE_SECONDS);
 
         // Then (Asserting what you want to be true, is actually true)
-        assertEquals(expected, y);
+        assertEquals(expected, actual);
 
         // Verify (Asserting the Data Processors are called in the way you want)
         mof.verify(ALL);
     }
 ```
 
-### Unit Testing - All Other Cases (Including Exceptions)
+### Unit Testing - An Exception Case
 
 ```
-    @Test
-    public void whenMultiplicationServiceThrowsAnException_thenCalculatorBubblesThatExceptionUp() throws Exception {
-        // Given (Setup Data)
-        int x = 10;
+import static com.andyln.Mof.REMAINING;
+
+// ...
+
+@Test
+public void whenMotorFails_ThenThrowAnException() throws Exception {
+    // Given (Setup Data)
+    // No data to setup
+
+    // Given (Setup Data Processors)
+    mof.whenBefore(motor);
+    when(motor.spinTurntable(any(Timer.class))).thenThrow(new RuntimeException(SAMPLE_EXCEPTION_MESSAGE));
+
+    // When (Run the thing that you want to test)
+    Exception actualException = assertThrows(Exception.class, () -> {
+        microwave.heatFood(SAMPLE_COLD_FOOD, SAMPLE_SECONDS)
+    });
+
+    // Then (Asserting what you want to be true, is actually true)
+    assertEquals(SAMPLE_EXCEPTION_MESSAGE, actualException.getMessage());
     
-        // Given (Setup Data Processors)
-        mof.whenBefore(multiplicationService);
-        when(multiplicationService.multiply(anyInt(), anyInt())).thenThrow(new RuntimeException(SAMPLE_EXCEPTION_MESSAGE));
-    
-        // When (Run the thing that you want to test)
-        Exception actualException = assertThrows(Exception.class, () -> {
-            calculator.calculateY(x);
-        });
-    
-        // Then (Asserting what you want to be true, is actually true)
-        assertEquals(SAMPLE_EXCEPTION_MESSAGE, actualException.getMessage());
-        
-        // Verify (Asserting the Data Processors are called in the way you want)
-        mof.verifyThrough(multiplicationService);
-        mof.verifyNoInteractionsTheRest();
-    }
+    // Verify (Asserting the Data Processors are called in the way you want)
+    mof.verifyThrough(motor);
+    mof.verifyNoInteractions(REMAINING);
+}
 ```
 
 ## FAQ
@@ -228,6 +231,24 @@ import static com.andyln.Mof.ALL;
 **Q:** Why not create separate whens and verifies objects to construct Mof?
 
 **A:** This separate objected implementation was tested in initial POC, but there were auto-formatting issues with IDEs to construct these objects in a human readable format.
+
+---
+
+**Q:** In the above "Unit Testing - An Exception Case example", by using `verifyThrough(REMAINING)`, are you forgetting to verify that the magnetron is not running? I think you should add code for noVerifyInteractions on the magnetron, so that we can guarantee it doesn't run and cover all of the test cases.
+
+**A:** This test case (and other similar combinations) are explicitly covered when you create the Mof object, as you are stating that the timer (methods runs first) -> motor (methods run second) -> magnetron (methods run third).
+
+---
+
+**Q:** Following up on the previous question, what if I accidentally constructed the Mof object in the wrong order (such as timer -> magnetron -> motor)? Wouldn't that miss verifying unexpected behavior?
+
+**A:** You would be notified by your unit tests, and you would be able to fix the misorder. Mof prevents overmocking and verifies all methods that need to be verified. 
+
+In the test case where you ran `mof.whenBefore(magnetron); ... mof.verifyBefore(magnetron); ... mof.verifyNoInteractions(REMAINING)`, and the business logic has the motor running before magnetron, then an exception would be thrown. 
+
+The reason is that motor would have been called, but by stating `verifyNoInteractions(REMAINING)`, the test would state something like: "Expected no calls to this method, but this method is called 1 time".
+
+In summary: The combination of your business logic, Mof, and your unit tests, ensures your tests are testing what they need to, and help keep your business logic and unit tests up-to-date with each other.
 
 ---
 
