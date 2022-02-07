@@ -547,6 +547,8 @@ public class Mof {
          * Allows usage of verifyNoInteractionsTheRest and verifyNoInteractionsTheRestAfter.
          *
          * @param verifyNoInteractionLambda A Java Lambda. Example: "enableVerifyNoInteractions(mock -&gt; verifyNoInteractions(mock))".
+         *
+         * @return Builder
          */
         public Builder enableVerifyNoInteractions(NoInteractionLambda verifyNoInteractionLambda) {
             this.verifyNoInteractionLambda = verifyNoInteractionLambda;
