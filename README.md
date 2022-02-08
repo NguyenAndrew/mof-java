@@ -1,8 +1,8 @@
 # Mock Orchestration Framework (Mof) (Java)
 
-![GitHub](https://img.shields.io/github/license/NguyenAndrew/Mock-Coach)
-[![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Fandyln%2Fmock-coach%2Fmaven-metadata.xml)](https://search.maven.org/artifact/com.andyln/mock-coach)
-[![javadoc](https://javadoc.io/badge2/com.andyln/mock-coach/javadoc.svg)](https://javadoc.io/doc/com.andyln/mock-coach)
+![GitHub](https://img.shields.io/github/license/NguyenAndrew/mof-java)
+[![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Fandyln%2Fmof%2Fmaven-metadata.xml)](https://search.maven.org/artifact/com.andyln/mof)
+[![javadoc](https://javadoc.io/badge2/com.andyln/mof/javadoc.svg)](https://javadoc.io/doc/com.andyln/mof)
 
 The Java library implementing the Mock Orchestration Framework (Mof). Used in tests to reduce complex logic and boilerplate code in overall codebase.
 
