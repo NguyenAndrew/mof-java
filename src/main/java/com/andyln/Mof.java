@@ -539,6 +539,11 @@ public class Mof {
             return this;
         }
 
+        /**
+         * Returns a copy of the builder for Mof.
+         *
+         * @return Builder
+         */
         public Builder copy() {
             return new Builder(this.mocks, this.whens, this.verifies);
         }
