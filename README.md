@@ -24,11 +24,13 @@ This library provides two libraries to use:
 * Mof (Default) provides cleaner unit tests, and takes a hands-on approach to cleaner business logic. 
 * Nof (Backup) provides cleaner unit tests, and a hands-off approach on the business logic.
 
-## Simple Curves and Non-Simple Curves
+## Simple Programming Paradigm (Explaining how Mof works with Simple Curves and Non-Simple Curves)
 
-For testing methods and creating new business logic, Mof helps encourage writing business logic using the Simple Programming Paradigm: Using Simple Curves over Non-Simple Curves
+For testing methods and creating new business logic, Mof helps encourage writing business logic using the Simple Programming Paradigm: Using Simple Curves over Non-Simple Curves. 
 
-* For these design patterns, "Service" refers to any object that is @Autorwired, injected, or constructor injected into the object-under-test.
+* Link that describes Simple Programming: https://github.com/NguyenAndrew/Simple-Programming
+
+* For the below description, "Service" refers to any object that is @Autorwired, injected, or constructor injected into the object-under-test.
 
 Examples of Simple Curves:
 
