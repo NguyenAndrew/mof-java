@@ -116,23 +116,23 @@ import static com.andyln.Mof.ALL;
 
 // ...
 
-    @Test
-    public void success() throws Exception {
-        // Given (Setup data)
-        Food expected = SAMPLE_HOT_FOOD;
-        
-        // Given (Setup processors)
-        mof.when(ALL);
+@Test
+public void success() throws Exception {
+    // Given (Setup data)
+    Food expected = SAMPLE_HOT_FOOD;
+    
+    // Given (Setup processors)
+    mof.when(ALL);
 
-        // When (Run the thing that you want to test)
-        Food actual = microwave.heatFood(SAMPLE_COLD_FOOD, SAMPLE_SECONDS);
+    // When (Run the thing that you want to test)
+    Food actual = microwave.heatFood(SAMPLE_COLD_FOOD, SAMPLE_SECONDS);
 
-        // Then (Asserting what you want to be true, is actually true)
-        assertEquals(expected, actual);
+    // Then (Asserting what you want to be true, is actually true)
+    assertEquals(expected, actual);
 
-        // Verify (Asserting the processors are called in the way you want)
-        mof.verify(ALL);
-    }
+    // Verify (Asserting the processors are called in the way you want)
+    mof.verify(ALL);
+}
 ```
 
 ### Unit Testing - An Exception Case
