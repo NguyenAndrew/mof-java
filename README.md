@@ -118,10 +118,10 @@ import static com.andyln.Mof.ALL;
 
     @Test
     public void success() throws Exception {
-        // Given (Setup Data)
+        // Given (Setup data)
         Food expected = SAMPLE_HOT_FOOD;
         
-        // Given (Setup Data Processors)
+        // Given (Setup processors)
         mof.when(ALL);
 
         // When (Run the thing that you want to test)
@@ -130,7 +130,7 @@ import static com.andyln.Mof.ALL;
         // Then (Asserting what you want to be true, is actually true)
         assertEquals(expected, actual);
 
-        // Verify (Asserting the Data Processors are called in the way you want)
+        // Verify (Asserting the processors are called in the way you want)
         mof.verify(ALL);
     }
 ```
@@ -144,22 +144,20 @@ import static com.andyln.Mof.REMAINING;
 
 @Test
 public void whenMotorFails_ThenThrowAnException() throws Exception {
-    // Given (Setup Data)
+    // Given (Setup data)
     // No data to setup
 
-    // Given (Setup Data Processors)
+    // Given (Setup processors)
     mof.whenBefore(motor);
     when(motor.spinTurntable(any(Timer.class))).thenThrow(new RuntimeException(SAMPLE_EXCEPTION_MESSAGE));
 
     // When (Run the thing that you want to test)
-    Exception actualException = assertThrows(Exception.class, () -> {
-        microwave.heatFood(SAMPLE_COLD_FOOD, SAMPLE_SECONDS)
-    });
+    Exception actualException = assertThrows(Exception.class, () -> microwave.heatFood(SAMPLE_COLD_FOOD, SAMPLE_SECONDS));
 
     // Then (Asserting what you want to be true, is actually true)
     assertEquals(SAMPLE_EXCEPTION_MESSAGE, actualException.getMessage());
     
-    // Verify (Asserting the Data Processors are called in the way you want)
+    // Verify (Asserting the processors are called in the way you want)
     mof.verifyThrough(motor);
     mof.verifyNoInteractions(REMAINING);
 }
