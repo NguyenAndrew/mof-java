@@ -26,9 +26,9 @@
         </dependency>
     </dependencies>
 
-    <name>Mock Coach</name>
-    <description>The Java library implementing the Mock Coach design pattern.</description>
-    <url>https://github.com/NguyenAndrew/Mock-Coach</url>
+    <name>mof</name>
+    <description>The Java library implementing the Mock Orchestration Framework (Mof).</description>
+    <url>https://github.com/NguyenAndrew/mof-java</url>
 
     <licenses>
         <license>
