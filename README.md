@@ -258,6 +258,8 @@ In summary: The combination of your business logic, Mof, and your unit tests, en
 
 ## Changelog
 
+1.2.0 - Fix javadocs
+
 1.1.0 - Update Maven Central links. Point to Mof instead of Mock Coach
 
 1.0.0 - GA Release of the project!
