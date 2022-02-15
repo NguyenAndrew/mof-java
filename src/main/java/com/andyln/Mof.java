@@ -549,7 +549,7 @@ public class Mof {
         }
 
         /**
-         * Allows usage of verifyNoInteractionsTheRest and verifyNoInteractionsTheRestAfter.
+         * Allows usage of verifyNoInteractions and verifyNoInteractionsAfter.
          *
          * @param verifyNoInteractionLambda A Java Lambda. Example: "enableVerifyNoInteractions(mock -&gt; verifyNoInteractions(mock))".
          *
