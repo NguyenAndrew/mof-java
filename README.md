@@ -71,7 +71,7 @@ Add the following line to your pom.xml
 <dependency>
   <groupId>com.andyln</groupId>
   <artifactId>mof</artifactId>
-  <version>1.0.0</version>
+  <version>1.2.0</version>
   <scope>test</scope>
 </dependency>
 ```
